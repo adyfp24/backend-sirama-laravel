@@ -12,19 +12,19 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
     public function admin(){
-        return $this->hasOne(Admin::class);
+        return $this->hasMany(Admin::class);
     }
     public function ahli(){
-        return $this->hasOne(Ahli::class);
+        return $this->hasMany(Ahli::class);
     }
     public function guru(){
-        return $this->hasOne(Admin::class);
+        return $this->hasMany(Admin::class);
     }
     public function orangtua(){
-        return $this->hasOne(Orangtua::class);
+        return $this->hasMany(Orangtua::class);
     }
     public function remaja(){
-        return $this->hasOne(Remaja::class);
+        return $this->hasMany(Remaja::class);
     }
 
     /**
