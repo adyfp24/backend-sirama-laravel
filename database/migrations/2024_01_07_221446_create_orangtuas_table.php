@@ -19,7 +19,7 @@ class CreateOrangtuasTable extends Migration
             $table->string('no_hp');
             $table->string('tingkat_sekolah_anak');
             $table->text('foto_profile');
-            $table->bigInteger('user_id');
+            $table->bigInteger('user_id')->unsigned();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id_user')->on('users')->onDelete('cascade');

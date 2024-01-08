@@ -21,7 +21,7 @@ class CreateRemajasTable extends Migration
             $table->string('jenis_kelamin');
             $table->string('sekolah');
             $table->text('foto_profile');
-            $table->bigInteger('user_id');
+            $table->bigInteger('user_id')->unsigned();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id_user')->on('users')->onDelete('cascade');

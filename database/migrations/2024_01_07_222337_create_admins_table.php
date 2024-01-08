@@ -13,14 +13,14 @@ class CreateAdminsTable extends Migration
      */
     public function up()
     {
-        Schema::create('admins', function (Blueprint $table) {
+        Schema::create('kaders', function (Blueprint $table) {
             $table->id('id_admin');
             $table->string('nama');
             $table->string('no_hp');
             $table->smallInteger('usia');
             $table->string('wilayah_binaan');
             $table->text('foto_profile');
-            $table->bigInteger('user_id');
+            $table->bigInteger('user_id')->unsigned();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id_user')->on('users')->onDelete('cascade');
