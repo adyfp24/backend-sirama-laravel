@@ -11,14 +11,14 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-    public function admin(){
-        return $this->hasMany(Admin::class);
+    public function kader(){
+        return $this->hasMany(Kader::class);
     }
     public function ahli(){
         return $this->hasMany(Ahli::class);
     }
     public function guru(){
-        return $this->hasMany(Admin::class);
+        return $this->hasMany(Guru::class);
     }
     public function orangtua(){
         return $this->hasMany(Orangtua::class);
@@ -33,9 +33,10 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'username',
         'email',
         'password',
+        'role',
     ];
 
     /**
