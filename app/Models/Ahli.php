@@ -13,6 +13,7 @@ class Ahli extends Model
         'no_hp',
         'jenis_ahli',
         'deskripsi_ahli',
+        'foto_profile',
         'user_id'
     ];
     public function user(){
