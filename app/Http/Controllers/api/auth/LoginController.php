@@ -23,6 +23,7 @@ class LoginController extends Controller
             throw ValidationException::withMessages([
                 'username' => ['The provided credentials are incorrect.'],
             ]);
+            return response()->json(['message' => 'login gagal'], 401);
         }
 
         $api_token = $user->createToken('api_token')->plainTextToken;
