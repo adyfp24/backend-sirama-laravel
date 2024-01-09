@@ -11,7 +11,12 @@ use Auth;
 class PodcastController extends Controller
 {
     public function getAllPodcast(){
-
+        $allPodcast = Podcast::all();
+        if($allPodcast){
+            return response()->json(['message' => 'data podcast tersedia', 'podcast' => $allPodcast],200);
+        }else{
+            return response()->json(['message' => 'data podcast tersedia', 'podcast' => $allPodcast],401);
+        }
     }
     public function getPodcastById(){
 
