@@ -43,19 +43,19 @@ class RegisterController extends Controller
             $role = $request->role;
             switch ($role) {
                 case 'remaja':
-                    $this->registRemaja($request, $user->id);
+                    $this->registRemaja($request, $user->id_user);
                     break;
                 case 'orangtua':
-                    $this->registOrangtua($request, $user->id);
+                    $this->registOrangtua($request, $user->id_user);
                     break;
                 case 'ahli':
-                    $this->registAhli($request, $user->id);
+                    $this->registAhli($request, $user->id_user);
                     break;
                 case 'kader':
-                    $this->registKader($request, $user->id);
+                    $this->registKader($request, $user->id_user);
                     break;
                 case 'guru':
-                    $this->registGuru($request, $user->id);
+                    $this->registGuru($request, $user->id_user);
                     break;
             }
 
@@ -71,71 +71,116 @@ class RegisterController extends Controller
     private function registRemaja(Request $request, $user_id)
     {
         $file = $request->file('foto_profile');
-        $foto_profile = $file->store('uploads');
-
-        Remaja::create([
-            'nama' => $request->nama,
-            'no_hp' => $request->no_hp,
-            'tgl_lahir' => $request->tgl_lahir,
-            'jenis_kelamin' => $request->jenis_kelamin,
-            'sekolah' => $request->sekolah,
-            'foto_profile' => $foto_profile,
-            'user_id' => $user_id,
-        ]);
+        if($file){
+            $foto_profile = $file->store('uploads');
+    
+            Remaja::create([
+                'nama' => $request->nama,
+                'no_hp' => $request->no_hp,
+                'tgl_lahir' => $request->tgl_lahir,
+                'jenis_kelamin' => $request->jenis_kelamin,
+                'sekolah' => $request->sekolah,
+                'foto_profile' => $foto_profile,
+                'user_id' => $user_id,
+            ]);
+        }else{
+            Remaja::create([
+                'nama' => $request->nama,
+                'no_hp' => $request->no_hp,
+                'tgl_lahir' => $request->tgl_lahir,
+                'jenis_kelamin' => $request->jenis_kelamin,
+                'sekolah' => $request->sekolah,
+                'user_id' => $user_id,
+            ]);
+        }
     }
     private function registGuru(Request $request, $user_id)
     {
         $file = $request->file('foto_profile');
-        $foto_profile = $file->store('uploads');
-        
-        Guru::create([
-            'nama' => $request->nama,
-            'no_hp' => $request->no_hp,
-            'jenis_guru' => $request->jenis_guru,
-            'sekolah' => $request->sekolah,
-            'foto_profile' => $foto_profile,
-            'user_id' => $user_id
-        ]);
+        if($file){
+            $foto_profile = $file->store('uploads');
+            
+            Guru::create([
+                'nama' => $request->nama,
+                'no_hp' => $request->no_hp,
+                'jenis_guru' => $request->jenis_guru,
+                'sekolah' => $request->sekolah,
+                'foto_profile' => $foto_profile,
+                'user_id' => $user_id
+            ]);
+        }else{
+            Guru::create([
+                'nama' => $request->nama,
+                'no_hp' => $request->no_hp,
+                'jenis_guru' => $request->jenis_guru,
+                'sekolah' => $request->sekolah,
+                'user_id' => $user_id
+            ]);
+        }
     }
     private function registAhli(Request $request, $user_id)
     {
         $file = $request->file('foto_profile');
-        $foto_profile = $file->store('uploads');
-
-        Ahli::create([
-            'nama' => $request->nama,
-            'no_hp' => $request->no_hp,
-            'jenis_ahli' => $request->jenis_ahli,
-            'deskripsi_ahli' => $request->deskripsi_ahli,
-            'foto_profile' => $foto_profile,
-            'user_id' => $user_id
-        ]);
+        if($file){
+            $foto_profile = $file->store('uploads');
+    
+            Ahli::create([
+                'nama' => $request->nama,
+                'no_hp' => $request->no_hp,
+                'jenis_ahli' => $request->jenis_ahli,
+                'deskripsi_ahli' => $request->deskripsi_ahli,
+                'foto_profile' => $foto_profile,
+                'user_id' => $user_id
+            ]);
+        }else{
+            Ahli::create([
+                'nama' => $request->nama,
+                'no_hp' => $request->no_hp,
+                'jenis_ahli' => $request->jenis_ahli,
+                'deskripsi_ahli' => $request->deskripsi_ahli,
+                'user_id' => $user_id
+            ]);
+        }
     }
     private function registKader(Request $request, $user_id)
     {
         $file = $request->file('foto_profile');
-        $foto_profile = $file->store('uploads');
-
-        Kader::create([
-            'nama' => $request->nama,
-            'no_hp' => $request->no_hp,
-            'usia' => $request->usia,
-            'wilayah_binaan' => $request->wilayah_binaan,
-            'foto_profile' => $foto_profile,
-            'user_id' => $user_id
-        ]);
+        if($file){
+            $foto_profile = $file->store('uploads');
+            
+            Kader::create([
+                'nama' => $request->nama,
+                'no_hp' => $request->no_hp,
+                'usia' => $request->usia,
+                'wilayah_binaan' => $request->wilayah_binaan,
+                'foto_profile' => $foto_profile,
+                'user_id' => $user_id
+            ]);
+        }else{
+            Kader::create([
+                'nama' => $request->nama,
+                'no_hp' => $request->no_hp,
+                'usia' => $request->usia,
+                'wilayah_binaan' => $request->wilayah_binaan,
+                'user_id' => $user_id
+            ]);
+        }
     }
     private function registOrangtua(Request $request, $user_id)
     {
         $file = $request->file('foto_profile');
-        $foto_profile = $file->store('uploads');
-
-        Orangtua::create([
-            'nama' => $request->nama,
-            'no_hp' => $request->no_hp,
-            'tingkat_sekolah_anak' => $request->tingkat_sekolah_anak,
-            'foto_profile' => $foto_profile,
-            'user_id' => $user_id
-        ]);
+        if($file){
+            $foto_profile = $file->store('uploads');
+    
+            Orangtua::create([
+                'nama' => $request->nama,
+                'no_hp' => $request->no_hp,
+                'tingkat_sekolah_anak' => $request->tingkat_sekolah_anak,
+                'foto_profile' => $foto_profile,
+                'user_id' => $user_id
+            ]);
+        }else{
+            
+        }
     }
 }

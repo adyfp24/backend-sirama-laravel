@@ -20,7 +20,7 @@ class CreateRemajasTable extends Migration
             $table->date('tgl_lahir');
             $table->string('jenis_kelamin');
             $table->string('sekolah');
-            $table->text('foto_profile');
+            $table->text('foto_profile')->nullable();;
             $table->bigInteger('user_id')->unsigned();
             $table->timestamps();
 

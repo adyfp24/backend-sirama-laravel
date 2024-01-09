@@ -19,7 +19,7 @@ class CreateGurusTable extends Migration
             $table->string('no_hp');
             $table->string('jenis_guru');
             $table->string('sekolah');
-            $table->text('foto_profile');
+            $table->text('foto_profile')->nullable();;
             $table->bigInteger('user_id')->unsigned();
             $table->timestamps();
 

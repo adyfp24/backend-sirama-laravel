@@ -19,7 +19,7 @@ class CreateAhlisTable extends Migration
             $table->string('no_hp');
             $table->string('jenis_ahli');
             $table->string('deksripsi_ahli');
-            $table->text('foto_profile');
+            $table->text('foto_profile')->nullable();;
             $table->bigInteger('user_id')->unsigned();
             $table->timestamps();
 
