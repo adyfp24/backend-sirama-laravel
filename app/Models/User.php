@@ -26,6 +26,12 @@ class User extends Authenticatable
     public function remaja(){
         return $this->hasMany(Remaja::class);
     }
+    public function podcast(){
+        return $this->hasMany(Podcast::class);
+    }
+    public function fav_podcast(){
+        return $this->hasMany(FavPodcast::class);
+    }
 
     /**
      * The attributes that are mass assignable.

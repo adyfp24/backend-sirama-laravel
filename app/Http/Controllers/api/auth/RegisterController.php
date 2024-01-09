@@ -26,7 +26,7 @@ class RegisterController extends Controller
                 'username' => 'required|string',
                 'email' => 'required|email',
                 'password' => 'required|string',
-                'role' => 'required|in:orangtua,remaja,guru,ahli,kader'
+                'role' => 'required|in:orangtua,remaja,guru,ahli,kader,superadmin'
             ]);
 
             if ($validator->fails()) {
@@ -180,7 +180,7 @@ class RegisterController extends Controller
                 'user_id' => $user_id
             ]);
         }else{
-            
+
         }
     }
 }
