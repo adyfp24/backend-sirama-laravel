@@ -180,7 +180,12 @@ class RegisterController extends Controller
                 'user_id' => $user_id
             ]);
         }else{
-
+            Orangtua::create([
+                'nama' => $request->nama,
+                'no_hp' => $request->no_hp,
+                'tingkat_sekolah_anak' => $request->tingkat_sekolah_anak,
+                'user_id' => $user_id
+            ]);
         }
     }
 }
