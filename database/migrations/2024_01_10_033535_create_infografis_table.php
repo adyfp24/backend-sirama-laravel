@@ -18,7 +18,7 @@ class CreateInfografisTable extends Migration
             $table->string('judul_infografis');
             $table->text('deskripsi_infografis');
             $table->date('tgl_upload');
-            $table->text('gambar_infografis');
+            $table->text('gambar_infografis')->nullable();
             $table->bigInteger('upload_user_id')->unsigned();
             $table->timestamps();
 
