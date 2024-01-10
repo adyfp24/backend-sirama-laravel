@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Podcast extends Model
 {
     use HasFactory;
+    protected $primaryKey = 'id_podcast';
     protected $fillable = ['judul_podcast','link_podcast','tgl_upload','upload_user_id'];
     public function user(){
         return $this->belongsTo(User::class);
