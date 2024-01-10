@@ -67,9 +67,9 @@ class PodcastController extends Controller
     public function getAllFavPodcast(){
         $allFavPodcast = FavPodcast::all();
         if ($allFavPodcast) {
-            return response()->json(['message' => 'data podcast tersedia', 'podcast' => $allFavPodcast], 200);
+            return response()->json(['message' => 'data podcast favorit tersedia', 'podcast' => $allFavPodcast], 200);
         } else {
-            return response()->json(['message' => 'data podcast tidak tersedia', 'podcast' => $allFavPodcast], 404);
+            return response()->json(['message' => 'data podcast favorit tidak tersedia', 'podcast' => $allFavPodcast], 404);
         }
     }
     public function addFavPodcast($id)
