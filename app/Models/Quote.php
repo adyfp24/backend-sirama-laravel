@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Quote extends Model
 {
     use HasFactory;
-    protected $fillable = ['nama_quote', 'gambar_quote'];
+    protected $fillable = ['nama_quote', 'gambar_quote', 'upload_user_id'];
     public function fav_quote(){
         return $this->hasMany(FavQuote::class);
     }

@@ -5,6 +5,7 @@ use App\Http\Controllers\api\auth\LogoutController;
 use App\Http\Controllers\api\auth\RegisterController;
 use App\Http\Controllers\api\InfografisController;
 use App\Http\Controllers\api\PodcastController;
+use App\Http\Controllers\api\QuoteController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -40,6 +41,8 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::post('favinfografis', [InfografisController::class, 'addFavInfografis']);
     Route::get('favinfografis', [InfografisController::class, 'getAllFavInfografis']);
     Route::delete('favinfografis/{id}', [InfografisController::class, 'removeFavInfografis']);
+
+    Route::post('quote', [QuoteController::class, 'createQuote']);
 });
 
 Route::get('podcast', [PodcastController::class, 'getAllPodcast']);
