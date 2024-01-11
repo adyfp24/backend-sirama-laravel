@@ -72,7 +72,7 @@ class RegisterController extends Controller
     {
         $file = $request->file('foto_profile');
         if($file){
-            $foto_profile = $file->store('uploads');
+            $foto_profile = $file->store('profile');
     
             Remaja::create([
                 'nama' => $request->nama,
@@ -98,7 +98,7 @@ class RegisterController extends Controller
     {
         $file = $request->file('foto_profile');
         if($file){
-            $foto_profile = $file->store('uploads');
+            $foto_profile = $file->store('profile');
             
             Guru::create([
                 'nama' => $request->nama,
@@ -146,7 +146,7 @@ class RegisterController extends Controller
     {
         $file = $request->file('foto_profile');
         if($file){
-            $foto_profile = $file->store('uploads');
+            $foto_profile = $file->store('profile');
             
             Kader::create([
                 'nama' => $request->nama,
@@ -170,7 +170,7 @@ class RegisterController extends Controller
     {
         $file = $request->file('foto_profile');
         if($file){
-            $foto_profile = $file->store('uploads');
+            $foto_profile = $file->store('profile');
     
             Orangtua::create([
                 'nama' => $request->nama,

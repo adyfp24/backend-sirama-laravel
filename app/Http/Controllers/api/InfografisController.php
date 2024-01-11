@@ -24,18 +24,15 @@ class InfografisController extends Controller
             }
             $status = 'success';
             $data = $allInfografis;
-        }
-        catch(\Exception $e){
+        } catch (\Exception $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
             $status_code = $e->getCode();
-        }
-        catch(\Illuminate\Database\QueryException $e){
+        } catch (\Illuminate\Database\QueryException $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
             $status_code = $e->getCode();
-        }
-        finally{
+        } finally {
             return response()->json([
                 'status' => $status,
                 'message' => $message,
@@ -58,18 +55,15 @@ class InfografisController extends Controller
             }
             $status = 'success';
             $data = $infografis;
-        }
-        catch(\Exception $e){
+        } catch (\Exception $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
             $status_code = $e->getCode();
-        }
-        catch(\Illuminate\Database\QueryException $e){
+        } catch (\Illuminate\Database\QueryException $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
             $status_code = $e->getCode();
-        }
-        finally{
+        } finally {
             return response()->json([
                 'status' => $status,
                 'message' => $message,
@@ -81,7 +75,7 @@ class InfografisController extends Controller
     {
         $status = '';
         $message = '';
-        $data ='';
+        $data = '';
         $status_code = 201;
         try {
             $user = auth()->user();
@@ -103,22 +97,19 @@ class InfografisController extends Controller
                     'upload_user_id' => $user->id_user
                 ]);
             }
-            
+
             $status = 'success';
             $message = 'Data infografis berhasil ditambah.';
             $data = $infografis;
-        }
-        catch(\Exception $e){
+        } catch (\Exception $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
             $status_code = $e->getCode();
-        }
-        catch(\Illuminate\Database\QueryException $e){
+        } catch (\Illuminate\Database\QueryException $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
             $status_code = $e->getCode();
-        }
-        finally{
+        } finally {
             return response()->json([
                 'status' => $status,
                 'message' => $message,
@@ -127,6 +118,7 @@ class InfografisController extends Controller
         }
 
     }
+
     public function updateInfografis(Request $request, $id)
     {
         $status = '';
@@ -152,6 +144,7 @@ class InfografisController extends Controller
                     if ($updatedInfografis) {
                         $status = 'success';
                         $message = 'Data infografis berhasil diubah.';
+                        $data = $updatedInfografis;
                     } else {
                         $status = 'failed';
                         $message = 'Data infografis gagal diubah.';
@@ -168,6 +161,7 @@ class InfografisController extends Controller
                     if ($updatedInfografis) {
                         $status = 'success';
                         $message = 'Data infografis berhasil diubah.';
+                        $data = $updatedInfografis;
                     } else {
                         $status = 'failed';
                         $message = 'Data infografis gagal diubah.';
@@ -198,18 +192,19 @@ class InfografisController extends Controller
             ], $status_code);
         }
     }
-    public function deleteInfografis($id){
+    public function deleteInfografis($id)
+    {
         $status = '';
         $message = '';
-        $data ='';
+        $data = '';
         $status_code = 200;
         try {
             $user = auth()->user();
             $infografis = Infografis::find($id);
             if ($infografis) {
                 $file = $infografis->gambar_infografis;
-                if($file){
-                    unlink('./storage/'.$infografis->gambar_infografis);
+                if ($file) {
+                    unlink(storage_path('app/'.$infografis->gambar_infografis));
                 }
                 $deletedInfografis = $infografis->delete();
                 if ($deletedInfografis) {
@@ -225,18 +220,15 @@ class InfografisController extends Controller
                 $status_code = 404;
                 $message = 'Data infografis tidak ditemukan.';
             }
-        }
-        catch(\Exception $e){
+        } catch (\Exception $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
             $status_code = $e->getCode();
-        }
-        catch(\Illuminate\Database\QueryException $e){
+        } catch (\Illuminate\Database\QueryException $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
             $status_code = $e->getCode();
-        }
-        finally{
+        } finally {
             return response()->json([
                 'status' => $status,
                 'message' => $message,
@@ -244,7 +236,8 @@ class InfografisController extends Controller
             ], $status_code);
         }
     }
-    public function getAllFavInfografis(){
+    public function getAllFavInfografis()
+    {
         $status = '';
         $message = '';
         $data = '';
@@ -259,18 +252,15 @@ class InfografisController extends Controller
             }
             $status = 'success';
             $data = $allInfografis;
-        }
-        catch(\Exception $e){
+        } catch (\Exception $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
             $status_code = $e->getCode();
-        }
-        catch(\Illuminate\Database\QueryException $e){
+        } catch (\Illuminate\Database\QueryException $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
             $status_code = $e->getCode();
-        }
-        finally{
+        } finally {
             return response()->json([
                 'status' => $status,
                 'message' => $message,
@@ -278,7 +268,8 @@ class InfografisController extends Controller
             ], $status_code);
         }
     }
-    public function addFavInfografis($id){
+    public function addFavInfografis($id)
+    {
         $status = '';
         $message = '';
         $data = '';
@@ -297,18 +288,15 @@ class InfografisController extends Controller
                 $status = 'failed';
                 $message = 'Data infografis gagal ditambah ke favorite.';
             }
-        }
-        catch(\Exception $e){
+        } catch (\Exception $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
             $status_code = $e->getCode();
-        }
-        catch(\Illuminate\Database\QueryException $e){
+        } catch (\Illuminate\Database\QueryException $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
             $status_code = $e->getCode();
-        }
-        finally{
+        } finally {
             return response()->json([
                 'status' => $status,
                 'message' => $message,
@@ -316,7 +304,8 @@ class InfografisController extends Controller
             ], $status_code);
         }
     }
-    public function removeFavInfografis($id){
+    public function removeFavInfografis($id)
+    {
         $status = '';
         $message = '';
         $data = '';
@@ -332,18 +321,15 @@ class InfografisController extends Controller
                 $status = 'Failed';
                 $message = 'Data infografis gagal dihapus dari favorite.';
             }
-        }
-        catch(\Exception $e){
+        } catch (\Exception $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
             $status_code = $e->getCode();
-        }
-        catch(\Illuminate\Database\QueryException $e){
+        } catch (\Illuminate\Database\QueryException $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
             $status_code = $e->getCode();
-        }
-        finally{
+        } finally {
             return response()->json([
                 'status' => $status,
                 'message' => $message,
