@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class FavQuote extends Model
 {
     use HasFactory;
-    protected $fillable = ['user_id','quotes_id'];
+    protected $fillable = ['user_id','quote_id'];
+    protected $primaryKey = 'id_fav_quotes';
     public function user(){
         return $this->belongsTo(FavQuote::class);
     }

@@ -43,6 +43,12 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::delete('favinfografis/{id}', [InfografisController::class, 'removeFavInfografis']);
 
     Route::post('quote', [QuoteController::class, 'createQuote']);
+    Route::put('quote/{id}',[QuoteController::class, 'updateQuote']);
+    Route::delete('quote/{id}',[QuoteController::class, 'deleteQuote']);
+
+    Route::post('favquote/{id}', [QuoteController::class, 'addFavQuote']);
+    Route::get('favquote',[QuoteController::class, 'getAllFavQuote']);
+    Route::delete('favquote/{id}',[QuoteController::class, 'removeFavQuote']);  
 });
 
 Route::get('podcast', [PodcastController::class, 'getAllPodcast']);
@@ -50,4 +56,7 @@ Route::get('podcast/{id}', [PodcastController::class, 'getPodcastById']);
 
 Route::get('/infografis', [InfografisController::class, 'getAllInfografis']);
 Route::get('infografis/{id}', [InfografisController::class, 'getInfografisById']);
+
+Route::get('/quote', [QuoteController::class, 'getAllQuote']);
+Route::get('quote/{id}', [QuoteController::class, 'getQuoteById']);
 
