@@ -32,9 +32,12 @@ class User extends Authenticatable
     public function fav_podcast(){
         return $this->hasMany(FavPodcast::class);
     }
-    // public function infografis(){
-    //     return $this
-    // }
+    public function infografis(){
+        return $this->hasMany(Infografis::class);
+    }
+    public function fav_infografis(){
+        return $this->hasMany(FavInfografis::class);
+    }
 
     /**
      * The attributes that are mass assignable.

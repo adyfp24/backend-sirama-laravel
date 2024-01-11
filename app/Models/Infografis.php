@@ -9,7 +9,7 @@ class Infografis extends Model
 {
     use HasFactory;
     protected $primaryKey = 'id_infografis';
-    protected $fillable = ['judul_infografis', 'deskripsi_infografis', 'tgl_upload', 'gambar_infografis'];
+    protected $fillable = ['judul_infografis', 'deskripsi_infografis', 'tgl_upload', 'gambar_infografis','upload_user_id'];
     public function user(){
         return $this->belongsTo(User::class);
     }

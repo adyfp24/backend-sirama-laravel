@@ -122,7 +122,7 @@ class RegisterController extends Controller
     {
         $file = $request->file('foto_profile');
         if($file){
-            $foto_profile = $file->store('uploads');
+            $foto_profile = $file->store('profile');
     
             Ahli::create([
                 'nama' => $request->nama,

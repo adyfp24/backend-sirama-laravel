@@ -88,24 +88,25 @@ class InfografisController extends Controller
             $file = $request->file('gambar_infografis');
             if ($file) {
                 $gambar_infografis = $file->store('infografis');
-                Infografis::create([
-                    'judul_infgrafis' => $request->judul_infografis,
+                $infografis = Infografis::create([
+                    'judul_infografis' => $request->judul_infografis,
                     'deskripsi_infografis' => $request->deskripsi_infografis,
                     'tgl_upload' => $request->tgl_upload,
                     'gambar_infografis' => $gambar_infografis,
-                    'user_id' => $user->id_user
+                    'upload_user_id' => $user->id_user
                 ]);
             } else {
-                Infografis::create([
-                    'judul_infgrafis' => $request->judul_infografis,
+                $infografis = Infografis::create([
+                    'judul_infografis' => $request->judul_infografis,
                     'deskripsi_infografis' => $request->deskripsi_infografis,
                     'tgl_upload' => $request->tgl_upload,
-                    'user_id' => $user->id_user
+                    'upload_user_id' => $user->id_user
                 ]);
             }
             
             $status = 'success';
             $message = 'Data infografis berhasil ditambah.';
+            $data = $infografis;
         }
         catch(\Exception $e){
             $status = 'failed';
@@ -138,14 +139,15 @@ class InfografisController extends Controller
             if ($infografis) {
                 $file = $request->file('gambar_infografis');
                 if ($file) {
-                    unlink('./storage/'.$infografis->gambar_infografis);
+                    //unlink('./storage/'.$infografis->gambar_infografis);
+                    unlink(storage_path('app/'.$infografis->gambar_infografis));
                     $gambar_infografis = $file->store('infografis');
                     $updatedInfografis = $infografis->update([
-                        'judul_infgrafis' => $request->judul_infografis,
+                        'judul_infografis' => $request->judul_infografis,
                         'deskripsi_infografis' => $request->deskripsi_infografis,
                         'tgl_upload' => $request->tgl_upload,
                         'gambar_infografis' => $gambar_infografis,
-                        'user_id' => $user->id_user
+                        'upload_user_id' => $user->id_user
                     ]);
                     if ($updatedInfografis) {
                         $status = 'success';
@@ -158,10 +160,10 @@ class InfografisController extends Controller
                 } 
                 else {
                     $updatedInfografis = $infografis->update([
-                        'judul_infgrafis' => $request->judul_infografis,
+                        'judul_infografis' => $request->judul_infografis,
                         'deskripsi_infografis' => $request->deskripsi_infografis,
                         'tgl_upload' => $request->tgl_upload,
-                        'user_id' => $user->id_user
+                        'upload_user_id' => $user->id_user
                     ]);
                     if ($updatedInfografis) {
                         $status = 'success';
@@ -205,7 +207,10 @@ class InfografisController extends Controller
             $user = auth()->user();
             $infografis = Infografis::find($id);
             if ($infografis) {
-                unlink('./storage/'.$infografis->gambar_infografis);
+                $file = $infografis->gambar_infografis;
+                if($file){
+                    unlink('./storage/'.$infografis->gambar_infografis);
+                }
                 $deletedInfografis = $infografis->delete();
                 if ($deletedInfografis) {
                     $status = 'success';
@@ -311,15 +316,14 @@ class InfografisController extends Controller
             ], $status_code);
         }
     }
-    public function removeFavInfografis(){
+    public function removeFavInfografis($id){
         $status = '';
         $message = '';
         $data = '';
         $status_code = 200;
         try {
-            $user = auth()->user();
-            $infografis = FavInfografis::where('user_id', $user->id_user)->get();
-            $removedFavInfografis = $infografis->delete();
+            $favInfografis = FavInfografis::find($id);
+            $removedFavInfografis = $favInfografis->delete();
             if ($removedFavInfografis) {
                 $status = 'success';
                 $message = 'Data infografis berhasil dihapus dari favorite.';

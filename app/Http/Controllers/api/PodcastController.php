@@ -187,7 +187,8 @@ class PodcastController extends Controller
         $data = '';
         $status_code = 200;
         try{
-            $allFavPodcast = FavPodcast::all();
+            $user = auth()->user();
+            $allFavPodcast = FavPodcast::where('user_id',$user->id_user)->get();
             if ($allFavPodcast) {
                 $message = 'data podcast favorit tersedia';
             } else {
@@ -211,6 +212,7 @@ class PodcastController extends Controller
             ], $status_code);
         }
     }
+    
     public function addFavPodcast($id)
     {
         $status = '';
