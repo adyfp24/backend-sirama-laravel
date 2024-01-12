@@ -19,7 +19,8 @@ class CreateTanyaAhlisTable extends Migration
             $table->bigInteger('penanya_user_id')->unsigned(); 
             $table->text('pertanyaan'); 
             $table->boolean('status_pertanyaan'); 
-            $table->timestamps('waktu_tanya');
+            $table->timestamp('waktu_tanya');
+            $table->timestamps();
 
             $table->foreign('topik_id')->references('id_jenis_topik_pertanyaan')->on('jenis_topik_pertanyaans')->onDelete('cascade');
             $table->foreign('penanya_user_id')->references('id_user')->on('users')->onDelete('cascade');

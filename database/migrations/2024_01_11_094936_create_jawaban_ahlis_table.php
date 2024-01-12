@@ -18,7 +18,8 @@ class CreateJawabanAhlisTable extends Migration
             $table->bigInteger('penjawab_user_id')->unsigned();
             $table->bigInteger('tanya_ahli_id')->unsigned();
             $table->text('jawaban_ahli');
-            $table->timestamps('waktu_jawaban');
+            $table->timestamp('waktu_jawaban');
+            $table->timestamps();
 
             $table->foreign('penjawab_user_id')->references('id_user')->on('users')->onDelete('cascade');
             $table->foreign('tanya_ahli_id')->references('id_tanya_ahli')->on('tanya_ahlis')->onDelete('cascade');

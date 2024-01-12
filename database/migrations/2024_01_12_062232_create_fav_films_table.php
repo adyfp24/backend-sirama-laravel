@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFavInfografisTable extends Migration
+class CreateFavFilmsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class CreateFavInfografisTable extends Migration
      */
     public function up()
     {
-        Schema::create('fav_infografis', function (Blueprint $table) {
-            $table->id('id_fav_infografis');
+        Schema::create('fav_films', function (Blueprint $table) {
+            $table->id('id_fav_film');
             $table->bigInteger('user_id')->unsigned();
-            $table->bigInteger('infografis_id')->unsigned();
+            $table->bigInteger('film_id')->unsigned();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id_user')->on('users')->onDelete('cascade');
-            $table->foreign('infografis_id')->references('id_infografis')->on('infografis')->onDelete('cascade');
+            $table->foreign('film_id')->references('id_film')->on('films')->onDelete('cascade');
         });
     }
 
@@ -31,6 +31,6 @@ class CreateFavInfografisTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('fav_infografis');
+        Schema::dropIfExists('fav_films');
     }
 }
