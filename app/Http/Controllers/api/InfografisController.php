@@ -81,7 +81,7 @@ class InfografisController extends Controller
             $user = auth()->user();
             $file = $request->file('gambar_infografis');
             if ($file) {
-                $gambar_infografis = $file->store('infografis');
+                $gambar_infografis = $file->store('infograf is');
                 $infografis = Infografis::create([
                     'judul_infografis' => $request->judul_infografis,
                     'deskripsi_infografis' => $request->deskripsi_infografis,

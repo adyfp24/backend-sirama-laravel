@@ -4,6 +4,7 @@ use App\Http\Controllers\api\auth\LoginController;
 use App\Http\Controllers\api\auth\LogoutController;
 use App\Http\Controllers\api\auth\RegisterController;
 use App\Http\Controllers\api\InfografisController;
+use App\Http\Controllers\api\JadwalAhliController;
 use App\Http\Controllers\api\PodcastController;
 use App\Http\Controllers\api\QuoteController;
 use Illuminate\Http\Request;
@@ -48,7 +49,11 @@ Route::middleware(['auth:sanctum'])->group(function(){
 
     Route::post('favquote/{id}', [QuoteController::class, 'addFavQuote']);
     Route::get('favquote',[QuoteController::class, 'getAllFavQuote']);
-    Route::delete('favquote/{id}',[QuoteController::class, 'removeFavQuote']);  
+    Route::delete('favquote/{id}',[QuoteController::class, 'removeFavQuote']); 
+    
+    Route::post('jadwalahli',[JadwalAhliController::class, 'addJadwal']);
+    Route::put('jadwalahli/{id}',[JadwalAhliController::class, 'updateJadwal']);
+    Route::delete('jadwalahli/{id}',[JadwalAhliController::class, 'deleteJadwal']);
 });
 
 Route::get('podcast', [PodcastController::class, 'getAllPodcast']);
@@ -59,4 +64,7 @@ Route::get('infografis/{id}', [InfografisController::class, 'getInfografisById']
 
 Route::get('/quote', [QuoteController::class, 'getAllQuote']);
 Route::get('quote/{id}', [QuoteController::class, 'getQuoteById']);
+
+Route::get('/jadwalahli',[JadwalAhliController::class, 'getAllJadwal']);
+Route::get('/jadwalahli/{id}',[JadwalAhliController::class, 'getJadwalById']);
 
