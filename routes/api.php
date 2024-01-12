@@ -3,6 +3,7 @@
 use App\Http\Controllers\api\auth\LoginController;
 use App\Http\Controllers\api\auth\LogoutController;
 use App\Http\Controllers\api\auth\RegisterController;
+use App\Http\Controllers\api\FilmController;
 use App\Http\Controllers\api\InfografisController;
 use App\Http\Controllers\api\PodcastController;
 use App\Http\Controllers\api\QuoteController;
@@ -49,6 +50,14 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::post('favquote/{id}', [QuoteController::class, 'addFavQuote']);
     Route::get('favquote',[QuoteController::class, 'getAllFavQuote']);
     Route::delete('favquote/{id}',[QuoteController::class, 'removeFavQuote']);  
+
+    Route::post('film', [FilmController::class, 'createFilm']);
+    Route::put('film/{id}', [FilmController::class, 'updateFilm']);
+    Route::delete('film/{id}', [FilmController::class, 'deleteFilm']);
+
+    Route::post('favfilm', [FilmController::class, 'addFavFilm']);
+    Route::get('favfilm', [FilmController::class, 'getAllFavFilm']);
+    Route::delete('favfilm/{id}', [FilmController::class, 'removeFavFilm']);
 });
 
 Route::get('podcast', [PodcastController::class, 'getAllPodcast']);
@@ -59,4 +68,7 @@ Route::get('infografis/{id}', [InfografisController::class, 'getInfografisById']
 
 Route::get('/quote', [QuoteController::class, 'getAllQuote']);
 Route::get('quote/{id}', [QuoteController::class, 'getQuoteById']);
+
+Route::get('/film', [FilmController::class, 'getAllFilm']);
+Route::get('/film/{id}', [FilmController::class, 'getFilmById']);
 
