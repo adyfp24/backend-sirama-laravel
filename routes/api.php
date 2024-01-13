@@ -8,6 +8,7 @@ use App\Http\Controllers\api\InfografisController;
 use App\Http\Controllers\api\JadwalAhliController;
 use App\Http\Controllers\api\PodcastController;
 use App\Http\Controllers\api\QuoteController;
+use App\Http\Controllers\api\TanyaAhliController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -63,6 +64,9 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::post('jadwalahli',[JadwalAhliController::class, 'addJadwal']);
     Route::put('jadwalahli/{id}',[JadwalAhliController::class, 'updateJadwal']);
     Route::delete('jadwalahli/{id}',[JadwalAhliController::class, 'deleteJadwal']);
+
+    Route::post('tanyaahli',[TanyaAhliController::class, 'addPertanyaan']);
+    Route::delete('tanyaahli/{id}',[TanyaAhliController::class, 'deletePertanyaan']);
 });
 
 Route::get('podcast', [PodcastController::class, 'getAllPodcast']);
