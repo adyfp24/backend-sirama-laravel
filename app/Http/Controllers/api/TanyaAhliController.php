@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
@@ -85,7 +84,7 @@ class TanyaAhliController extends Controller
         $data = '';
         $status_code = 200;
         try {
-            $question = TanyaAhli::where('id_pertanyaan', $id)->first();
+            $question = TanyaAhli::where('id_tanya_ahli', $id)->first();
             if ($question) {
                 $message = 'data pertanyaan tersedia';
             } else {
