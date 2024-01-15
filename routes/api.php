@@ -6,9 +6,12 @@ use App\Http\Controllers\api\auth\RegisterController;
 use App\Http\Controllers\api\FilmController;
 use App\Http\Controllers\api\InfografisController;
 use App\Http\Controllers\api\JadwalAhliController;
+use App\Http\Controllers\api\JawabanAhliController;
 use App\Http\Controllers\api\PodcastController;
 use App\Http\Controllers\api\QuoteController;
 use App\Http\Controllers\api\TanyaAhliController;
+use App\Http\Controllers\api\TopikPertanyaanController;
+use App\Models\JawabanAhli;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -67,6 +70,12 @@ Route::middleware(['auth:sanctum'])->group(function(){
 
     Route::post('tanyaahli',[TanyaAhliController::class, 'addPertanyaan']);
     Route::delete('tanyaahli/{id}',[TanyaAhliController::class, 'deletePertanyaan']);
+
+    Route::post('topikpertanyaan',[TopikPertanyaanController::class, 'addTopik']);
+    Route::delete('topikpertanyaan/{id}',[TopikPertanyaanController::class, 'deleteTopik']);
+
+    Route::post('jawabanahli',[JawabanAhliController::class, 'addJawaban']);
+    Route::delete('jawaban/{id}',[JawabanAhliController::class, 'deleteJawaban']);
 });
 
 Route::get('podcast', [PodcastController::class, 'getAllPodcast']);
@@ -86,4 +95,10 @@ Route::get('/jadwalahli/{id}',[JadwalAhliController::class, 'getJadwalById']);
 
 Route::get('/tanyaahli',[TanyaAhliController::class, 'getAllPertanyaan']);
 Route::get('/tanyaahli/{id}',[TanyaAhliController::class, 'getPertanyaanById']);
+
+Route::get('/topikpertanyaan',[TopikPertanyaanController::class, 'getAllTopik']);
+Route::get('/topikpertanyaan/{id}',[TopikPertanyaanController::class, 'getTopikById']);
+
+Route::get('/jawabanahli',[JawabanAhliController::class, 'getAllJawaban']);
+Route::get('/jawabanahli/{id}',[JawabanAhliController::class, 'getJawabanById']);
 
