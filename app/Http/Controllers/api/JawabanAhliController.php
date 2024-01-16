@@ -120,8 +120,36 @@ class JawabanAhliController extends Controller
         }
     }
 
-    public function deleteJawaban()
+    public function deleteJawaban($id)
     {
-
+        $status = '';
+        $message = '';
+        $data = '';
+        $status_code = 200;
+        try{
+            $jawaban = JawabanAhli::find($id);
+            $deletedJawaban = $jawaban->delete();
+            if ($deletedJawaban) {
+                $message = 'jawaban berhasil dihapus';
+            } else {
+                $message = 'jawaban gagal dihapus';
+            }
+            $status = 'success';
+            $data = $deletedJawaban;
+        }catch (\Exception $e) {
+            $status = 'failed';
+            $message = 'Gagal menjalankan request. ' . $e->getMessage();
+            $status_code = $e->getCode();
+        } catch (\Illuminate\Database\QueryException $e) {
+            $status = 'failed';
+            $message = 'Gagal menjalankan request. ' . $e->getMessage();
+            $status_code = $e->getCode();
+        } finally {
+            return response()->json([
+                'status' => $status,
+                'message' => $message,
+                'data' => $data
+            ], $status_code);
+        }
     }
 }

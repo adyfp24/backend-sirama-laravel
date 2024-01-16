@@ -75,7 +75,7 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::delete('topikpertanyaan/{id}',[TopikPertanyaanController::class, 'deleteTopik']);
 
     Route::post('jawabanahli/{id}',[JawabanAhliController::class, 'addJawaban']);
-    Route::delete('jawaban/{id}',[JawabanAhliController::class, 'deleteJawaban']);
+    Route::delete('jawabanahli/{id}',[JawabanAhliController::class, 'deleteJawaban']);
 });
 
 Route::get('podcast', [PodcastController::class, 'getAllPodcast']);
