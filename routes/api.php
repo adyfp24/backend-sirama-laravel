@@ -44,8 +44,8 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::put('infografis/{id}', [InfografisController::class, 'updateInfografis']);
     Route::delete('infografis/{id}', [InfografisController::class, 'deleteInfografis']);
 
-    Route::post('favinfografis', [InfografisController::class, 'addFavInfografis']);
-    Route::get('favinfografis', [InfografisController::class, 'getAllFavInfografis']);
+    Route::post('favinfografis/{id}', [InfografisController::class, 'addFavInfografis']);
+    Route::get('favinfografis/{id}', [InfografisController::class, 'getAllFavInfografis']);
     Route::delete('favinfografis/{id}', [InfografisController::class, 'removeFavInfografis']);
 
     Route::post('quote', [QuoteController::class, 'createQuote']);
@@ -74,7 +74,7 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::post('topikpertanyaan',[TopikPertanyaanController::class, 'addTopik']);
     Route::delete('topikpertanyaan/{id}',[TopikPertanyaanController::class, 'deleteTopik']);
 
-    Route::post('jawabanahli',[JawabanAhliController::class, 'addJawaban']);
+    Route::post('jawabanahli/{id}',[JawabanAhliController::class, 'addJawaban']);
     Route::delete('jawaban/{id}',[JawabanAhliController::class, 'deleteJawaban']);
 });
 
