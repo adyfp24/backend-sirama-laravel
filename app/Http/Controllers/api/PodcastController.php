@@ -73,7 +73,7 @@ class PodcastController extends Controller
             ], $status_code);
         }
     }
-    public function addPodcast(Request $request)
+    public function createPodcast(Request $request)
     {
         $status = '';
         $message = '';
@@ -89,11 +89,13 @@ class PodcastController extends Controller
             ]);
             if ($newPodcast) {
                 $message = 'podcast berhasil ditambah';
+                $status = 'success';
+                $data = $newPodcast;
             }else{
-                $message = 'podcast agal ditambah';
-            }
-            $status = 'success';
-            $data = $newPodcast;
+                $message = 'podcast gagal ditambah';
+                $status = 'failed';
+                $status_code = 400;
+            } 
         } catch (\Exception $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
@@ -126,12 +128,14 @@ class PodcastController extends Controller
                 'upload_user_id' => $user->id_user
             ]);
             if ($updatedPodcast) {
+                $status = 'success';
+                $data = $updatedPodcast;
                 $message = 'podcast berhasil di update';
             }else{
+                $status = 'failed';
                 $message = 'podcast gagal diupdate';
-            }
-            $status = 'success';
-            $data = $updatedPodcast;
+                $status_code = 400;
+            }  
         }catch (\Exception $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
@@ -159,11 +163,14 @@ class PodcastController extends Controller
             $deletedPodcast = $podcast->delete();
             if ($deletedPodcast) {
                 $message = 'podcast berhasil dihapus';
+                $status = 'succes';
+                $data = $deletedPodcast;
             } else {
                 $message = 'podcast gagal dihapus';
+                $status = 'failed';
+                $status_code = 400;
             }
-            $status = 'succes';
-            $data = $deletedPodcast;
+            
         }catch (\Exception $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
@@ -226,9 +233,13 @@ class PodcastController extends Controller
                 'user_id' => $user->id_user
             ]);
             if ($favPodcast) {
+                $status = 'success';
                 $message = 'podcast berhasil ditambah ke favorit';
+                $data = $favPodcast;
             } else {
                 $message = 'podcast gagal ditambah ke favorit';
+                $status = 'failed';
+                $status_code = 400;
             }
             $status = 'success';
             $data = $favPodcast;
@@ -258,9 +269,13 @@ class PodcastController extends Controller
             $podcast = FavPodcast::find($id);
             $removedPodcast = $podcast->delete();
             if ($removedPodcast) {
+                $status = 'success';
                 $message = 'podcast berhasil dihapus dari favorit';
+                $data = $removedPodcast;
             } else {
+                $status = 'failed';
                 $message = 'podcast gagal dihapus dari favorit';
+                $status_code = 400;
             }
             $status = 'success';
             $data = $removedPodcast;

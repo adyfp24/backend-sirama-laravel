@@ -20,7 +20,7 @@ class InfografisController extends Controller
             if ($allInfografis) {
                 $message = 'Data infografis tersedia.';
             } else {
-                $message = 'Data infografis kosong.';
+                $message = 'Data infografis tidak tersedia.';
             }
             $status = 'success';
             $data = $allInfografis;
@@ -51,7 +51,7 @@ class InfografisController extends Controller
             if ($infografis) {
                 $message = 'Data infografis tersedia.';
             } else {
-                $message = 'Data infografis kosong.';
+                $message = 'Data infografis tidak tersedia.';
             }
             $status = 'success';
             $data = $infografis;

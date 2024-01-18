@@ -11,6 +11,7 @@ use App\Http\Controllers\api\PodcastController;
 use App\Http\Controllers\api\QuoteController;
 use App\Http\Controllers\api\TanyaAhliController;
 use App\Http\Controllers\api\TopikPertanyaanController;
+use App\Http\Controllers\api\VideEdukasiController;
 use App\Models\JawabanAhli;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -36,17 +37,29 @@ Route::post('logout', [LogoutController::class, 'logout'])->middleware('auth:san
 
 
 Route::middleware(['auth:sanctum'])->group(function(){
-    Route::post('podcast', [PodcastController::class, 'addPodcast']);
-    Route::put('podcast/{id}', [PodcastController::class, 'updatePodcast']);
-    Route::delete('podcast/{id}', [PodcastController::class, 'deletePodcast']);
+    Route::post('/podcast', [PodcastController::class, 'createPodcast']);
+    Route::put('/podcast/{id}', [PodcastController::class, 'updatePodcast']);
+    Route::delete('/podcast/{id}', [PodcastController::class, 'deletePodcast']);
 
-    Route::post('infografis', [InfografisController::class, 'createInfografis']);
-    Route::put('infografis/{id}', [InfografisController::class, 'updateInfografis']);
-    Route::delete('infografis/{id}', [InfografisController::class, 'deleteInfografis']);
+    Route::post('/favpodcast', [PodcastController::class, 'addFavPodcast']);
+    Route::get('/favpodcast', [PodcastController::class, 'getAllFavPodcast']);
+    Route::delete('/favpodcast/{id}', [PodcastController::class, 'removeFavPodcast']);
 
-    Route::post('favinfografis', [InfografisController::class, 'addFavInfografis']);
-    Route::get('favinfografis', [InfografisController::class, 'getAllFavInfografis']);
-    Route::delete('favinfografis/{id}', [InfografisController::class, 'removeFavInfografis']);
+    Route::post('/infografis', [InfografisController::class, 'createInfografis']);
+    Route::put('/infografis/{id}', [InfografisController::class, 'updateInfografis']);
+    Route::delete('/infografis/{id}', [InfografisController::class, 'deleteInfografis']);
+
+    Route::post('/favinfografis', [InfografisController::class, 'addFavInfografis']);
+    Route::get('/favinfografis', [InfografisController::class, 'getAllFavInfografis']);
+    Route::delete('/favinfografis/{id}', [InfografisController::class, 'removeFavInfografis']);
+
+    Route::post('/video-edukasi', [VideEdukasiController::class, 'createVideoEdukasi']);
+    Route::put('/video-edukasi/{id}', [VideEdukasiController::class, 'updateVideoEdukasi']);
+    Route::delete('/video-edukasi/{id}', [VideEdukasiController::class, 'deleteVideoEdukasi']);
+
+    Route::post('/fav-video-edukasi', [VideEdukasiController::class, 'addFavVideoEdukasi']);
+    Route::get('/fav-video-edukasi', [VideEdukasiController::class, 'getAllFavVideoEdukasi']);
+    Route::delete('/fav-video-edukasi/{id}', [VideEdukasiController::class, 'removeFavVideoEdukasi']);
 
     Route::post('quote', [QuoteController::class, 'createQuote']);
     Route::put('quote/{id}',[QuoteController::class, 'updateQuote']);
@@ -78,14 +91,17 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::delete('jawaban/{id}',[JawabanAhliController::class, 'deleteJawaban']);
 });
 
-Route::get('podcast', [PodcastController::class, 'getAllPodcast']);
-Route::get('podcast/{id}', [PodcastController::class, 'getPodcastById']);
+Route::get('/podcast', [PodcastController::class, 'getAllPodcast']);
+Route::get('/podcast/{id}', [PodcastController::class, 'getPodcastById']);
 
 Route::get('/infografis', [InfografisController::class, 'getAllInfografis']);
-Route::get('infografis/{id}', [InfografisController::class, 'getInfografisById']);
+Route::get('/infografis/{id}', [InfografisController::class, 'getInfografisById']);
+
+Route::get('/video_edukasi', [VideEdukasiController::class, 'getAllVideoEdukasi']);
+Route::get('/video_edukasi/{id}', [VideEdukasiController::class, 'getVideoEdukasiById']);
 
 Route::get('/quote', [QuoteController::class, 'getAllQuote']);
-Route::get('quote/{id}', [QuoteController::class, 'getQuoteById']);
+Route::get('/quote/{id}', [QuoteController::class, 'getQuoteById']);
 
 Route::get('/film', [FilmController::class, 'getAllFilm']);
 Route::get('/film/{id}', [FilmController::class, 'getFilmById']);
