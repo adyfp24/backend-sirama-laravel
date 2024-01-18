@@ -3,6 +3,7 @@
 use App\Http\Controllers\api\auth\LoginController;
 use App\Http\Controllers\api\auth\LogoutController;
 use App\Http\Controllers\api\auth\RegisterController;
+use App\Http\Controllers\api\ChatMeController;
 use App\Http\Controllers\api\FilmController;
 use App\Http\Controllers\api\InfografisController;
 use App\Http\Controllers\api\JadwalAhliController;
@@ -89,6 +90,9 @@ Route::middleware(['auth:sanctum'])->group(function(){
 
     Route::post('jawabanahli/{id}',[JawabanAhliController::class, 'addJawaban']);
     Route::delete('jawabanahli/{id}',[JawabanAhliController::class, 'deleteJawaban']);
+
+    Route::post('chatme/{id_room}', [ChatMeController::class, 'createChat']);
+    Route::delete('chatme', [ChatMeController::class, 'deleteChat']);
 });
 
 Route::get('/podcast', [PodcastController::class, 'getAllPodcast']);
@@ -118,3 +122,5 @@ Route::get('/topikpertanyaan/{id}',[TopikPertanyaanController::class, 'getTopikB
 Route::get('/jawabanahli',[JawabanAhliController::class, 'getAllJawaban']);
 Route::get('/jawabanahli/{id}',[JawabanAhliController::class, 'getJawabanById']);
 
+Route::get('/chatme',[ChatMeController::class, 'getAllChat']);
+Route::get('/chatme/{id}',[ChatMeController::class, 'getChatById']);
