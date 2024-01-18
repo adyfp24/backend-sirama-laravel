@@ -91,8 +91,7 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::post('jawabanahli/{id}',[JawabanAhliController::class, 'addJawaban']);
     Route::delete('jawabanahli/{id}',[JawabanAhliController::class, 'deleteJawaban']);
 
-    Route::post('chatme/{id_room}', [ChatMeController::class, 'createChat']);
-    Route::delete('chatme', [ChatMeController::class, 'deleteChat']);
+    Route::post('chatme/{id}', [ChatMeController::class, 'createChat']);
 });
 
 Route::get('/podcast', [PodcastController::class, 'getAllPodcast']);

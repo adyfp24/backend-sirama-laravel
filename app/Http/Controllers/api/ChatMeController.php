@@ -108,16 +108,67 @@ class ChatMeController extends Controller
             ], $status_code);
         }
     }
-    public function deleteChat()
+    public function getAllChat()
     {
-        
+        $status = '';
+        $message = '';
+        $data = '';
+        $status_code = 200;
+        try {
+            $roomChat = RoomChatMe::all();
+            if ($roomChat) {
+                $message = 'riwayat chat tersedia';
+            } else {
+                $message = 'riwayat chat tidak tersedia';
+            }
+            $status = 'success';
+            $data = $roomChat;
+        } catch (\Exception $e) {
+            $status = 'failed';
+            $message = 'Gagal menjalankan request. ' . $e->getMessage();
+            $status_code = $e->getCode();
+        } catch (\Illuminate\Database\QueryException $e) {
+            $status = 'failed';
+            $message = 'Gagal menjalankan request. ' . $e->getMessage();
+            $status_code = $e->getCode();
+        } finally {
+            return response()->json([
+                'status' => $status,
+                'message' => $message,
+                'data' => $data
+            ], $status_code);
+        }
     }
-    public function getChatAll()
+    public function getChatById($id)
     {
-
-    }
-    public function getChatById()
-    {
-
+        $status = '';
+        $message = '';
+        $data = '';
+        $status_code = 200;
+        try {
+            $roomChat = RoomChatMe::where('id_room_chat_me',$id);
+            if ($roomChat) {
+                $riwayatChat = RiwayatChat::where('room_chat_me_id',$roomChat->id_room_chat_me);
+                $message = 'riwayat chat tersedia';
+            } else {
+                $message = 'riwayat chat tidak tersedia';
+            }
+            $status = 'success';
+            $data = $riwayatChat;
+        } catch (\Exception $e) {
+            $status = 'failed';
+            $message = 'Gagal menjalankan request. ' . $e->getMessage();
+            $status_code = $e->getCode();
+        } catch (\Illuminate\Database\QueryException $e) {
+            $status = 'failed';
+            $message = 'Gagal menjalankan request. ' . $e->getMessage();
+            $status_code = $e->getCode();
+        } finally {
+            return response()->json([
+                'status' => $status,
+                'message' => $message,
+                'data' => $data
+            ], $status_code);
+        }
     }
 }
