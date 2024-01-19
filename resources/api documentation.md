@@ -1,6 +1,6 @@
-Rest API Sirama Documentation
+## Rest API Sirama Documentation
 
-This documentation guides you through CRUD operations (GET, POST, PUT, DELETE), variables, and tests.
+## This documentation guides you through CRUD operations (GET, POST, PUT, DELETE), variables, and tests.
 
 ## End-point: podcast all
 This is a GET request and it is used to "get" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).
