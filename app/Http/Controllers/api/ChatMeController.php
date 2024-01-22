@@ -29,6 +29,8 @@ class ChatMeController extends Controller
                     $chat = RiwayatChat::create([
                         'pesan' => $request->pesan,
                         'user_id' => $user->id_user,
+                        'tgl_chat' => $request->tgl_chat,
+                        'waktu_chat' => $request->waktu_chat,
                         'room_chat_me_id' => $roomChat->id_room_chat_me
                     ]);
                     if ($chat) {
@@ -45,7 +47,9 @@ class ChatMeController extends Controller
                         $chat = RiwayatChat::create([
                             'pesan' => $request->pesan,
                             'user_id' => $user->id_user,
-                            'room_chat_me_id' => $newRoom->id_room_chat_me
+                            'tgl_chat' => $request->tgl_chat,
+                            'waktu_chat' => $request->waktu_chat,
+                            'room_chat_me_id' => $roomChat->id_room_chat_me
                         ]);
                         if ($chat) {
                             $message = 'pesan berhasil dikirim';
@@ -64,6 +68,8 @@ class ChatMeController extends Controller
                     $chat = RiwayatChat::create([
                         'pesan' => $request->pesan,
                         'user_id' => $user->id_user,
+                        'tgl_chat' => $request->tgl_chat,
+                        'waktu_chat' => $request->waktu_chat,
                         'room_chat_me_id' => $roomChat->id_room_chat_me
                     ]);
                     if ($chat) {
@@ -80,7 +86,9 @@ class ChatMeController extends Controller
                         $chat = RiwayatChat::create([
                             'pesan' => $request->pesan,
                             'user_id' => $user->id_user,
-                            'room_chat_me_id' => $newRoom->id_room_chat_me
+                            'tgl_chat' => $request->tgl_chat,
+                            'waktu_chat' => $request->waktu_chat,
+                            'room_chat_me_id' => $roomChat->id_room_chat_me
                         ]);
                         if ($chat) {
                             $message = 'pesan berhasil dikirim';
@@ -146,9 +154,9 @@ class ChatMeController extends Controller
         $data = '';
         $status_code = 200;
         try {
-            $roomChat = RoomChatMe::where('id_room_chat_me',$id);
+            $roomChat = RoomChatMe::where('id_room_chat_me', $id);
             if ($roomChat) {
-                $riwayatChat = RiwayatChat::where('room_chat_me_id',$roomChat->id_room_chat_me);
+                $riwayatChat = RiwayatChat::where('room_chat_me_id', $roomChat->id_room_chat_me);
                 $message = 'riwayat chat tersedia';
             } else {
                 $message = 'riwayat chat tidak tersedia';
