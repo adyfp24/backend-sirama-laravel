@@ -4,6 +4,7 @@ use App\Http\Controllers\api\auth\LoginController;
 use App\Http\Controllers\api\auth\LogoutController;
 use App\Http\Controllers\api\auth\RegisterController;
 use App\Http\Controllers\api\ChatMeController;
+use App\Http\Controllers\api\FileController;
 use App\Http\Controllers\api\FilmController;
 use App\Http\Controllers\api\InfografisController;
 use App\Http\Controllers\api\JadwalAhliController;
@@ -124,3 +125,4 @@ Route::get('/jawabanahli/{id}',[JawabanAhliController::class, 'getJawabanById'])
 Route::get('/chatme',[ChatMeController::class, 'getAllChat']);
 Route::get('/chatme/{id}',[ChatMeController::class, 'getChatById']);
 
+Route::get('/file/{path}',[FileController::class, 'getFile']);
