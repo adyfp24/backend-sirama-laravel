@@ -9,11 +9,11 @@ use Illuminate\Http\Request;
 class FileController extends Controller
 {
     public function getFile($path){
-        $imagePath = $path;
+        $imagePath = "public/$path";
         if (!Storage::exists($imagePath)) {
             return response()->json(['message' => 'Gambar tidak ditemukan.'], 404);
         }
 
-        return response()->download(storage_path("app/".$imagePath));
+        return response()->file(storage_path("app/".$imagePath));
     }
 }

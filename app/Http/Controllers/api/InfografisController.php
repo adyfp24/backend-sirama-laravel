@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\FavInfografis;
 use App\Models\Infografis;
 use Illuminate\Http\Request;
+use Str;
 
 class InfografisController extends Controller
 {
@@ -81,7 +82,8 @@ class InfografisController extends Controller
             $user = auth()->user();
             $file = $request->file('gambar_infografis');
             if ($file) {
-                $gambar_infografis = $file->store('infograf is');
+                $randomName = Str::random() . '.' . $file->getClientOriginalExtension();
+                $gambar_infografis = $file->storeAs('public', $randomName);
                 $infografis = Infografis::create([
                     'judul_infografis' => $request->judul_infografis,
                     'deskripsi_infografis' => $request->deskripsi_infografis,
@@ -123,7 +125,7 @@ class InfografisController extends Controller
     {
         $status = '';
         $message = '';
-        $data ='';
+        $data = '';
         $status_code = 201;
         try {
             $user = auth()->user();
@@ -132,8 +134,9 @@ class InfografisController extends Controller
                 $file = $request->file('gambar_infografis');
                 if ($file) {
                     //unlink('./storage/'.$infografis->gambar_infografis);
-                    unlink(storage_path('app/'.$infografis->gambar_infografis));
-                    $gambar_infografis = $file->store('infografis');
+                    unlink(storage_path('app/public/' . $infografis->gambar_infografis));
+                    $randomName = Str::random() . '.' . $file->getClientOriginalExtension();
+                    $gambar_infografis = $file->storeAs('public', $randomName);
                     $updatedInfografis = $infografis->update([
                         'judul_infografis' => $request->judul_infografis,
                         'deskripsi_infografis' => $request->deskripsi_infografis,
@@ -150,8 +153,7 @@ class InfografisController extends Controller
                         $message = 'Data infografis gagal diubah.';
                         $status_code = 400;
                     }
-                } 
-                else {
+                } else {
                     $updatedInfografis = $infografis->update([
                         'judul_infografis' => $request->judul_infografis,
                         'deskripsi_infografis' => $request->deskripsi_infografis,
@@ -173,18 +175,15 @@ class InfografisController extends Controller
                 $status_code = 404;
                 $message = 'Data infografis tidak ditemukan.';
             }
-        }
-        catch(\Exception $e){
+        } catch (\Exception $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
             $status_code = $e->getCode();
-        }
-        catch(\Illuminate\Database\QueryException $e){
+        } catch (\Illuminate\Database\QueryException $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
             $status_code = $e->getCode();
-        }
-        finally{
+        } finally {
             return response()->json([
                 'status' => $status,
                 'message' => $message,
@@ -204,7 +203,7 @@ class InfografisController extends Controller
             if ($infografis) {
                 $file = $infografis->gambar_infografis;
                 if ($file) {
-                    unlink(storage_path('app/'.$infografis->gambar_infografis));
+                    unlink(storage_path('app/' . $infografis->gambar_infografis));
                 }
                 $deletedInfografis = $infografis->delete();
                 if ($deletedInfografis) {

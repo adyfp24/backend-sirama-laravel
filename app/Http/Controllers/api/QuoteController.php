@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\FavQuote;
 use App\Models\Quote;
 use Illuminate\Http\Request;
+use Str;
 
 class QuoteController extends Controller
 {
@@ -80,7 +81,8 @@ class QuoteController extends Controller
         try {
             $user = auth()->user();
             $file = $request->file('gambar_quote');
-            $gambar_quote = $file->store('quote');
+            $randomName = Str::random() . '.' . $file->getClientOriginalExtension();
+            $gambar_quote = $file->storeAs('public', $randomName);
             $quote = Quote::create([
                 'nama_quote' => $request->nama_quote,
                 'gambar_quote' => $gambar_quote,

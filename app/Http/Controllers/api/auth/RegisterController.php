@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Schema;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DB;
+use Str;
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
@@ -72,7 +73,8 @@ class RegisterController extends Controller
     {
         $file = $request->file('foto_profile');
         if($file){
-            $foto_profile = $file->store('profile');
+            $foto_profile= Str::random() . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('public', $foto_profile);
     
             Remaja::create([
                 'nama' => $request->nama,
@@ -98,7 +100,8 @@ class RegisterController extends Controller
     {
         $file = $request->file('foto_profile');
         if($file){
-            $foto_profile = $file->store('profile');
+            $foto_profile= Str::random() . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('public', $foto_profile);
             
             Guru::create([
                 'nama' => $request->nama,
@@ -122,7 +125,8 @@ class RegisterController extends Controller
     {
         $file = $request->file('foto_profile');
         if($file){
-            $foto_profile = $file->store('profile');
+            $foto_profile= Str::random() . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('public', $foto_profile);
     
             Ahli::create([
                 'nama' => $request->nama,
@@ -146,7 +150,8 @@ class RegisterController extends Controller
     {
         $file = $request->file('foto_profile');
         if($file){
-            $foto_profile = $file->store('profile');
+            $foto_profile= Str::random() . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('public', $foto_profile);
             
             Kader::create([
                 'nama' => $request->nama,
@@ -170,7 +175,8 @@ class RegisterController extends Controller
     {
         $file = $request->file('foto_profile');
         if($file){
-            $foto_profile = $file->store('profile');
+            $foto_profile= Str::random() . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('public', $foto_profile);
     
             Orangtua::create([
                 'nama' => $request->nama,
