@@ -21,19 +21,19 @@ class MeController extends Controller
 
             switch ($role) {
                 case 'remaja':
-                    $allData = $this->dataRemaja();
+                    $allData = $this->dataRemaja($user);
                     break;
                 case 'guru':
-                    $allData = $this->dataGuru();
+                    $allData = $this->dataGuru($user);
                     break;
                 case 'orangtua':
-                    $allData = $this->dataOrangtua();
+                    $allData = $this->dataOrangtua($user);
                     break;
                 case 'kader':
-                    $allData = $this->dataKader();
+                    $allData = $this->dataKader($user);
                     break;
                 case 'ahli':
-                    $allData = $this->dataAhli();
+                    $allData = $this->dataAhli($user);
                     break;
                 default:
                     throw new \Exception('Invalid user role');
@@ -45,33 +45,38 @@ class MeController extends Controller
         }
     }
 
-    private function dataRemaja()
+    private function dataRemaja($user)
     {
         return Remaja::join('users', 'remajas.user_id', '=', 'users.id_user')
+            ->where('remajas.user_id', '=', $user->id_user)
             ->select('remajas.*', 'users.*')
             ->get();
     }
-    private function dataGuru()
+    private function dataGuru($user)
     {
         return Guru::join('users', 'gurus.user_id', '=', 'users.id_user')
+            ->where('gurus.user_id', '=', $user->id_user)
             ->select('gurus.*', 'users.*')
             ->get();
     }
-    private function dataOrangtua()
+    private function dataOrangtua($user)
     {
         return Orangtua::join('users', 'orangtuas.user_id', '=', 'users.id_user')
+            ->where('orangtuas.user_id', '=', $user->id_user)
             ->select('orangtuas.*', 'users.*')
             ->get();
     }
-    private function dataKader()
+    private function dataKader($user)
     {
         return Kader::join('users', 'kaders.user_id', '=', 'users.id_user')
+            ->where('kaders.user_id', '=', $user->id_user)
             ->select('kaders.*', 'users.*')
             ->get();
     }
-    private function dataAhli()
+    private function dataAhli($user)
     {
         return Ahli::join('users', 'ahlis.user_id', '=', 'users.id_user')
+            ->where('ahlis.user_id', '=', $user->id_user)
             ->select('ahlis.*', 'users.*')
             ->get();
     }

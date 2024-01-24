@@ -8,6 +8,7 @@ use App\Models\Podcast;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Auth;
+use Illuminate\Support\Carbon;
 
 class PodcastController extends Controller
 {
@@ -84,7 +85,7 @@ class PodcastController extends Controller
             $newPodcast = Podcast::create([
                 'judul_podcast' => $request->judul_podcast,
                 'link_podcast' => $request->link_podcast,
-                'tgl_upload' => $request->tgl_upload,
+                'tgl_upload' => Carbon::now()->format('Y-m-d'),
                 'upload_user_id' => $user->id_user
             ]);
             if ($newPodcast) {
