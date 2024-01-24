@@ -16,7 +16,7 @@ class QuoteController extends Controller
         $message = '';
         $data = '';
         $status_code = 201;
-        try{
+        try {
             $allQuote = Quote::all();
             if ($allQuote) {
                 $message = 'Data quote tersedia.';
@@ -25,7 +25,7 @@ class QuoteController extends Controller
             }
             $status = 'success';
             $data = $allQuote;
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
             $status_code = $e->getCode();
@@ -47,16 +47,16 @@ class QuoteController extends Controller
         $message = '';
         $data = '';
         $status_code = 201;
-        try{
-            $quote = Quote::where('id_quote',$id)->first();
-            if($quote){
+        try {
+            $quote = Quote::where('id_quote', $id)->first();
+            if ($quote) {
                 $message = 'data quote tersedia';
-            }else{
+            } else {
                 $message = 'data quote tidak tersedia';
             }
             $status = 'success';
             $data = $quote;
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
             $status_code = $e->getCode();
@@ -81,16 +81,16 @@ class QuoteController extends Controller
         try {
             $user = auth()->user();
             $file = $request->file('gambar_quote');
-            $randomName = Str::random() . '.' . $file->getClientOriginalExtension();
-            $gambar_quote = $file->storeAs('public', $randomName);
+            $gambar_quote = Str::random() . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('public', $gambar_quote);
             $quote = Quote::create([
                 'nama_quote' => $request->nama_quote,
                 'gambar_quote' => $gambar_quote,
                 'upload_user_id' => $user->id_user
             ]);
-            if($quote){
+            if ($quote) {
                 $message = 'data quote berhasil ditambah';
-            }else{
+            } else {
                 $message = 'data quote gagal ditambah';
             }
             $status = 'success';
@@ -115,7 +115,7 @@ class QuoteController extends Controller
     {
         $status = '';
         $message = '';
-        $data ='';
+        $data = '';
         $status_code = 201;
         try {
             $user = auth()->user();
@@ -123,9 +123,9 @@ class QuoteController extends Controller
             if ($quote) {
                 $file = $request->file('gambar_quote');
                 if ($file) {
-                    //unlink('./storage/'.$Quote->gambar_Quote);
-                    unlink(storage_path('app/'.$quote->gambar_quote));
-                    $gambar_quote = $file->store('Quote');
+                    unlink(storage_path('app/public/' . $quote->gambar_quote));
+                    $gambar_quote = Str::random() . '.' . $file->getClientOriginalExtension();
+                    $file->storeAs('public', $gambar_quote);
                     $updatedQuote = $quote->update([
                         'nama_quote' => $request->nama_quote,
                         'gambar_quote' => $gambar_quote,
@@ -140,8 +140,7 @@ class QuoteController extends Controller
                         $message = 'Data Quote gagal diubah.';
                         $status_code = 400;
                     }
-                } 
-                else {
+                } else {
                     $updatedQuote = $quote->update([
                         'nama_quote' => $request->nama_quote,
                         'upload_user_id' => $user->id_user
@@ -161,18 +160,15 @@ class QuoteController extends Controller
                 $status_code = 404;
                 $message = 'Data Quote tidak ditemukan.';
             }
-        }
-        catch(\Exception $e){
+        } catch (\Exception $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
             $status_code = $e->getCode();
-        }
-        catch(\Illuminate\Database\QueryException $e){
+        } catch (\Illuminate\Database\QueryException $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
             $status_code = $e->getCode();
-        }
-        finally{
+        } finally {
             return response()->json([
                 'status' => $status,
                 'message' => $message,
@@ -192,7 +188,7 @@ class QuoteController extends Controller
             if ($quote) {
                 $file = $quote->gambar_quote;
                 if ($file) {
-                    unlink(storage_path('app/'.$quote->gambar_quote));
+                    unlink(storage_path('app/public/' . $quote->gambar_quote));
                 }
                 $deletedQuote = $quote->delete();
                 if ($deletedQuote) {
@@ -224,7 +220,8 @@ class QuoteController extends Controller
             ], $status_code);
         }
     }
-    public function getAllFavQuote(){
+    public function getAllFavQuote()
+    {
         $status = '';
         $message = '';
         $data = '';
@@ -267,9 +264,9 @@ class QuoteController extends Controller
                 'quote_id' => $id,
                 'user_id' => $user->id_user,
             ]);
-            if($favQuote){
+            if ($favQuote) {
                 $message = 'quote berhasil ditambah ke favorit';
-            }else{
+            } else {
                 $message = 'quote gagal ditambah ke favorit';
             }
             $status = 'success';

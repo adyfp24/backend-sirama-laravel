@@ -82,8 +82,8 @@ class InfografisController extends Controller
             $user = auth()->user();
             $file = $request->file('gambar_infografis');
             if ($file) {
-                $randomName = Str::random() . '.' . $file->getClientOriginalExtension();
-                $gambar_infografis = $file->storeAs('public', $randomName);
+                $gambar_infografis = Str::random() . '.' . $file->getClientOriginalExtension();
+                $file->storeAs('public', $gambar_infografis);
                 $infografis = Infografis::create([
                     'judul_infografis' => $request->judul_infografis,
                     'deskripsi_infografis' => $request->deskripsi_infografis,
@@ -133,10 +133,9 @@ class InfografisController extends Controller
             if ($infografis) {
                 $file = $request->file('gambar_infografis');
                 if ($file) {
-                    //unlink('./storage/'.$infografis->gambar_infografis);
                     unlink(storage_path('app/public/' . $infografis->gambar_infografis));
-                    $randomName = Str::random() . '.' . $file->getClientOriginalExtension();
-                    $gambar_infografis = $file->storeAs('public', $randomName);
+                    $gambar_infografis = Str::random() . '.' . $file->getClientOriginalExtension();
+                    $file->storeAs('public', $gambar_infografis);
                     $updatedInfografis = $infografis->update([
                         'judul_infografis' => $request->judul_infografis,
                         'deskripsi_infografis' => $request->deskripsi_infografis,
@@ -203,7 +202,7 @@ class InfografisController extends Controller
             if ($infografis) {
                 $file = $infografis->gambar_infografis;
                 if ($file) {
-                    unlink(storage_path('app/' . $infografis->gambar_infografis));
+                    unlink(storage_path('app/public/' . $infografis->gambar_infografis));
                 }
                 $deletedInfografis = $infografis->delete();
                 if ($deletedInfografis) {
