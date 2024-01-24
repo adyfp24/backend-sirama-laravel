@@ -9,6 +9,7 @@ use App\Http\Controllers\api\FilmController;
 use App\Http\Controllers\api\InfografisController;
 use App\Http\Controllers\api\JadwalAhliController;
 use App\Http\Controllers\api\JawabanAhliController;
+use App\Http\Controllers\api\MeController;
 use App\Http\Controllers\api\PodcastController;
 use App\Http\Controllers\api\QuoteController;
 use App\Http\Controllers\api\TanyaAhliController;
@@ -93,6 +94,7 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::delete('jawabanahli/{id}',[JawabanAhliController::class, 'deleteJawaban']);
 
     Route::post('chatme/{id}', [ChatMeController::class, 'createChat']);
+    Route::get('me', [MeController::class, 'getMe']);
 });
 
 Route::get('/podcast', [PodcastController::class, 'getAllPodcast']);
