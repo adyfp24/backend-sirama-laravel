@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Models\TanyaAhli;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class TanyaAhliController extends Controller
 {
@@ -20,7 +21,7 @@ class TanyaAhliController extends Controller
                 'penanya_user_id' => $user->id_user,
                 'pertanyaan' => $request->pertanyaan,
                 'status_pertanyaan' => false,
-                'waktu_tanya' => $request->waktu_tanya
+                'waktu_tanya' => Carbon::now()->format('Y-m-d H:i:s')
             ]);
             if ($newQuestion) {
                 $message = 'pertanyaan berhasil ditambah';
@@ -55,12 +56,16 @@ class TanyaAhliController extends Controller
         try {
             $allQuestion = TanyaAhli::all();
             if ($allQuestion) {
+                $allData = TanyaAhli::join('users', 'tanya_ahlis.penanya_user_id', '=', 'users.id_user')
+                    ->join('remajas', 'users.id_user', '=', 'remajas.user_id') 
+                    ->select('users.*', 'tanya_ahlis.*', 'remajas.*')
+                    ->get();
                 $message = 'data pertanyaan tersedia';
             } else {
                 $message = 'data pertanyaan tidak tersedia';
             }
             $status = 'success';
-            $data = $allQuestion;
+            $data = $allData;
         } catch (\Exception $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
@@ -114,7 +119,7 @@ class TanyaAhliController extends Controller
         $message = '';
         $data = '';
         $status_code = 200;
-        try{
+        try {
             $question = TanyaAhli::find($id);
             $deletedQuestion = $question->delete();
             if ($deletedQuestion) {
@@ -124,7 +129,7 @@ class TanyaAhliController extends Controller
             }
             $status = 'success';
             $data = $deletedQuestion;
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
             $status_code = $e->getCode();

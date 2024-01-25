@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\JawabanAhli;
 use App\Models\TanyaAhli;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class JawabanAhliController extends Controller
 {
@@ -21,7 +22,7 @@ class JawabanAhliController extends Controller
                 'penjawab_user_id' => $user->id_user,
                 'tanya_ahli_id' => $id,
                 'jawaban_ahli' => $request->jawaban_ahli,
-                'waktu_jawaban' => $request->waktu_jawaban
+                'waktu_jawaban' => Carbon::now()->format('Y-m-d H:i:s')
             ]);
             if ($newJawaban) {
                 JawabanAhli::join('tanya_ahlis', 'jawaban_ahlis.tanya_ahli_id', '=', 'tanya_ahlis.id_tanya_ahli')

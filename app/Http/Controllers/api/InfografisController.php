@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\FavInfografis;
 use App\Models\Infografis;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Str;
 
 class InfografisController extends Controller
@@ -87,7 +88,7 @@ class InfografisController extends Controller
                 $infografis = Infografis::create([
                     'judul_infografis' => $request->judul_infografis,
                     'deskripsi_infografis' => $request->deskripsi_infografis,
-                    'tgl_upload' => $request->tgl_upload,
+                    'tgl_upload' => Carbon::now()->format('Y-m-d'),
                     'gambar_infografis' => $gambar_infografis,
                     'upload_user_id' => $user->id_user
                 ]);
