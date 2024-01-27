@@ -9,5 +9,5 @@ class RiwayatChat extends Model
 {
     use HasFactory;
     protected $primaryKey = 'id_riwayat_chat';
-    protected $fillable = ['pesan','user_id','tgl_chat','waktu_chat','room_chat_me_id'];
+    protected $fillable = ['pesan','user_id','tgl_chat','waktu_chat','room_chat_id'];
 }

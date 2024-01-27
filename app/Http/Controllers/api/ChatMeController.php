@@ -7,118 +7,154 @@ use App\Models\Guru;
 use App\Models\Remaja;
 use App\Models\RiwayatChat;
 use App\Models\RoomChatMe;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ChatMeController extends Controller
 {
+    public function createChat(Request $request, $id)
+    {
+        $status = '';
+        $message = '';
+        $data = '';
+        $status_code = 200;
+        try {
+            $user = auth()->user();
+            if ($user->role === 'remaja') {
+                $remaja = Remaja::where('user_id', $user->id_user)->first();
+                $guru = Guru::where('id_guru', $id)->first();
+                $roomChat = RoomChatMe::where('remaja_user_id', $remaja->id_remaja)
+                    ->where('guru_user_id', $guru->id_guru)
+                    ->first();
+                if ($roomChat) {
+                    $chat = RiwayatChat::create([
+                        'pesan' => $request->pesan,
+                        'user_id' => $user->id_user,
+                        'tgl_chat' => Carbon::now()->format('Y-m-d H:i:s'),
+                        'waktu_chat' => Carbon::now()->format('H:i:s'),
+                        'room_chat_id' => $roomChat->id_room_chat_me
+                    ]);
+                    if ($chat) {
+                        $message = 'pesan berhasil dikirim';
+                    } else {
+                        $message = 'pesan gagal dikirim';
+                    }
+                } else {
+                    $newRoom = RoomChatMe::create([
+                        'remaja_user_id' => $remaja->id_remaja,
+                        'guru_user_id' => $guru->id_guru,
+                    ]);
+                    if ($newRoom) {
+                        $chat = RiwayatChat::create([
+                            'pesan' => $request->pesan,
+                            'user_id' => $user->id_user,
+                            'tgl_chat' => Carbon::now()->format('Y-m-d H:i:s'),
+                            'waktu_chat' => Carbon::now()->format('H:i:s'),
+                            'room_chat_id' => $roomChat->id_room_chat_me
+                        ]);
+                        if ($chat) {
+                            $message = 'pesan berhasil dikirim';
+                        } else {
+                            $message = 'pesan gagal dikirim';
+                        }
+                    }
+                }
+            } elseif ($user->role === 'guru') {
+                $remaja = Remaja::where('id_remaja', $id)->first();
+                $guru = Guru::where('user_id', $user->id_user)->first();
+                $remaja = Remaja::where('user_id', $user->id_user)->first();
+                $guru = Guru::where('id_guru', $id)->first();
+                $roomChat = RoomChatMe::where('remaja_user_id', $remaja->id_remaja)
+                    ->where('guru_user_id', $guru->id_guru)
+                    ->first();
+                if ($roomChat) {
+                    $chat = RiwayatChat::create([
+                        'pesan' => $request->pesan,
+                        'user_id' => $user->id_user,
+                        'tgl_chat' => Carbon::now()->format('Y-m-d H:i:s'),
+                        'waktu_chat' => Carbon::now()->format('H:i:s'),
+                        'room_chat_id' => $roomChat->id_room_chat_me
+                    ]);
+                    if ($chat) {
+                        $message = 'pesan berhasil dikirim';
+                    } else {
+                        $message = 'pesan gagal dikirim';
+                    }
+                } else {
+                    $newRoom = RoomChatMe::create([
+                        'remaja_user_id' => $remaja->id_remaja,
+                        'guru_user_id' => $guru->id_guru,
+                    ]);
+                    if ($newRoom) {
+                        $chat = RiwayatChat::create([
+                            'pesan' => $request->pesan,
+                            'user_id' => $user->id_user,
+                            'tgl_chat' => Carbon::now()->format('Y-m-d H:i:s'),
+                            'waktu_chat' => Carbon::now()->format('H:i:s'),
+                            'room_chat_id' => $roomChat->id_room_chat_me
+                        ]);
+                        if ($chat) {
+                            $message = 'pesan berhasil dikirim';
+                        } else {
+                            $message = 'pesan gagal dikirim';
+                        }
+                    }
+                }
+            }
+            $status = 'success';
+            $data = $chat;
+        } catch (\Exception $e) {
+            $status = 'failed';
+            $message = 'Gagal menjalankan request. ' . $e->getMessage();
+            $status_code = $e->getCode();
+        } catch (\Illuminate\Database\QueryException $e) {
+            $status = 'failed';
+            $message = 'Gagal menjalankan request. ' . $e->getMessage();
+            $status_code = $e->getCode();
+        } finally {
+            return response()->json([
+                'status' => $status,
+                'message' => $message,
+                'data' => $data
+            ], $status_code);
+        }
+    }
+
     // public function createChat(Request $request, $id)
     // {
-    //     $status = '';
-    //     $message = '';
-    //     $data = '';
-    //     $status_code = 200;
     //     try {
     //         $user = auth()->user();
     //         if ($user->role === 'remaja') {
     //             $remaja = Remaja::where('user_id', $user->id_user)->first();
     //             $guru = Guru::where('id_guru', $id)->first();
-    //             $roomChat = RoomChatMe::where('id_remaja', $remaja->id_remaja)
-    //                 ->where('id_guru', $guru->id_guru)
+    //             $roomChat = RoomChatMe::where('remaja_user_id', $remaja->id_remaja)
+    //                 ->where('guru_user_id', $guru->id_guru)
     //                 ->first();
     //             if ($roomChat) {
     //                 $chat = RiwayatChat::create([
     //                     'pesan' => $request->pesan,
     //                     'user_id' => $user->id_user,
-    //                     'tgl_chat' => $request->tgl_chat,
-    //                     'waktu_chat' => $request->waktu_chat,
-    //                     'room_chat_me_id' => $roomChat->id_room_chat_me
+    //                     'tgl_chat' => Carbon::now()->format('Y-m-d H:i:s'),
+    //                     'waktu_chat' => Carbon::now()->format('H:i:s'),
+    //                     'room_chat_id' => $roomChat->id_room_chat_me
     //                 ]);
     //                 if ($chat) {
     //                     $message = 'pesan berhasil dikirim';
     //                 } else {
     //                     $message = 'pesan gagal dikirim';
     //                 }
+    //                 $message = 'room chat ada';
     //             } else {
-    //                 $newRoom = RoomChatMe::create([
-    //                     'remaja_id' => $remaja->id_remaja,
-    //                     'guru_id' => $guru->id_guru,
-    //                 ]);
-    //                 if ($newRoom) {
-    //                     $chat = RiwayatChat::create([
-    //                         'pesan' => $request->pesan,
-    //                         'user_id' => $user->id_user,
-    //                         'tgl_chat' => $request->tgl_chat,
-    //                         'waktu_chat' => $request->waktu_chat,
-    //                         'room_chat_me_id' => $roomChat->id_room_chat_me
-    //                     ]);
-    //                     if ($chat) {
-    //                         $message = 'pesan berhasil dikirim';
-    //                     } else {
-    //                         $message = 'pesan gagal dikirim';
-    //                     }
-    //                 }
+    //                 $message = 'room chat tidak ada';
     //             }
-    //         } elseif ($user->role === 'guru') {
-    //             $remaja = Remaja::where('id_remaja', $id)->first();
-    //             $guru = Guru::where('user_id', $user->id_user)->first();
-    //             $roomChat = RoomChatMe::where('id_remaja', $remaja->id_remaja)
-    //                 ->where('id_guru', $guru->id_guru)
-    //                 ->first();
-    //             if ($roomChat) {
-    //                 $chat = RiwayatChat::create([
-    //                     'pesan' => $request->pesan,
-    //                     'user_id' => $user->id_user,
-    //                     'tgl_chat' => $request->tgl_chat,
-    //                     'waktu_chat' => $request->waktu_chat,
-    //                     'room_chat_me_id' => $roomChat->id_room_chat_me
-    //                 ]);
-    //                 if ($chat) {
-    //                     $message = 'pesan berhasil dikirim';
-    //                 } else {
-    //                     $message = 'pesan gagal dikirim';
-    //                 }
-    //             } else {
-    //                 $newRoom = RoomChatMe::create([
-    //                     'remaja_id' => $remaja->id_remaja,
-    //                     'guru_id' => $guru->id_guru,
-    //                 ]);
-    //                 if ($newRoom) {
-    //                     $chat = RiwayatChat::create([
-    //                         'pesan' => $request->pesan,
-    //                         'user_id' => $user->id_user,
-    //                         'tgl_chat' => $request->tgl_chat,
-    //                         'waktu_chat' => $request->waktu_chat,
-    //                         'room_chat_me_id' => $roomChat->id_room_chat_me
-    //                     ]);
-    //                     if ($chat) {
-    //                         $message = 'pesan berhasil dikirim';
-    //                     } else {
-    //                         $message = 'pesan gagal dikirim';
-    //                     }
-    //                 }
-    //             }
+    //             return response()->json(["message" => "testing", "data" => $message, "room" => $roomChat], 200);
+    //         } else {
+    //             return response()->json(["message" => "testing", "data" => ""], 200);
     //         }
-    //         $status = 'success';
-    //         $data = $chat;
     //     } catch (\Exception $e) {
-    //         $status = 'failed';
-    //         $message = 'Gagal menjalankan request. ' . $e->getMessage();
-    //         $status_code = $e->getCode();
-    //     } catch (\Illuminate\Database\QueryException $e) {
-    //         $status = 'failed';
-    //         $message = 'Gagal menjalankan request. ' . $e->getMessage();
-    //         $status_code = $e->getCode();
-    //     } finally {
-    //         return response()->json([
-    //             'status' => $status,
-    //             'message' => $message,
-    //             'data' => $data
-    //         ], $status_code);
+
     //     }
     // }
-    public function createChat(Request $request, $id){
-        
-    }
     public function getAllChat()
     {
         $status = '';

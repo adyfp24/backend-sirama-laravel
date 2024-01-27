@@ -95,7 +95,7 @@ class PodcastController extends Controller
             }else{
                 $message = 'podcast gagal ditambah';
                 $status = 'failed';
-                $status_code = 400;
+                $status_code = 400;            
             } 
         } catch (\Exception $e) {
             $status = 'failed';
