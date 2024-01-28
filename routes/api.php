@@ -14,7 +14,7 @@ use App\Http\Controllers\api\PodcastController;
 use App\Http\Controllers\api\QuoteController;
 use App\Http\Controllers\api\TanyaAhliController;
 use App\Http\Controllers\api\TopikPertanyaanController;
-use App\Http\Controllers\api\VideEdukasiController;
+use App\Http\Controllers\api\VideoEdukasiController;
 use App\Models\JawabanAhli;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -56,13 +56,13 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::get('/favinfografis', [InfografisController::class, 'getAllFavInfografis']);
     Route::delete('/favinfografis/{id}', [InfografisController::class, 'removeFavInfografis']);
 
-    Route::post('/video-edukasi', [VideEdukasiController::class, 'createVideoEdukasi']);
-    Route::put('/video-edukasi/{id}', [VideEdukasiController::class, 'updateVideoEdukasi']);
-    Route::delete('/video-edukasi/{id}', [VideEdukasiController::class, 'deleteVideoEdukasi']);
+    Route::post('/video-edukasi', [VideoEdukasiController::class, 'createVideoEdukasi']);
+    Route::put('/video-edukasi/{id}', [VideoEdukasiController::class, 'updateVideoEdukasi']);
+    Route::delete('/video-edukasi/{id}', [VideoEdukasiController::class, 'deleteVideoEdukasi']);
 
-    Route::post('/fav-video-edukasi', [VideEdukasiController::class, 'addFavVideoEdukasi']);
-    Route::get('/fav-video-edukasi', [VideEdukasiController::class, 'getAllFavVideoEdukasi']);
-    Route::delete('/fav-video-edukasi/{id}', [VideEdukasiController::class, 'removeFavVideoEdukasi']);
+    Route::post('/fav-video-edukasi', [VideoEdukasiController::class, 'addFavVideoEdukasi']);
+    Route::get('/fav-video-edukasi', [VideoEdukasiController::class, 'getAllFavVideoEdukasi']);
+    Route::delete('/fav-video-edukasi/{id}', [VideoEdukasiController::class, 'removeFavVideoEdukasi']);
 
     Route::post('quote', [QuoteController::class, 'createQuote']);
     Route::put('quote/{id}',[QuoteController::class, 'updateQuote']);
@@ -103,8 +103,8 @@ Route::get('/podcast/{id}', [PodcastController::class, 'getPodcastById']);
 Route::get('/infografis', [InfografisController::class, 'getAllInfografis']);
 Route::get('/infografis/{id}', [InfografisController::class, 'getInfografisById']);
 
-Route::get('/video_edukasi', [VideEdukasiController::class, 'getAllVideoEdukasi']);
-Route::get('/video_edukasi/{id}', [VideEdukasiController::class, 'getVideoEdukasiById']);
+Route::get('/videoedukasi', [VideoEdukasiController::class, 'getAllVideoEdukasi']);
+Route::get('/videoedukasi/{id}', [VideoEdukasiController::class, 'getVideoEdukasiById']);
 
 Route::get('/quote', [QuoteController::class, 'getAllQuote']);
 Route::get('/quote/{id}', [QuoteController::class, 'getQuoteById']);

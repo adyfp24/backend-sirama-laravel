@@ -7,7 +7,7 @@ use App\Models\FavVideoEdukasi;
 use App\Models\VideoEdukasi;
 use Illuminate\Http\Request;
 
-class VideEdukasiController extends Controller
+class VideoEdukasiController extends Controller
 {
     public function getAllVideoEdukasi()
     {
