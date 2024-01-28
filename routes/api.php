@@ -127,4 +127,4 @@ Route::get('/jawabanahli/{id}',[JawabanAhliController::class, 'getJawabanById'])
 Route::get('/chatme',[ChatMeController::class, 'getAllChat']);
 Route::get('/chatme/{id}',[ChatMeController::class, 'getChatById']);
 
-Route::get('/storage/{path}',[FileController::class, 'getFile']);
+
