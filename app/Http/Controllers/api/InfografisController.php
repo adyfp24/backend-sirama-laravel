@@ -84,7 +84,7 @@ class InfografisController extends Controller
             $file = $request->file('gambar_infografis');
             if ($file) {
                 $gambar_infografis = Str::random() . '.' . $file->getClientOriginalExtension();
-                $file->storeAs('public', $gambar_infografis);
+                $file->move(public_path('storage'), $gambar_infografis);
                 $infografis = Infografis::create([
                     'judul_infografis' => $request->judul_infografis,
                     'deskripsi_infografis' => $request->deskripsi_infografis,
@@ -134,9 +134,9 @@ class InfografisController extends Controller
             if ($infografis) {
                 $file = $request->file('gambar_infografis');
                 if ($file) {
-                    unlink(storage_path('app/public/' . $infografis->gambar_infografis));
+                    unlink(public_path('public/storage/' . $infografis->gambar_infografis));
                     $gambar_infografis = Str::random() . '.' . $file->getClientOriginalExtension();
-                    $file->storeAs('public', $gambar_infografis);
+                    $file->move(public_path('storage'), $gambar_infografis);
                     $updatedInfografis = $infografis->update([
                         'judul_infografis' => $request->judul_infografis,
                         'deskripsi_infografis' => $request->deskripsi_infografis,
@@ -203,7 +203,7 @@ class InfografisController extends Controller
             if ($infografis) {
                 $file = $infografis->gambar_infografis;
                 if ($file) {
-                    unlink(storage_path('app/public/' . $infografis->gambar_infografis));
+                    unlink(public_path('public/storage/' . $infografis->gambar_infografis));
                 }
                 $deletedInfografis = $infografis->delete();
                 if ($deletedInfografis) {
