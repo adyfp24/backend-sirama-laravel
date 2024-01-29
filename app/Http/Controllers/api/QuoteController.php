@@ -82,7 +82,7 @@ class QuoteController extends Controller
             $user = auth()->user();
             $file = $request->file('gambar_quote');
             $gambar_quote = Str::random() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('storage'), $gambar_quote);
+            $file->move(public_path('storage/quote/'), $gambar_quote);
             $quote = Quote::create([
                 'nama_quote' => $request->nama_quote,
                 'gambar_quote' => $gambar_quote,
@@ -123,9 +123,9 @@ class QuoteController extends Controller
             if ($quote) {
                 $file = $request->file('gambar_quote');
                 if ($file) {
-                    unlink(public_path('public/storage/' . $quote->gambar_quote));
+                    unlink(public_path('storage/quote/' . $quote->gambar_quote));
                     $gambar_quote = Str::random() . '.' . $file->getClientOriginalExtension();
-                    $file->move(public_path('storage'), $gambar_quote);
+                    $file->move(public_path('storage/quote/'), $gambar_quote);
                     $updatedQuote = $quote->update([
                         'nama_quote' => $request->nama_quote,
                         'gambar_quote' => $gambar_quote,
@@ -183,12 +183,11 @@ class QuoteController extends Controller
         $data = '';
         $status_code = 200;
         try {
-            $user = auth()->user();
             $quote = Quote::find($id);
             if ($quote) {
                 $file = $quote->gambar_quote;
                 if ($file) {
-                    unlink(public_path('public/storage/' . $quote->gambar_quote));
+                    unlink(public_path('storage/quote/' . $quote->gambar_quote));
                 }
                 $deletedQuote = $quote->delete();
                 if ($deletedQuote) {

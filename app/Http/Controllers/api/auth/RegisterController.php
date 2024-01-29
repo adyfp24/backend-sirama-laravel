@@ -74,8 +74,7 @@ class RegisterController extends Controller
         $file = $request->file('foto_profile');
         if($file){
             $foto_profile= Str::random() . '.' . $file->getClientOriginalExtension();
-            $file->storeAs('public', $foto_profile);
-    
+            $file->move(public_path('storage/profile/'), $foto_profile);
             Remaja::create([
                 'nama' => $request->nama,
                 'no_hp' => $request->no_hp,
@@ -101,7 +100,7 @@ class RegisterController extends Controller
         $file = $request->file('foto_profile');
         if($file){
             $foto_profile= Str::random() . '.' . $file->getClientOriginalExtension();
-            $file->storeAs('public', $foto_profile);
+            $file->move(public_path('storage/profile/'), $foto_profile);
             
             Guru::create([
                 'nama' => $request->nama,
@@ -126,7 +125,7 @@ class RegisterController extends Controller
         $file = $request->file('foto_profile');
         if($file){
             $foto_profile= Str::random() . '.' . $file->getClientOriginalExtension();
-            $file->storeAs('public', $foto_profile);
+            $file->move(public_path('storage/profile/'), $foto_profile);
     
             Ahli::create([
                 'nama' => $request->nama,
@@ -151,7 +150,7 @@ class RegisterController extends Controller
         $file = $request->file('foto_profile');
         if($file){
             $foto_profile= Str::random() . '.' . $file->getClientOriginalExtension();
-            $file->storeAs('public', $foto_profile);
+            $file->move(public_path('storage/profile/'), $foto_profile);
             
             Kader::create([
                 'nama' => $request->nama,
@@ -176,8 +175,7 @@ class RegisterController extends Controller
         $file = $request->file('foto_profile');
         if($file){
             $foto_profile= Str::random() . '.' . $file->getClientOriginalExtension();
-            $file->storeAs('public', $foto_profile);
-    
+            $file->move(public_path('storage/profile/'), $foto_profile);    
             Orangtua::create([
                 'nama' => $request->nama,
                 'no_hp' => $request->no_hp,
