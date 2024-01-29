@@ -264,6 +264,7 @@ class QuoteController extends Controller
                 'quote_id' => $id,
                 'user_id' => $user->id_user,
             ]);
+            
             if ($favQuote) {
                 $message = 'quote berhasil ditambah ke favorit';
             } else {
