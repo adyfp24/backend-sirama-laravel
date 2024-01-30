@@ -20,7 +20,11 @@ class NewKontenController extends Controller
             $films = Film::orderByDesc('tgl_upload')->limit(2)->get();
             $podcasts = Podcast::orderByDesc('tgl_upload')->limit(2)->get();
             $videos = VideoEdukasi::orderByDesc('tgl_upload')->limit(2)->get();
-            $result = $films->merge($podcasts)->merge($videos);
+            $result = [
+                'podcast' => $podcasts,
+                'film' => $films,
+                'video' => $videos
+            ];
             $message = 'data konten terbaru berhasil didapat';
             $status = 'success';
             $data = $result;

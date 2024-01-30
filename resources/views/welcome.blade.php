@@ -134,5 +134,8 @@
                 </div>
             </div>
         </div>
+        <script>
+            var conn = new WebSocket('ws:/127.0.0.1:8090/');
+        </script>
     </body>
 </html>
