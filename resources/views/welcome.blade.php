@@ -136,6 +136,12 @@
         </div>
         <script>
             var conn = new WebSocket('ws:/127.0.0.1:8090/');
+            conn.onopen = function(e){
+                console.log('bismillah websocket terhubung yeyyyy');
+            }
+            conn.onmessage = function(e){
+
+            }
         </script>
     </body>
 </html>

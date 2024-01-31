@@ -17,6 +17,9 @@ class FilmController extends Controller
         $status_code = 200;
         try {
             $allFilm = Film::all();
+            foreach ($allFilm as $film) {
+                $film->total_likes = $this->getTotalLikes($film->id_film);
+            }
             if ($allFilm) {
                 $message = 'Data film tersedia.';
             } else {
@@ -299,6 +302,26 @@ class FilmController extends Controller
                 'message' => $message,
                 'data' => $data
             ], $status_code);
+        }
+    }
+    public function getTotalLikes($id){
+        try{
+            $data = "";
+            $film = FavFilm::where('film_id', $id);
+            $totalLike = $film->count();
+            if ($totalLike) {
+                $data = $totalLike;
+            }
+        }catch (\Exception $e) {
+            $status = 'failed';
+            $message = 'Gagal menjalankan request. ' . $e->getMessage();
+            $status_code = $e->getCode();
+        } catch (\Illuminate\Database\QueryException $e) {
+            $status = 'failed';
+            $message = 'Gagal menjalankan request. ' . $e->getMessage();
+            $status_code = $e->getCode();
+        } finally {
+            return $data;
         }
     }
 }

@@ -17,6 +17,10 @@ class VideoEdukasiController extends Controller
         $status_code = 200;
         try {
             $allVideoEdukasi = VideoEdukasi::all();
+            foreach ($allVideoEdukasi as $video) {
+                $video->total_likes = $this->getTotalLikes($video->id_video_edukasi);
+            }
+
             if ($allVideoEdukasi) {
                 $message = 'data video edukasi tersedia';
             } else {
@@ -291,6 +295,26 @@ class VideoEdukasiController extends Controller
                 'message' => $message,
                 'data' => $data
             ], $status_code);
+        }
+    }
+    public function getTotalLikes($id){
+        try{
+            $data = "";
+            $video = FavVideoEdukasi::where('video_edukasi_id', $id);
+            $totalLike = $video->count();
+            if ($totalLike) {
+                $data = $totalLike;
+            }
+        }catch (\Exception $e) {
+            $status = 'failed';
+            $message = 'Gagal menjalankan request. ' . $e->getMessage();
+            $status_code = $e->getCode();
+        } catch (\Illuminate\Database\QueryException $e) {
+            $status = 'failed';
+            $message = 'Gagal menjalankan request. ' . $e->getMessage();
+            $status_code = $e->getCode();
+        } finally {
+            return $data;
         }
     }
 }

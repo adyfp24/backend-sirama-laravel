@@ -53,7 +53,7 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::put('/infografis/{id}', [InfografisController::class, 'updateInfografis']);
     Route::delete('/infografis/{id}', [InfografisController::class, 'deleteInfografis']);
 
-    Route::post('/favinfografis', [InfografisController::class, 'addFavInfografis']);
+    Route::post('/favinfografis/{id}', [InfografisController::class, 'addFavInfografis']);
     Route::get('/favinfografis', [InfografisController::class, 'getAllFavInfografis']);
     Route::delete('/favinfografis/{id}', [InfografisController::class, 'removeFavInfografis']);
 
@@ -100,6 +100,7 @@ Route::middleware(['auth:sanctum'])->group(function(){
 
 Route::get('/podcast', [PodcastController::class, 'getAllPodcast']);
 Route::get('/podcast/{id}', [PodcastController::class, 'getPodcastById']);
+Route::get('/likepodcast/{id}', [PodcastController::class, 'getTotalLikes']);
 
 Route::get('/infografis', [InfografisController::class, 'getAllInfografis']);
 Route::get('/infografis/{id}', [InfografisController::class, 'getInfografisById']);

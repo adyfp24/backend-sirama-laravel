@@ -18,6 +18,10 @@ class QuoteController extends Controller
         $status_code = 201;
         try {
             $allQuote = Quote::all();
+            foreach ($allQuote as $quote) {
+                $quote->total_likes = $this->getTotalLikes($quote->id_quote);
+            }
+
             if ($allQuote) {
                 $message = 'Data quote tersedia.';
             } else {
@@ -318,6 +322,26 @@ class QuoteController extends Controller
                 'message' => $message,
                 'data' => $data
             ], $status_code);
+        }
+    }
+    public function getTotalLikes($id){
+        try{
+            $data = "";
+            $quote = FavQuote::where('quote_id', $id);
+            $totalLike = $quote->count();
+            if ($totalLike) {
+                $data = $totalLike;
+            }
+        }catch (\Exception $e) {
+            $status = 'failed';
+            $message = 'Gagal menjalankan request. ' . $e->getMessage();
+            $status_code = $e->getCode();
+        } catch (\Illuminate\Database\QueryException $e) {
+            $status = 'failed';
+            $message = 'Gagal menjalankan request. ' . $e->getMessage();
+            $status_code = $e->getCode();
+        } finally {
+            return $data;
         }
     }
 }

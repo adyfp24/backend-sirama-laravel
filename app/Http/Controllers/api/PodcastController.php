@@ -20,6 +20,10 @@ class PodcastController extends Controller
         $status_code = 200;
         try {
             $allPodcast = Podcast::all();
+            foreach ($allPodcast as $podcast) {
+                $podcast->total_likes = $this->getTotalLikes($podcast->id_podcast);
+            }
+
             if ($allPodcast) {
                 $message = 'data podcast tersedia';
             } else {
@@ -294,6 +298,26 @@ class PodcastController extends Controller
                 'message' => $message,
                 'data' => $data
             ], $status_code);
+        }
+    }
+    public function getTotalLikes($id){
+        try{
+            $data = "";
+            $podcast = FavPodcast::where('podcast_id', $id);
+            $totalLike = $podcast->count();
+            if ($totalLike) {
+                $data = $totalLike;
+            }
+        }catch (\Exception $e) {
+            $status = 'failed';
+            $message = 'Gagal menjalankan request. ' . $e->getMessage();
+            $status_code = $e->getCode();
+        } catch (\Illuminate\Database\QueryException $e) {
+            $status = 'failed';
+            $message = 'Gagal menjalankan request. ' . $e->getMessage();
+            $status_code = $e->getCode();
+        } finally {
+            return $data;
         }
     }
 }
