@@ -7,6 +7,10 @@
     <title>Sirama | Dashboard</title>
 </head>
 <body>
+    <form action="{{ Route('logout') }}" method="POST">
+        @csrf
+        <button type="submit">logout</button>
+    </form>
     <h1>test ini halaman dashboard</h1>
 </body>
 </html>

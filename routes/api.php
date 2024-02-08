@@ -43,7 +43,7 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::put('/podcast/{id}', [PodcastController::class, 'updatePodcast']);
     Route::delete('/podcast/{id}', [PodcastController::class, 'deletePodcast']);
 
-    Route::post('/favpodcast', [PodcastController::class, 'addFavPodcast']);
+    Route::post('/favpodcast/{id}', [PodcastController::class, 'addFavPodcast']);
     Route::get('/favpodcast', [PodcastController::class, 'getAllFavPodcast']);
     Route::delete('/favpodcast/{id}', [PodcastController::class, 'removeFavPodcast']);
 

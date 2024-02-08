@@ -4,6 +4,7 @@ namespace App\Http\Controllers\web;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -23,11 +24,10 @@ class AuthController extends Controller
             "message" => "data user tidak valid"
         ]);
     }
-    public function register(){
 
-    }
     public function logout(){
-
+        Auth::logout();
+        return redirect('/login');
     }
 }
 
