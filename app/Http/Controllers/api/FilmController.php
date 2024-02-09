@@ -87,6 +87,7 @@ class FilmController extends Controller
             $film = Film::create([
                 'judul_film' => $request->judul_film,
                 'link_film' => $request->link_film,
+                'deskripsi' => $request->deskripsi,
                 'tgl_upload' => $request->tgl_upload,
                 'upload_user_id' => $user->id_user,
             ]);
@@ -124,6 +125,7 @@ class FilmController extends Controller
                 $updatedFilm = $film->update([
                     'judul_film' => $request->judul_film,
                     'link_film' => $request->link_film,
+                    'deskripsi' => $request->deskripsi,
                     'tgl_upload' => $request->tgl_upload,
                     'upload_user_id' => $user->id_user,
                 ]);

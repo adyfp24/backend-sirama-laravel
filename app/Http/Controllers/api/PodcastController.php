@@ -89,6 +89,7 @@ class PodcastController extends Controller
             $newPodcast = Podcast::create([
                 'judul_podcast' => $request->judul_podcast,
                 'link_podcast' => $request->link_podcast,
+                'deskripsi' => $request->deskripsi,
                 'tgl_upload' => Carbon::now()->format('Y-m-d'),
                 'upload_user_id' => $user->id_user
             ]);
@@ -129,6 +130,7 @@ class PodcastController extends Controller
             $updatedPodcast = $podcast->update([
                 'judul_podcast' => $request->judul_podcast,
                 'link_podcast' => $request->link_podcast,
+                'deskripsi' => $request->deskripsi,
                 'tgl_upload' => $request->tgl_upload,
                 'upload_user_id' => $user->id_user
             ]);
