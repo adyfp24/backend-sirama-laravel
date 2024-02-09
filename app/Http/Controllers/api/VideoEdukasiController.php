@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\FavVideoEdukasi;
 use App\Models\VideoEdukasi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class VideoEdukasiController extends Controller
 {
@@ -88,7 +89,8 @@ class VideoEdukasiController extends Controller
             $newVideoEdukasi = VideoEdukasi::create([
                 'judul_video_edukasi' => $request->judul_video_edukasi,
                 'link_video_edukasi' => $request->link_video_edukasi,
-                'tgl_upload' => $request->tgl_upload,
+                'deskripsi' => $request->deskripsi,
+                'tgl_upload' => Carbon::now()->format('Y-m-d'),
                 'upload_user_id' => $user->id_user
             ]);
             if ($newVideoEdukasi) {
@@ -103,11 +105,11 @@ class VideoEdukasiController extends Controller
         } catch (\Exception $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
-            $status_code = $e->getCode();
+            $status_code = 500;
         } catch (\Illuminate\Database\QueryException $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
-            $status_code = $e->getCode();
+            $status_code = 500;
         } finally {
             return response()->json([
                 'status' => $status,
@@ -129,7 +131,8 @@ class VideoEdukasiController extends Controller
             $updatedVideoEdukasi = $video_edukasi->update([
                 'judul_video_edukasi' => $request->judul_video_edukasi,
                 'link_video_edukasi' => $request->link_video_edukasi,
-                'tgl_upload' => $request->tgl_upload,
+                'deskripsi' => $request->deskripsi,
+                'tgl_upload' => Carbon::now()->format('Y-m-d'),
                 'upload_user_id' => $user->id_user
             ]);
             if ($updatedVideoEdukasi) {
@@ -200,22 +203,27 @@ class VideoEdukasiController extends Controller
         $status_code = 200;
         try {
             $user = auth()->user();
-            $allFavVideoEdukasi = VideoEdukasi::where('user_id', $user->id_user)->get();
-            if ($allFavVideoEdukasi) {
-                $message = 'data video edukasi tersedia';
+            $allFavVideoEdukasi = FavVideoEdukasi::join('video_edukasis', 'fav_video_edukasi.video_edukasi_id', '=', 'video_edukasis.id_video_edukasi')
+            ->where('user_id', $user->id_user)
+            ->select('fav_video_edukasi.*', 'video_edukasis.*')
+            ->get();
+            if ($allFavVideoEdukasi->isEmpty()) {
+                $message = 'Data video edukasi favorit tidak tersedia';
+                $status = 'error';
+                $data = [];
             } else {
-                $message = 'data video edukasi tidak tersedia';
+                $message = 'Data video edukasi favorit tersedia';
+                $status = 'success';
+                $data = $allFavVideoEdukasi;
             }
-            $status = 'success';
-            $data = $allFavVideoEdukasi;
         } catch (\Exception $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
-            $status_code = $e->getCode();
+            $status_code = 500;
         } catch (\Illuminate\Database\QueryException $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
-            $status_code = $e->getCode();
+            $status_code = 500;
         } finally {
             return response()->json([
                 'status' => $status,

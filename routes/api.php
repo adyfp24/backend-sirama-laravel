@@ -4,7 +4,6 @@ use App\Http\Controllers\api\auth\LoginController;
 use App\Http\Controllers\api\auth\LogoutController;
 use App\Http\Controllers\api\auth\RegisterController;
 use App\Http\Controllers\api\ChatMeController;
-use App\Http\Controllers\api\FileController;
 use App\Http\Controllers\api\FilmController;
 use App\Http\Controllers\api\InfografisController;
 use App\Http\Controllers\api\JadwalAhliController;
@@ -16,7 +15,6 @@ use App\Http\Controllers\api\QuoteController;
 use App\Http\Controllers\api\TanyaAhliController;
 use App\Http\Controllers\api\TopikPertanyaanController;
 use App\Http\Controllers\api\VideoEdukasiController;
-use App\Models\JawabanAhli;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -36,7 +34,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('register', [RegisterController::class, 'register']);
-Route::post('login', [LoginController::class, 'login'])->name('login');
+Route::post('login', [LoginController::class, 'login']);
 Route::post('logout', [LogoutController::class, 'logout'])->middleware('auth:sanctum');
 
 
@@ -45,7 +43,7 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::put('/podcast/{id}', [PodcastController::class, 'updatePodcast']);
     Route::delete('/podcast/{id}', [PodcastController::class, 'deletePodcast']);
 
-    Route::post('/favpodcast', [PodcastController::class, 'addFavPodcast']);
+    Route::post('/favpodcast/{id}', [PodcastController::class, 'addFavPodcast']);
     Route::get('/favpodcast', [PodcastController::class, 'getAllFavPodcast']);
     Route::delete('/favpodcast/{id}', [PodcastController::class, 'removeFavPodcast']);
 

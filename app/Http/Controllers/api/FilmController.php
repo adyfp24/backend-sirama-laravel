@@ -87,6 +87,7 @@ class FilmController extends Controller
             $film = Film::create([
                 'judul_film' => $request->judul_film,
                 'link_film' => $request->link_film,
+                'deskripsi' => $request->deskripsi,
                 'tgl_upload' => $request->tgl_upload,
                 'upload_user_id' => $user->id_user,
             ]);
@@ -124,6 +125,7 @@ class FilmController extends Controller
                 $updatedFilm = $film->update([
                     'judul_film' => $request->judul_film,
                     'link_film' => $request->link_film,
+                    'deskripsi' => $request->deskripsi,
                     'tgl_upload' => $request->tgl_upload,
                     'upload_user_id' => $user->id_user,
                 ]);
@@ -209,14 +211,19 @@ class FilmController extends Controller
         $status_code = 200;
         try {
             $user = auth()->user();
-            $allFilm = FavFilm::where('user_id', $user->id_user)->get();
-            if ($allFilm) {
-                $message = 'Data film favorite tersedia.';
+            $allFilm = FavFilm::join('films', 'fav_films.film_id','=','films.id_film')
+            ->where('user_id', $user->id_user)
+            ->select('fav_films.*', 'films.*')
+            ->get();
+            if ($allFilm->isEmpty()) {
+                $$message = 'Data film favorit tidak tersedia';
+                $status = 'error';
+                $data = [];
             } else {
-                $message = 'Data film favorite kosong.';
+                $message = 'Data film favorit tersedia';
+                $status = 'success';
+                $data = $allFilm;
             }
-            $status = 'success';
-            $data = $allFilm;
         } catch (\Exception $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
