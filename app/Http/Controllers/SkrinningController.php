@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BagianSkrinning;
 use App\Models\Skrinning;
 use App\Models\SkrinningUser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SkrinningController extends Controller
 {
@@ -83,14 +85,13 @@ class SkrinningController extends Controller
         $data = '';
         $status_code = 200;
         try {
-            $allPodcast = Skrinning::all();
-            if ($allPodcast) {
-                $message = 'data podcast tersedia';
-            } else {
-                $message = 'data podcast tidak tersedia';
+            $bagian = BagianSkrinning::where('skrinning_id', $id)->orderBy('urutan_bagian', 'ASC')->get();
+            for ($a=0; $a < count($bagian); $a++) { 
+                
             }
+
             $status = 'success';
-            $data = $allPodcast;
+            $data = '';
         } catch (\Exception $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
@@ -147,17 +148,32 @@ class SkrinningController extends Controller
         }
     } 
 
-    public function addBagianSkrinningUser(Request $request)
+    public function addSubmitBagianSkrinningUser(Request $request)
     {
-
+        $status = '';
+        $message = '';
+        $data = '';
+        $status_code = 200;
+        try {
+            
+        } catch (\Exception $e) {
+            $status = 'failed';
+            $message = 'Gagal menjalankan request. ' . $e->getMessage();
+            $status_code = $e->getCode();
+        } catch (\Illuminate\Database\QueryException $e) {
+            $status = 'failed';
+            $message = 'Gagal menjalankan request. ' . $e->getMessage();
+            $status_code = $e->getCode();
+        } finally {
+            return response()->json([
+                'status' => $status,
+                'message' => $message,
+                'data' => $data
+            ], $status_code);
+        }
     }
 
     public function addRiwayatSkrinning(Request $request)
-    {
-
-    }
-
-    public function getHasilSkrinning($id)
     {
 
     }
@@ -169,7 +185,7 @@ class SkrinningController extends Controller
 
     public function getRiwayatSkrinningUser()
     {
-        
+
     }
 
     public function getDetailRiwayatSkrinning($id)

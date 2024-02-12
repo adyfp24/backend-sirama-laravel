@@ -16,6 +16,7 @@ class CreateBagianSkrinningsTable extends Migration
         Schema::create('bagian_skrinnings', function (Blueprint $table) {
             $table->id('id_bagian_skrinning');
             $table->string('nama_bagian', 30);
+            $table->text('deskripsi_bagian');
             $table->smallInteger('urutan_bagian');
             $table->bigInteger('skrinning_id')->unsigned();
             $table->timestamps();
