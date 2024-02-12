@@ -9,7 +9,7 @@ class VideoEdukasi extends Model
 {
     use HasFactory;
     protected $primaryKey = 'id_video_edukasi';
-    protected $fillable = ['judul_video_edukasi', 'link_video_edukasi', 'tgl_upload', 'upload_user_id'];
+    protected $fillable = ['judul_video_edukasi', 'link_video_edukasi', 'deskripsi', 'tgl_upload', 'upload_user_id'];
     public function user(){
         return $this->belongsTo(User::class);
     }

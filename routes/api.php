@@ -4,7 +4,6 @@ use App\Http\Controllers\api\auth\LoginController;
 use App\Http\Controllers\api\auth\LogoutController;
 use App\Http\Controllers\api\auth\RegisterController;
 use App\Http\Controllers\api\ChatMeController;
-use App\Http\Controllers\api\FileController;
 use App\Http\Controllers\api\FilmController;
 use App\Http\Controllers\api\InfografisController;
 use App\Http\Controllers\api\JadwalAhliController;
@@ -37,7 +36,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('register', [RegisterController::class, 'register']);
-Route::post('login', [LoginController::class, 'login'])->name('login');
+Route::post('login', [LoginController::class, 'login']);
 Route::post('logout', [LogoutController::class, 'logout'])->middleware('auth:sanctum');
 
 
@@ -46,7 +45,7 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::put('/podcast/{id}', [PodcastController::class, 'updatePodcast']);
     Route::delete('/podcast/{id}', [PodcastController::class, 'deletePodcast']);
 
-    Route::post('/favpodcast', [PodcastController::class, 'addFavPodcast']);
+    Route::post('/favpodcast/{id}', [PodcastController::class, 'addFavPodcast']);
     Route::get('/favpodcast', [PodcastController::class, 'getAllFavPodcast']);
     Route::delete('/favpodcast/{id}', [PodcastController::class, 'removeFavPodcast']);
 
@@ -54,7 +53,7 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::put('/infografis/{id}', [InfografisController::class, 'updateInfografis']);
     Route::delete('/infografis/{id}', [InfografisController::class, 'deleteInfografis']);
 
-    Route::post('/favinfografis', [InfografisController::class, 'addFavInfografis']);
+    Route::post('/favinfografis/{id}', [InfografisController::class, 'addFavInfografis']);
     Route::get('/favinfografis', [InfografisController::class, 'getAllFavInfografis']);
     Route::delete('/favinfografis/{id}', [InfografisController::class, 'removeFavInfografis']);
 
@@ -104,6 +103,7 @@ Route::middleware(['auth:sanctum'])->group(function(){
 
 Route::get('/podcast', [PodcastController::class, 'getAllPodcast']);
 Route::get('/podcast/{id}', [PodcastController::class, 'getPodcastById']);
+Route::get('/likepodcast/{id}', [PodcastController::class, 'getTotalLikes']);
 
 Route::get('/infografis', [InfografisController::class, 'getAllInfografis']);
 Route::get('/infografis/{id}', [InfografisController::class, 'getInfografisById']);

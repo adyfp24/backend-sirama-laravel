@@ -20,6 +20,10 @@ class PodcastController extends Controller
         $status_code = 200;
         try {
             $allPodcast = Podcast::all();
+            foreach ($allPodcast as $podcast) {
+                $podcast->total_likes = $this->getTotalLikes($podcast->id_podcast);
+            }
+
             if ($allPodcast) {
                 $message = 'data podcast tersedia';
             } else {
@@ -85,6 +89,7 @@ class PodcastController extends Controller
             $newPodcast = Podcast::create([
                 'judul_podcast' => $request->judul_podcast,
                 'link_podcast' => $request->link_podcast,
+                'deskripsi' => $request->deskripsi,
                 'tgl_upload' => Carbon::now()->format('Y-m-d'),
                 'upload_user_id' => $user->id_user
             ]);
@@ -125,6 +130,7 @@ class PodcastController extends Controller
             $updatedPodcast = $podcast->update([
                 'judul_podcast' => $request->judul_podcast,
                 'link_podcast' => $request->link_podcast,
+                'deskripsi' => $request->deskripsi,
                 'tgl_upload' => $request->tgl_upload,
                 'upload_user_id' => $user->id_user
             ]);
@@ -171,7 +177,6 @@ class PodcastController extends Controller
                 $status = 'failed';
                 $status_code = 400;
             }
-            
         }catch (\Exception $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
@@ -196,14 +201,19 @@ class PodcastController extends Controller
         $status_code = 200;
         try{
             $user = auth()->user();
-            $allFavPodcast = FavPodcast::where('user_id',$user->id_user)->get();
-            if ($allFavPodcast) {
-                $message = 'data podcast favorit tersedia';
+            $allFavPodcast = FavPodcast::join('podcasts', 'fav_podcasts.podcast_id', '=', 'podcasts.id_podcast')
+            ->where('user_id', '=', $user->id_user)
+            ->select('fav_podcasts.*','podcasts.*')
+            ->get();
+            if ($allFavPodcast->isEmpty()) {
+                $message = 'Data podcast favorit tidak tersedia';
+                $status = 'error';
+                $data = [];
             } else {
-                $message = 'data podcast favorit tidak tersedia';
+                $message = 'Data podcast favorit tersedia';
+                $status = 'success';
+                $data = $allFavPodcast;
             }
-            $status = 'success';
-            $data = $allFavPodcast;
         }catch (\Exception $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
@@ -294,6 +304,26 @@ class PodcastController extends Controller
                 'message' => $message,
                 'data' => $data
             ], $status_code);
+        }
+    }
+    public function getTotalLikes($id){
+        try{
+            $data = "";
+            $podcast = FavPodcast::where('podcast_id', $id);
+            $totalLike = $podcast->count();
+            if ($totalLike) {
+                $data = $totalLike;
+            }
+        }catch (\Exception $e) {
+            $status = 'failed';
+            $message = 'Gagal menjalankan request. ' . $e->getMessage();
+            $status_code = $e->getCode();
+        } catch (\Illuminate\Database\QueryException $e) {
+            $status = 'failed';
+            $message = 'Gagal menjalankan request. ' . $e->getMessage();
+            $status_code = $e->getCode();
+        } finally {
+            return $data;
         }
     }
 }

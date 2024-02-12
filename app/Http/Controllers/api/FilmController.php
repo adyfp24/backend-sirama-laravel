@@ -17,6 +17,9 @@ class FilmController extends Controller
         $status_code = 200;
         try {
             $allFilm = Film::all();
+            foreach ($allFilm as $film) {
+                $film->total_likes = $this->getTotalLikes($film->id_film);
+            }
             if ($allFilm) {
                 $message = 'Data film tersedia.';
             } else {
@@ -84,6 +87,7 @@ class FilmController extends Controller
             $film = Film::create([
                 'judul_film' => $request->judul_film,
                 'link_film' => $request->link_film,
+                'deskripsi' => $request->deskripsi,
                 'tgl_upload' => $request->tgl_upload,
                 'upload_user_id' => $user->id_user,
             ]);
@@ -121,6 +125,7 @@ class FilmController extends Controller
                 $updatedFilm = $film->update([
                     'judul_film' => $request->judul_film,
                     'link_film' => $request->link_film,
+                    'deskripsi' => $request->deskripsi,
                     'tgl_upload' => $request->tgl_upload,
                     'upload_user_id' => $user->id_user,
                 ]);
@@ -206,14 +211,19 @@ class FilmController extends Controller
         $status_code = 200;
         try {
             $user = auth()->user();
-            $allFilm = FavFilm::where('user_id', $user->id_user)->get();
-            if ($allFilm) {
-                $message = 'Data film favorite tersedia.';
+            $allFilm = FavFilm::join('films', 'fav_films.film_id','=','films.id_film')
+            ->where('user_id', $user->id_user)
+            ->select('fav_films.*', 'films.*')
+            ->get();
+            if ($allFilm->isEmpty()) {
+                $$message = 'Data film favorit tidak tersedia';
+                $status = 'error';
+                $data = [];
             } else {
-                $message = 'Data film favorite kosong.';
+                $message = 'Data film favorit tersedia';
+                $status = 'success';
+                $data = $allFilm;
             }
-            $status = 'success';
-            $data = $allFilm;
         } catch (\Exception $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
@@ -299,6 +309,26 @@ class FilmController extends Controller
                 'message' => $message,
                 'data' => $data
             ], $status_code);
+        }
+    }
+    public function getTotalLikes($id){
+        try{
+            $data = "";
+            $film = FavFilm::where('film_id', $id);
+            $totalLike = $film->count();
+            if ($totalLike) {
+                $data = $totalLike;
+            }
+        }catch (\Exception $e) {
+            $status = 'failed';
+            $message = 'Gagal menjalankan request. ' . $e->getMessage();
+            $status_code = $e->getCode();
+        } catch (\Illuminate\Database\QueryException $e) {
+            $status = 'failed';
+            $message = 'Gagal menjalankan request. ' . $e->getMessage();
+            $status_code = $e->getCode();
+        } finally {
+            return $data;
         }
     }
 }
