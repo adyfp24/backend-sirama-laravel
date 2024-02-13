@@ -50,6 +50,7 @@ class TestingSkrinning extends Seeder
 
         DB::table('soal_skrinnings')->insert([
             'soal' => 'Memanggil saya dengan julukan',
+            'no_soal' => 1,
             'bagian_skrinning_id' => 1
         ]);
         DB::table('jawaban_skrinnings')->insert([
@@ -80,6 +81,7 @@ class TestingSkrinning extends Seeder
 
         DB::table('soal_skrinnings')->insert([
             'soal' => 'Mengolok-olok saya',
+            'no_soal' => 2,
             'bagian_skrinning_id' => 1
         ]);
         DB::table('jawaban_skrinnings')->insert([
@@ -110,6 +112,7 @@ class TestingSkrinning extends Seeder
 
         DB::table('soal_skrinnings')->insert([
             'soal' => 'Membuat saya merasa sakit',
+            'no_soal' => 1,
             'bagian_skrinning_id' => 2
         ]);
         DB::table('jawaban_skrinnings')->insert([
@@ -140,6 +143,7 @@ class TestingSkrinning extends Seeder
 
         DB::table('soal_skrinnings')->insert([
             'soal' => 'Saya tidak bisa mendapat teman.',
+            'no_soal' => 2,
             'bagian_skrinning_id' => 2
         ]);
         DB::table('jawaban_skrinnings')->insert([

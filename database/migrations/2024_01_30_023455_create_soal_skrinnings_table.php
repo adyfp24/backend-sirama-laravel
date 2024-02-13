@@ -16,6 +16,7 @@ class CreateSoalSkrinningsTable extends Migration
         Schema::create('soal_skrinnings', function (Blueprint $table) {
             $table->id('id_soal_skrinning');
             $table->text('soal');
+            $table->smallInteger('no_soal');
             $table->bigInteger('bagian_skrinning_id')->unsigned();
             $table->timestamps();
 
