@@ -11,6 +11,7 @@
         @csrf
         <button type="submit">logout</button>
     </form>
+    <a href="{{ url('/admin/podcast') }}">Podcast</a>
     <h1>test ini halaman dashboard</h1>
 </body>
 </html>

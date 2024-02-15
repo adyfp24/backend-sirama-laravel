@@ -15,6 +15,9 @@ use App\Http\Controllers\api\QuoteController;
 use App\Http\Controllers\api\TanyaAhliController;
 use App\Http\Controllers\api\TopikPertanyaanController;
 use App\Http\Controllers\api\VideoEdukasiController;
+use App\Http\Controllers\SkrinningController;
+use App\Models\JawabanAhli;
+use App\Models\Skrinning;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -94,6 +97,10 @@ Route::middleware(['auth:sanctum'])->group(function(){
 
     Route::post('chatme/{id}', [ChatMeController::class, 'createChat']);
     Route::get('me', [MeController::class, 'getMe']);
+
+    Route::get('/skrinning', [SkrinningController::class, 'allSkrinning']);
+    Route::post('/skrinning', [SkrinningController::class, 'addSkrinning']);
+    Route::get('/detailskrinning/{id}', [SkrinningController::class, 'getDetailSkrinning']);
 });
 
 Route::get('/podcast', [PodcastController::class, 'getAllPodcast']);

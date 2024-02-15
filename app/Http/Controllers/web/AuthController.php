@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\web;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,13 +17,20 @@ class AuthController extends Controller
             "username" => "required|string",
             "password" => "required|string"
         ]);
-        if(auth()->attempt($credentials)){
-            session()->regenerate();
-            return redirect('/dashboard');
+        $user = User::where('username', $request->username)->first();
+        if($user && $user->role == 'superadmin'){
+            if(auth()->attempt($credentials)){
+                session()->regenerate();
+                return redirect('/admin/dashboard');
+            }
+            return back()->withErrors([
+                "message" => "data user tidak valid"
+            ]);
+        }else{
+            return back()->withErrors([
+                "message" => "data user tidak valid"
+            ]);
         }
-        return back()->withErrors([
-            "message" => "data user tidak valid"
-        ]);
     }
 
     public function logout(){
