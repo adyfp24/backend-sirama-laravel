@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\web\AuthController;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,9 +19,27 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function(){
-    return view('dashboard');
-})->middleware('auth');
+
+Route::prefix('admin')->middleware('auth')->group(function(){
+    Route::get('/dashboard', function(){
+        return view('dashboard');
+    });
+    Route::get('/podcast', function(){
+        return view('contents.podcast');
+    });
+    Route::get('/film-edukasi', function(){
+        return view('contents.film');
+    });
+    Route::get('/video-edukasi', function(){
+        return view('contents.video');
+    });
+    Route::get('/quote', function(){
+        return view('contents.quote');
+    });
+    Route::get('/infografis', function(){
+        return view('contents.infografis');
+    });
+});
 
 Route::get('/login', [AuthController::class, 'showLogin']);
 Route::post('/login', [AuthController::class, 'login'])->name('login');
