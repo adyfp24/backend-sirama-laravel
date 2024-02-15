@@ -246,14 +246,19 @@ class InfografisController extends Controller
         $status_code = 200;
         try {
             $user = auth()->user();
-            $allInfografis = FavInfografis::where('user_id', $user->id_user)->get();
+            $allInfografis = FavInfografis::join('infografis', 'fav_infografis.infografis_id', '=', 'infografis.id_infografis')
+            ->where('user_id', '=', $user->id_user)
+            ->select('fav_infografis.*', 'infografis.*')
+            ->get();
             if ($allInfografis) {
-                $message = 'Data favorite infografis tersedia.';
+                $message = 'Data infografis favorit tersedia';
+                $status = 'success';
+                $data = $allInfografis;
             } else {
-                $message = 'Data favorite infografis tidak tersedia.';
+                $message = 'Data infografis favorit tidak tersedia';
+                $status = 'error';
+                $data = [];
             }
-            $status = 'success';
-            $data = $allInfografis;
         } catch (\Exception $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
