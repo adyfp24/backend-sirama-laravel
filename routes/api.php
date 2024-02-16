@@ -101,6 +101,9 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::get('/skrinning', [SkrinningController::class, 'allSkrinning']);
     Route::post('/skrinning', [SkrinningController::class, 'addSkrinning']);
     Route::get('/detailskrinning/{id}', [SkrinningController::class, 'getDetailSkrinning']);
+    Route::post('/submitskrinning', [SkrinningController::class, 'submitBagianSkrinningUser']);
+    Route::get('/riwayatskrinning', [SkrinningController::class, 'getRiwayatSkrinning']);
+    Route::get('/detailriwayatskrinning/{id}', [SkrinningController::class, 'getDetailRiwayatSkrinning']);
 });
 
 Route::get('/podcast', [PodcastController::class, 'getAllPodcast']);

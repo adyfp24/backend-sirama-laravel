@@ -124,7 +124,7 @@ class SkrinningController extends Controller
     //     }
     // } 
 
-    public function getDetailSkrinnning($id)
+    public function getDetailSkrinning($id)
     {
         $status = '';
         $message = '';
@@ -171,20 +171,60 @@ class SkrinningController extends Controller
                 'status' => $status,
                 'message' => $message,
                 'data' => $data, 
-                'skrin_user' => $newSkrinningUser->id 
+                'skrin_user' => $newSkrinningUser->id_skrin_user 
             ], $status_code);
         }
     }
 
-    public function SubmitBagianSkrinningUser(Request $request)
+    public function submitBagianSkrinningUser(Request $request)
     {
         $status = '';
         $message = '';
         $data = '';
         $status_code = 200;
         try {
+            $user = auth()->user();
+            $newBagianSkrinningUser = BagianSkrinningUser::create([
+                'skrin_user_id' => $request->id_skrin_user,
+                'bagian_skrinning_id' => $request->id_bagian_user,
+            ]);
+            $positif = False;
+            $soal = SoalSkrinning::where('bagian_skrinning_id', $request->id_bagian_user)->orderBy('no_soal', 'ASC')->get();
+            $id_jawaban = $request->id_jawaban;
+            for ($i=0; $i < count($soal) ; $i++) { 
+                $jawaban = JawabanSkrinning::where('id_jawaban_skrinning', $id_jawaban[$i])->first();
+                $newRIwayatSkrinning = RiwayatSkrinning::create([
+                    'soal' => $soal[$i]->soal,
+                    'jawaban' => $jawaban->jawaban,
+                    'poin_jawaban' => $jawaban->poin_jawaban,
+                    'tgl_pengisian' => date('Y-m-d'),
+                    'bag_skrin_user_id' => $newBagianSkrinningUser->id_bag_skrin_user
+                ]);
+                if ($positif == False) {
+                    if ($jawaban->hasil_jawaban == 'positif') {
+                        $positif == True;
+                    }
+                }
+            }
+            if ($positif == True) {
+                $gethasil = HasilSkrinning::where('bagian_skrinning_id', $request->id_bagian_user)
+                                            ->where('jenis_hasil', 'positif')
+                                            ->first();
+            } else {
+                $gethasil = HasilSkrinning::where('bagian_skrinning_id', $request->id_bagian_user)
+                                            ->where('jenis_hasil', 'negatif')
+                                            ->first();
+            }
+            $newRiwayatHasilSkrinning = RiwayatHasilSkrinning::create([
+                'hasil' => $gethasil->hasil,
+                'tgl_pengisian' => date('Y-m-d'),
+                'bag_skrin_user_id' => $newBagianSkrinningUser->id_bag_skrin_user,
+                'user_id' => $user->id_user
+            ]);
 
-            
+            $message = 'Submit skrinngin berhasil';
+            $status = 'success';
+            $data = [$gethasil->jenis_hasil, $gethasil->hasil];
             
         } catch (\Exception $e) {
             $status = 'failed';
@@ -235,7 +275,7 @@ class SkrinningController extends Controller
     //     }
     // }
 
-    public function getRiwayatSkrinning(Request $request)
+    public function getRiwayatSkrinning()
     {
         $status = '';
         $message = '';
@@ -278,7 +318,7 @@ class SkrinningController extends Controller
         {
             $status = '';
             $message = '';
-            $data = '';
+            $data = [];
             $status_code = 200;
             try {
                 $detail = [];
@@ -315,7 +355,7 @@ class SkrinningController extends Controller
                 return response()->json([
                     'status' => $status,
                     'message' => $message,
-                    'data' => $data, 
+                    'data' => $data
                 ], $status_code);
             }
         }
