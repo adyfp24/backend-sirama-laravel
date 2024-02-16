@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\api\auth;
 
+use App\Models\Admin;
 use App\Models\Ahli;
 use App\Models\Guru;
 use App\Models\Kader;
@@ -58,6 +59,9 @@ class RegisterController extends Controller
                 case 'guru':
                     $this->registGuru($request, $user->id_user);
                     break;
+                case 'superadmin':
+                    $this->registAdmin($user->id_user);
+                    break;
             }
 
             DB::commit();
@@ -72,8 +76,8 @@ class RegisterController extends Controller
     private function registRemaja(Request $request, $user_id)
     {
         $file = $request->file('foto_profile');
-        if($file){
-            $foto_profile= Str::random() . '.' . $file->getClientOriginalExtension();
+        if ($file) {
+            $foto_profile = Str::random() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('storage/profile/'), $foto_profile);
             Remaja::create([
                 'nama' => $request->nama,
@@ -84,7 +88,7 @@ class RegisterController extends Controller
                 'foto_profile' => $foto_profile,
                 'user_id' => $user_id,
             ]);
-        }else{
+        } else {
             Remaja::create([
                 'nama' => $request->nama,
                 'no_hp' => $request->no_hp,
@@ -98,10 +102,10 @@ class RegisterController extends Controller
     private function registGuru(Request $request, $user_id)
     {
         $file = $request->file('foto_profile');
-        if($file){
-            $foto_profile= Str::random() . '.' . $file->getClientOriginalExtension();
+        if ($file) {
+            $foto_profile = Str::random() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('storage/profile/'), $foto_profile);
-            
+
             Guru::create([
                 'nama' => $request->nama,
                 'no_hp' => $request->no_hp,
@@ -110,7 +114,7 @@ class RegisterController extends Controller
                 'foto_profile' => $foto_profile,
                 'user_id' => $user_id
             ]);
-        }else{
+        } else {
             Guru::create([
                 'nama' => $request->nama,
                 'no_hp' => $request->no_hp,
@@ -123,10 +127,10 @@ class RegisterController extends Controller
     private function registAhli(Request $request, $user_id)
     {
         $file = $request->file('foto_profile');
-        if($file){
-            $foto_profile= Str::random() . '.' . $file->getClientOriginalExtension();
+        if ($file) {
+            $foto_profile = Str::random() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('storage/profile/'), $foto_profile);
-    
+
             Ahli::create([
                 'nama' => $request->nama,
                 'no_hp' => $request->no_hp,
@@ -135,7 +139,7 @@ class RegisterController extends Controller
                 'foto_profile' => $foto_profile,
                 'user_id' => $user_id
             ]);
-        }else{
+        } else {
             Ahli::create([
                 'nama' => $request->nama,
                 'no_hp' => $request->no_hp,
@@ -148,10 +152,10 @@ class RegisterController extends Controller
     private function registKader(Request $request, $user_id)
     {
         $file = $request->file('foto_profile');
-        if($file){
-            $foto_profile= Str::random() . '.' . $file->getClientOriginalExtension();
+        if ($file) {
+            $foto_profile = Str::random() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('storage/profile/'), $foto_profile);
-            
+
             Kader::create([
                 'nama' => $request->nama,
                 'no_hp' => $request->no_hp,
@@ -160,7 +164,7 @@ class RegisterController extends Controller
                 'foto_profile' => $foto_profile,
                 'user_id' => $user_id
             ]);
-        }else{
+        } else {
             Kader::create([
                 'nama' => $request->nama,
                 'no_hp' => $request->no_hp,
@@ -173,9 +177,9 @@ class RegisterController extends Controller
     private function registOrangtua(Request $request, $user_id)
     {
         $file = $request->file('foto_profile');
-        if($file){
-            $foto_profile= Str::random() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('storage/profile/'), $foto_profile);    
+        if ($file) {
+            $foto_profile = Str::random() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('storage/profile/'), $foto_profile);
             Orangtua::create([
                 'nama' => $request->nama,
                 'no_hp' => $request->no_hp,
@@ -183,7 +187,7 @@ class RegisterController extends Controller
                 'foto_profile' => $foto_profile,
                 'user_id' => $user_id
             ]);
-        }else{
+        } else {
             Orangtua::create([
                 'nama' => $request->nama,
                 'no_hp' => $request->no_hp,
@@ -191,5 +195,11 @@ class RegisterController extends Controller
                 'user_id' => $user_id
             ]);
         }
+    }
+    private function registAdmin($user_id)
+    {
+        Admin::create([
+            'user_id' => $user_id
+        ]);
     }
 }
