@@ -141,13 +141,13 @@ class SkrinningController extends Controller
             $detail= [];
             $bagian = BagianSkrinning::where('skrinning_id', $id)->orderBy('urutan_bagian', 'ASC')->get();
             for ($a=0; $a < count($bagian); $a++) {   
-                $detail[$a][0] = [$bagian[$a]->id_bagian_skrinning, $bagian[$a]->nama_bagian];
+                $detail['bagian_'.$bagian[$a]->urutan_bagian][0] = ['id_bagian_skrining' => $bagian[$a]->id_bagian_skrinning, 'nama_bagian' => $bagian[$a]->nama_bagian];
                 $soal = SoalSkrinning::where('bagian_skrinning_id', $bagian[$a]->id_bagian_skrinning)->orderBy('no_soal', 'ASC')->get();
                 for ($b=0; $b < count($soal) ; $b++) { 
-                    $detail[$a][1][$b][0] = [$soal[$b]->id_soal_skrinning, $soal[$b]->soal];
+                    $detail['bagian_'.$bagian[$a]->urutan_bagian][1]['soal_jawab_no_'.$soal[$b]->no_soal]['soal'] = ['id_soal' => $soal[$b]->id_soal_skrinning, 'soal' => $soal[$b]->soal];
                     $jawaban = JawabanSkrinning::where('soal_skrinning_id', $soal[$b]->id_soal_skrinning)->orderBy('poin_jawaban', 'ASC')->get();
                     for ($c=0; $c < count($jawaban); $c++) { 
-                        $detail[$a][1][$b][1][$c] = [$jawaban[$c]->id_jawaban_skrinning, $jawaban[$c]->jawaban, $jawaban[$c]->poin_jawaban];
+                        $detail['bagian_'.$bagian[$a]->urutan_bagian][1]['soal_jawab_no_'.$soal[$b]->no_soal]['jawaban'][$c] = ['id_jawaban_skrinning' =>  $jawaban[$c]->id_jawaban_skrinning, 'jawaban' => $jawaban[$c]->jawaban, 'poin_jawaban' => $jawaban[$c]->poin_jawaban];
                     }
                 }
             }
