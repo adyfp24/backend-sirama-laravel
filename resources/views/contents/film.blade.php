@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Podcast</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -22,10 +23,11 @@
             <div class="bg-gray-900 opacity-50 hidden fixed inset-0 z-10"></div>
             <div class="h-full w-full bg-gray-50 relative overflow-y-auto lg:ml-64">
                 <div>
-                    <form action="" class='p-2' onSubmit={handleSubmit}>
+                    <form id="form-film" class='p-2'>
+                        @csrf
                         <div class='px-2 mb-5'>
                             <p class='text-lg font-medium'>Judul Film</p>
-                            <input placeholder="Masukkan judul film..." onChange='' required type="text"
+                            <input name="judul_film" placeholder="Masukkan judul film..." onChange='' required type="text"
                                 class='border w-full rounded-md px-4 h-10 text-sm font-medium border-gray-200' />
                         </div>
                         <div class="w-full px-2 mx-auto mt-5">
@@ -138,7 +140,7 @@
                                 </div>
                                 <div class="py-2 px-4 bg-white rounded-b-lg dark:bg-gray-800">
                                     <label for="editor" class="sr-only">Publish post</label>
-                                    <textarea value={deskripsimentor} id="editor" rows="5"
+                                    <textarea name="link_film" id="editor" rows="5"
                                         class="block px-0 w-full text-sm text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
                                         placeholder="Masukkan tautan film..." required></textarea>
                                 </div>
@@ -255,7 +257,7 @@
                                 </div>
                                 <div class="py-2 px-4 bg-white rounded-b-lg dark:bg-gray-800">
                                     <label for="editor" class="sr-only">Publish post</label>
-                                    <textarea value={hasilpenelitian} id="editor" rows="6"
+                                    <textarea name="deskripsi" id="editor" rows="6"
                                         class="block px-0 w-full text-sm text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
                                         placeholder="Masukkan deksipsi film..." required></textarea>
                                 </div>
@@ -274,110 +276,116 @@
                     <table class="w-full border-collapse bg-white text-left text-sm text-gray-500">
                         <thead class="bg-gray-50">
                             <tr>
-                                <th scope="col" class="px-6 py-4 font-medium text-gray-900">Nama</th>
-                                <th scope="col" class="px-6 py-4 font-medium text-gray-900">Sertifikasi</th>
-                                <th scope="col" class="px-6 py-4 font-medium text-gray-900">Deskripsi</th>
-                                <th scope="col" class="px-6 py-4 font-medium text-gray-900">Minat Penelitian</th>
-                                <th scope="col" class="px-6 py-4 font-medium text-gray-900">Hasil Penelitian</th>
+                                <th scope="col" class="px-6 py-4 font-medium text-gray-900">No</th>
+                                <th scope="col" class="px-6 py-4 font-medium text-gray-900">Judul Film</th>
+                                <th scope="col" class="px-6 py-4 font-medium text-gray-900">Tautan Film</th>
+                                <th scope="col" class="px-6 py-4 font-medium text-gray-900">Jumlah Likes</th>
+                                <th scope="col" class="px-6 py-4 font-medium text-gray-900">Tanggal Upload</th>
                                 <th scope="col" class="px-6 py-4 font-medium text-gray-900">Aksi</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-gray-100 border-t border-gray-100">
-
-                            <tr key={id} class="hover:bg-gray-50">
-                                <th class="px-6 py-4">
-                                    <div class="text-sm">
-                                        <div class="font-medium text-gray-700">{data.namamentor}</div>
-                                        <div class="text-gray-400">{data.spesialisasi}</div>
-                                        <div class="text-gray-400">{data.pendidikan}</div>
-                                        <div class="text-gray-400">Rp {data.fee}</div>
-                                    </div>
-                                </th>
-                                <td class="px-6 py-4">
-                                    {data.sertifikasi}
-                                </td>
-                                <td class="px-6 py-4">
-                                    <div class="text-sm">
-                                        <div class="font-medium text-gray-700">{data.deskripsimentor}</div>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4">
-                                    <div class="flex gap-2">
-                                        <span
-                                            class="inline-flex items-center gap-1 rounded-full bg-violet-50 px-2 py-1 text-xs font-semibold text-violet-600">
-                                            {data.minatpenelitian}
-                                        </span>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4">
-                                    <div class="flex gap-2">
-                                        <span
-                                            class="inline-flex items-center gap-1 rounded-full bg-violet-50 px-2 py-1 text-xs font-semibold text-violet-600">
-                                            {data.hasilpenelitian}
-                                        </span>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4">
-                                    <div class="flex gap-4">
-                                        <button onClick="">
-                                            <a x-data="{ tooltip: 'Delete' }" href="#">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                    class="h-6 w-6" x-tooltip="tooltip">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
-                                                </svg>
-                                            </a>
-                                        </button>
-
-                                        <button>
-                                            <a x-data="{ tooltip: 'Edit' }" href="#">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                    class="h-6 w-6" x-tooltip="tooltip">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
-                                                </svg>
-                                            </a>
-                                        </button>
-                                        </Link>
-                                    </div>
-                                </td>
-                            </tr>
-
+                        <tbody id="film-list" class="divide-y divide-gray-100 border-t border-gray-100">
+                            
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
-    <ul id="podcastList">
-        {{-- Data podcast akan dimasukkan di sini menggunakan JavaScript --}}
-    </ul>
+   
     <script>
-        // Menggunakan jQuery AJAX untuk mengambil data dari API
-        // $.ajax({
-        //     url: 'http://127.0.0.1:8000/api/podcast',
-        //     method: 'GET',
-        //     dataType: 'json',
-        //     success: function(data) {
-        //         // Memasukkan data ke dalam templat Blade menggunakan jQuery
-        //         const podcastList = $('#podcastList');
-        //         $.each(data.data, function(index, podcast) {
-        //             const listItem = $('<li><br>');
-        //             listItem.append('<strong>ID:</strong> ' + podcast.id_podcast + '<br>');
-        //             listItem.append('<strong>Judul:</strong> ' + podcast.judul_podcast + '<br>');
-        //             listItem.append('<strong>Link:</strong> <a href="' + podcast.link_podcast +
-        //             '" target="_blank">' + podcast.link_podcast + '</a><br>');
-        //             listItem.append('<strong>Jumlah like:</strong> ' + podcast.total_likes + '<br>');
-        //             listItem.append('<strong>Tanggal Upload:</strong> ' + podcast.tgl_upload + '<br>');
-        //             podcastList.append(listItem);
-        //         });
-        //     },
-        //     error: function(xhr, status, error) {
-        //         console.error('Ada kesalahan:', error);
-        //     }
-        // });
+        var apiToken = localStorage.getItem('api_token');
+
+        function refreshFilmList() {
+            // Menggunakan jQuery AJAX untuk mengambil data dari API
+            $.ajax({
+                url: 'http://127.0.0.1:8000/api/film',
+                method: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    const filmList = $('#film-list');
+                    $.each(data.data, function(index, film) {
+                        const row = $('<tr>').addClass('hover:bg-gray-50');
+                        row.append('<td class="px-2 py-4">' + (index + 1) + '</td>');
+                        row.append('<td class="px-6 py-4">' + film.judul_film + '</td>');
+                        row.append(
+                            '<td class="px-6 py-4"><div class="text-sm"><div class="font-medium text-gray-700">' +
+                            film.link_film + '</div></div></td>');
+                        row.append(
+                            '<td class="px-6 py-4"><div class="flex gap-2"><span class="inline-flex items-center gap-1 rounded-full bg-violet-50 px-2 py-1 text-xs font-semibold text-violet-600">' +
+                            film.total_likes + '</span></div></td>');
+                        row.append(
+                            '<td class="px-6 py-4"><div class="flex gap-2"><span class="inline-flex items-center gap-1 rounded-full bg-violet-50 px-2 py-1 text-xs font-semibold text-violet-600">' +
+                            film.tgl_upload + '</span></div></td>');
+                        row.append(
+                            '<td class="px-6 py-4"><div class="flex gap-4"><button class="deleteButton" data-id="' +
+                            film.id_film +
+                            '">Delete</button><button class="editButton" data-id="' +
+                            film.id_film + '">Edit</button></div></td>');
+                        filmList.append(row);
+                    });
+
+                    // Event handling untuk tombol Delete
+                    $('.deleteButton').on('click', function() {
+                        const filmId = $(this).data('id');
+                        $.ajax({
+                            url: 'http://127.0.0.1:8000/api/film/' + filmId,
+                            method: 'DELETE',
+                            headers: {
+                                'Authorization': 'Bearer ' + apiToken,
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            success: function() {
+                                alert('Data film edukasi berhasil dihapus');
+                                filmList.empty();
+                                refreshFilmList();
+                            },
+                            error: function(xhr, status, error) {
+                                console.error('Error:', error);
+                                alert('Terjadi kesalahan saat mengirim data film.');
+                            }
+                        })
+                        // Tambahkan logika untuk menghandle penghapusan podcast dengan ID tertentu
+                    });
+
+                    // Event handling untuk tombol Edit
+                    $('.editButton').on('click', function() {
+                        const filmId = $(this).data('id');
+                        // Tambahkan logika untuk menghandle pengeditan podcast dengan ID tertentu
+                        console.log('Edit film dengan ID: ' + filmId);
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error('Ada kesalahan:', error);
+                }
+            });
+        };
+
+        $(document).ready(function() {
+            refreshFilmList();
+            $('#form-film').submit(function(e) {
+                e.preventDefault();
+                var form = $(this);
+                var filmList = $('#film-list');
+                $.ajax({
+                    url: 'http://127.0.0.1:8000/api/film',
+                    method: 'POST',
+                    data: form.serialize(),
+                    header: {
+                        'Authorization': 'Bearer ' + apiToken
+                    },
+                    success: function(data) {
+                        alert('Data film edukasi berhasil ditambah');
+                        filmList.empty();
+                        refreshFilmList();
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error:', error);
+                        alert('Terjadi kesalahan saat mengirim data film.');
+                    }
+                });
+            });
+        })
     </script>
 </body>
 

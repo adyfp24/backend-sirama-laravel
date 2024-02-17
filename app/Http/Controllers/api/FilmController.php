@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\FavFilm;
 use App\Models\Film;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class FilmController extends Controller
 {
@@ -88,7 +89,7 @@ class FilmController extends Controller
                 'judul_film' => $request->judul_film,
                 'link_film' => $request->link_film,
                 'deskripsi' => $request->deskripsi,
-                'tgl_upload' => $request->tgl_upload,
+                'tgl_upload' => Carbon::now()->format('Y-m-d'),
                 'upload_user_id' => $user->id_user,
             ]);
             $status = 'success';
