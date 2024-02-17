@@ -56,27 +56,32 @@ class TestingSkrinning extends Seeder
         DB::table('jawaban_skrinnings')->insert([
             'jawaban' => 'Tidak pernah terjadi',
             'poin_jawaban' => 0,
-            'soal_skrinning_id' => 1
+            'soal_skrinning_id' => 1,
+            'jenis_jawaban' => 'negatif'
         ]);
         DB::table('jawaban_skrinnings')->insert([
             'jawaban' => 'Jarang terjadi',
             'poin_jawaban' => 1,
-            'soal_skrinning_id' => 1
+            'soal_skrinning_id' => 1,
+            'jenis_jawaban' => 'negatif'
         ]);
         DB::table('jawaban_skrinnings')->insert([
             'jawaban' => 'Kadang terjadi',
             'poin_jawaban' => 2,
-            'soal_skrinning_id' => 1
+            'soal_skrinning_id' => 1,
+            'jenis_jawaban' => 'positif'
         ]);
         DB::table('jawaban_skrinnings')->insert([
             'jawaban' => 'Sering terjadi',
             'poin_jawaban' => 3,
-            'soal_skrinning_id' => 1
+            'soal_skrinning_id' => 1,
+            'jenis_jawaban' => 'positif'
         ]);
         DB::table('jawaban_skrinnings')->insert([
             'jawaban' => 'Selalu terjadi',
             'poin_jawaban' => 4,
-            'soal_skrinning_id' => 1
+            'soal_skrinning_id' => 1,
+            'jenis_jawaban' => 'positif'
         ]);
 
         DB::table('soal_skrinnings')->insert([
@@ -87,27 +92,32 @@ class TestingSkrinning extends Seeder
         DB::table('jawaban_skrinnings')->insert([
             'jawaban' => 'Tidak pernah terjadi',
             'poin_jawaban' => 0,
-            'soal_skrinning_id' => 2
+            'soal_skrinning_id' => 2,
+            'jenis_jawaban' => 'negatif'
         ]);
         DB::table('jawaban_skrinnings')->insert([
             'jawaban' => 'Jarang terjadi',
             'poin_jawaban' => 1,
-            'soal_skrinning_id' => 2
+            'soal_skrinning_id' => 2,
+            'jenis_jawaban' => 'negatif'
         ]);
         DB::table('jawaban_skrinnings')->insert([
             'jawaban' => 'Kadang terjadi',
             'poin_jawaban' => 2,
-            'soal_skrinning_id' => 2
+            'soal_skrinning_id' => 2,
+            'jenis_jawaban' => 'positif'
         ]);
         DB::table('jawaban_skrinnings')->insert([
             'jawaban' => 'Sering terjadi',
             'poin_jawaban' => 3,
-            'soal_skrinning_id' => 2
+            'soal_skrinning_id' => 2,
+            'jenis_jawaban' => 'positif'
         ]);
         DB::table('jawaban_skrinnings')->insert([
             'jawaban' => 'Selalu terjadi',
             'poin_jawaban' => 4,
-            'soal_skrinning_id' => 2
+            'soal_skrinning_id' => 2,
+            'jenis_jawaban' => 'positif'
         ]);
 
         DB::table('soal_skrinnings')->insert([
@@ -118,27 +128,32 @@ class TestingSkrinning extends Seeder
         DB::table('jawaban_skrinnings')->insert([
             'jawaban' => 'Tidak pernah terjadi',
             'poin_jawaban' => 0,
-            'soal_skrinning_id' => 3
+            'soal_skrinning_id' => 3,
+            'jenis_jawaban' => 'negatif'
         ]);
         DB::table('jawaban_skrinnings')->insert([
             'jawaban' => 'Jarang terjadi',
             'poin_jawaban' => 1,
-            'soal_skrinning_id' => 3
+            'soal_skrinning_id' => 3,
+            'jenis_jawaban' => 'negatif'
         ]);
         DB::table('jawaban_skrinnings')->insert([
             'jawaban' => 'Kadang terjadi',
             'poin_jawaban' => 2,
-            'soal_skrinning_id' => 3
+            'soal_skrinning_id' => 3,
+            'jenis_jawaban' => 'positif'
         ]);
         DB::table('jawaban_skrinnings')->insert([
             'jawaban' => 'Sering terjadi',
             'poin_jawaban' => 3,
-            'soal_skrinning_id' => 3
+            'soal_skrinning_id' => 3,
+            'jenis_jawaban' => 'positif'
         ]);
         DB::table('jawaban_skrinnings')->insert([
             'jawaban' => 'Selalu terjadi',
             'poin_jawaban' => 4,
-            'soal_skrinning_id' => 3
+            'soal_skrinning_id' => 3,
+            'jenis_jawaban' => 'positif'
         ]);
 
         DB::table('soal_skrinnings')->insert([
@@ -149,27 +164,32 @@ class TestingSkrinning extends Seeder
         DB::table('jawaban_skrinnings')->insert([
             'jawaban' => 'Tidak pernah terjadi',
             'poin_jawaban' => 0,
-            'soal_skrinning_id' => 4
+            'soal_skrinning_id' => 4,
+            'jenis_jawaban' => 'negatif'
         ]);
         DB::table('jawaban_skrinnings')->insert([
             'jawaban' => 'Jarang terjadi',
             'poin_jawaban' => 1,
-            'soal_skrinning_id' => 4
+            'soal_skrinning_id' => 4,
+            'jenis_jawaban' => 'negatif'
         ]);
         DB::table('jawaban_skrinnings')->insert([
             'jawaban' => 'Kadang terjadi',
             'poin_jawaban' => 2,
-            'soal_skrinning_id' => 4
+            'soal_skrinning_id' => 4,
+            'jenis_jawaban' => 'positif'
         ]);
         DB::table('jawaban_skrinnings')->insert([
             'jawaban' => 'Sering terjadi',
             'poin_jawaban' => 3,
-            'soal_skrinning_id' => 4
+            'soal_skrinning_id' => 4,
+            'jenis_jawaban' => 'positif'
         ]);
         DB::table('jawaban_skrinnings')->insert([
             'jawaban' => 'Selalu terjadi',
             'poin_jawaban' => 4,
-            'soal_skrinning_id' => 4
+            'soal_skrinning_id' => 4,
+            'jenis_jawaban' => 'positif'
         ]);
 
     }

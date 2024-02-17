@@ -17,6 +17,7 @@ class CreateJawabanSkrinningsTable extends Migration
             $table->id('id_jawaban_skrinning');
             $table->string('jawaban');
             $table->smallInteger('poin_jawaban');
+            $table->string('jenis_jawaban',10);
             $table->bigInteger('soal_skrinning_id')->unsigned();
             $table->timestamps();
 
