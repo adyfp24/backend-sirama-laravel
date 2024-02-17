@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Podcast</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -26,7 +27,8 @@
                         @csrf
                         <div class='px-2 mb-5'>
                             <p class='text-lg font-medium'>Judul Podcast</p>
-                            <input name="judul_podcast" placeholder="Masukkan judul podcast..." onChange='' required type="text"
+                            <input name="judul_podcast" placeholder="Masukkan judul podcast..." onChange='' required
+                                type="text"
                                 class='border w-full rounded-md px-4 h-10 text-sm font-medium border-gray-200' />
                         </div>
                         <div class="w-full px-2 mx-auto mt-5">
@@ -295,7 +297,7 @@
     <script>
         var apiToken = localStorage.getItem('api_token');
 
-        function refreshPodcastList(){
+        function refreshPodcastList() {
             // Menggunakan jQuery AJAX untuk mengambil data dari API
             $.ajax({
                 url: 'http://127.0.0.1:8000/api/podcast',
@@ -327,8 +329,24 @@
                     // Event handling untuk tombol Delete
                     $('.deleteButton').on('click', function() {
                         const podcastId = $(this).data('id');
+                        $.ajax({
+                            url: 'http://127.0.0.1:8000/api/podcast/' + podcastId,
+                            method: 'DELETE',
+                            headers: {
+                                'Authorization': 'Bearer ' + apiToken,
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            success: function() {
+                                alert('Data podcast berhasil dihapus');
+                                podcastList.empty();
+                                refreshPodcastList();
+                            },
+                            error: function(xhr, status, error) {
+                                console.error('Error:', error);
+                                alert('Terjadi kesalahan saat mengirim data podcast.');
+                            }
+                        })
                         // Tambahkan logika untuk menghandle penghapusan podcast dengan ID tertentu
-                        console.log('Delete podcast dengan ID: ' + podcastId);
                     });
 
                     // Event handling untuk tombol Edit
@@ -341,10 +359,10 @@
                 error: function(xhr, status, error) {
                     console.error('Ada kesalahan:', error);
                 }
-            });   
+            });
         };
 
-        $(document).ready(function(){
+        $(document).ready(function() {
             refreshPodcastList();
             $('#form-podcast').submit(function(e) {
                 e.preventDefault();
