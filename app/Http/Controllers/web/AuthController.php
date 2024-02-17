@@ -20,8 +20,8 @@ class AuthController extends Controller
         $user = User::where('username', $request->username)->first();
         if($user && $user->role == 'superadmin'){
             if(auth()->attempt($credentials)){
-                session()->regenerate();
-                return redirect('/admin/dashboard');
+                $api_token = $user->createToken('api_token')->plainTextToken;
+                return redirect('/admin/dashboard')->with('api_token', $api_token);
             }
             return back()->withErrors([
                 "message" => "data user tidak valid"
@@ -31,6 +31,7 @@ class AuthController extends Controller
                 "message" => "data user tidak valid"
             ]);
         }
+        
     }
 
     public function logout(){

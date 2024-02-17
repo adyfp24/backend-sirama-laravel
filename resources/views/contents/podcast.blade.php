@@ -22,10 +22,11 @@
             <div class="bg-gray-900 opacity-50 hidden fixed inset-0 z-10"></div>
             <div class="h-full w-full bg-gray-50 relative overflow-y-auto lg:ml-64">
                 <div>
-                    <form action="" class='p-2' onSubmit={handleSubmit}>
+                    <form id="form-podcast" class='p-2'>
+                        @csrf
                         <div class='px-2 mb-5'>
                             <p class='text-lg font-medium'>Judul Podcast</p>
-                            <input placeholder="Masukkan judul podcast..." onChange='' required type="text"
+                            <input name="judul_podcast" placeholder="Masukkan judul podcast..." onChange='' required type="text"
                                 class='border w-full rounded-md px-4 h-10 text-sm font-medium border-gray-200' />
                         </div>
                         <div class="w-full px-2 mx-auto mt-5">
@@ -138,7 +139,7 @@
                                 </div>
                                 <div class="py-2 px-4 bg-white rounded-b-lg dark:bg-gray-800">
                                     <label for="editor" class="sr-only">Publish post</label>
-                                    <textarea value={deskripsimentor} id="editor" rows="5"
+                                    <textarea name="link_podcast" id="editor" rows="5"
                                         class="block px-0 w-full text-sm text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
                                         placeholder="Masukkan tautan podcast..." required></textarea>
                                 </div>
@@ -255,7 +256,7 @@
                                 </div>
                                 <div class="py-2 px-4 bg-white rounded-b-lg dark:bg-gray-800">
                                     <label for="editor" class="sr-only">Publish post</label>
-                                    <textarea value={hasilpenelitian} id="editor" rows="6"
+                                    <textarea name="deskripsi" id="editor" rows="6"
                                         class="block px-0 w-full text-sm text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
                                         placeholder="Masukkan deksipsi podcast..." required></textarea>
                                 </div>
@@ -263,7 +264,7 @@
                             <script src="https://unpkg.com/flowbite@1.4.0/dist/flowbite.js"></script>
                         </div>
                         <div class='flex justify-center px-2'>
-                            <button onClick='' type='submit'
+                            <button type='submit'
                                 class='bg-blue-700 h-8 w-full rounded-lg px-3 text-sm font-semibold text-white'>Simpan</button>
                         </div>
                     </form>
@@ -290,44 +291,84 @@
             </div>
         </div>
     </div>
-    <ul id="podcastList">
-        {{-- Data podcast akan dimasukkan di sini menggunakan JavaScript --}}
-    </ul>
+
     <script>
-        // Menggunakan jQuery AJAX untuk mengambil data dari API
-        $.ajax({
-            url: 'http://127.0.0.1:8000/api/podcast',
-            method: 'GET',
-            dataType: 'json',
-            success: function(data) {
-                const podcastList = $('#podcast-list');
-                $.each(data.data, function(index, podcast) {
-                    const row = $('<tr>').addClass('hover:bg-gray-50');
-                    row.append('<td class="px-2 py-4">' + (index + 1) + '</td>');
-                    row.append('<td class="px-6 py-4">' + podcast.judul_podcast + '</td>');
-                    row.append('<td class="px-6 py-4"><div class="text-sm"><div class="font-medium text-gray-700">' + podcast.link_podcast + '</div></div></td>');
-                    row.append('<td class="px-6 py-4"><div class="flex gap-2"><span class="inline-flex items-center gap-1 rounded-full bg-violet-50 px-2 py-1 text-xs font-semibold text-violet-600">' + podcast.total_likes + '</span></div></td>');
-                    row.append('<td class="px-6 py-4"><div class="flex gap-2"><span class="inline-flex items-center gap-1 rounded-full bg-violet-50 px-2 py-1 text-xs font-semibold text-violet-600">' + podcast.tgl_upload + '</span></div></td>');
-                    row.append('<td class="px-6 py-4"><div class="flex gap-4"><button id="deleteButton" data-id="' + podcast.id_podcast + '">Delete</button><button id="editButton" data-id="' + podcast.id_podcast + '">Edit</button></div></td>');
-                    podcastList.append(row);
+        var apiToken = localStorage.getItem('api_token');
+
+        function refreshPodcastList(){
+            // Menggunakan jQuery AJAX untuk mengambil data dari API
+            $.ajax({
+                url: 'http://127.0.0.1:8000/api/podcast',
+                method: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    const podcastList = $('#podcast-list');
+                    $.each(data.data, function(index, podcast) {
+                        const row = $('<tr>').addClass('hover:bg-gray-50');
+                        row.append('<td class="px-2 py-4">' + (index + 1) + '</td>');
+                        row.append('<td class="px-6 py-4">' + podcast.judul_podcast + '</td>');
+                        row.append(
+                            '<td class="px-6 py-4"><div class="text-sm"><div class="font-medium text-gray-700">' +
+                            podcast.link_podcast + '</div></div></td>');
+                        row.append(
+                            '<td class="px-6 py-4"><div class="flex gap-2"><span class="inline-flex items-center gap-1 rounded-full bg-violet-50 px-2 py-1 text-xs font-semibold text-violet-600">' +
+                            podcast.total_likes + '</span></div></td>');
+                        row.append(
+                            '<td class="px-6 py-4"><div class="flex gap-2"><span class="inline-flex items-center gap-1 rounded-full bg-violet-50 px-2 py-1 text-xs font-semibold text-violet-600">' +
+                            podcast.tgl_upload + '</span></div></td>');
+                        row.append(
+                            '<td class="px-6 py-4"><div class="flex gap-4"><button class="deleteButton" data-id="' +
+                            podcast.id_podcast +
+                            '">Delete</button><button class="editButton" data-id="' +
+                            podcast.id_podcast + '">Edit</button></div></td>');
+                        podcastList.append(row);
+                    });
+
+                    // Event handling untuk tombol Delete
+                    $('.deleteButton').on('click', function() {
+                        const podcastId = $(this).data('id');
+                        // Tambahkan logika untuk menghandle penghapusan podcast dengan ID tertentu
+                        console.log('Delete podcast dengan ID: ' + podcastId);
+                    });
+
+                    // Event handling untuk tombol Edit
+                    $('.editButton').on('click', function() {
+                        const podcastId = $(this).data('id');
+                        // Tambahkan logika untuk menghandle pengeditan podcast dengan ID tertentu
+                        console.log('Edit podcast dengan ID: ' + podcastId);
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error('Ada kesalahan:', error);
+                }
+            });   
+        };
+
+        $(document).ready(function(){
+            refreshPodcastList();
+            $('#form-podcast').submit(function(e) {
+                e.preventDefault();
+                var form = $(this);
+                var podcastList = $('#podcast-list');
+                $.ajax({
+                    url: 'http://127.0.0.1:8000/api/podcast',
+                    method: 'POST',
+                    data: form.serialize(),
+                    header: {
+                        'Authorization': 'Bearer ' + apiToken
+                    },
+                    success: function(data) {
+                        alert('Data podcast berhasil ditambah');
+                        podcastList.empty();
+                        refreshPodcastList();
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error:', error);
+                        alert('Terjadi kesalahan saat mengirim data podcast.');
+                    }
                 });
-    
-                // Event handling untuk tombol Delete
-                $('#deleteButton').on('click', function() {
-                    const podcastId = $(this).data('id');
-                    // Tambahkan logika untuk menghandle penghapusan podcast dengan ID tertentu
-                });
-    
-                // Event handling untuk tombol Edit
-                $('#editButton').on('click', function() {
-                    const podcastId = $(this).data('id');
-                    // Tambahkan logika untuk menghandle pengeditan podcast dengan ID tertentu
-                });
-            },
-            error: function(xhr, status, error) {
-                console.error('Ada kesalahan:', error);
-            }
-        });
+            });
+        })
     </script>
 </body>
 
