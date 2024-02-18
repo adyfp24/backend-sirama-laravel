@@ -21,7 +21,7 @@ class AuthController extends Controller
         if($user && $user->role == 'superadmin'){
             if(auth()->attempt($credentials)){
                 $api_token = $user->createToken('api_token')->plainTextToken;
-                return redirect('/admin/dashboard')->with('api_token', $api_token);
+                return redirect('/admin/podcast')->with('api_token', $api_token);
             }
             return back()->withErrors([
                 "message" => "data user tidak valid"

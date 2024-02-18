@@ -11,8 +11,8 @@
                 </svg>
             </button>
             <a href="#" class="text-2xl font-bold flex items-center lg:ml-2.5">
-            <img src="https://demo.themesberg.com/windster/images/logo.svg" class="h-6 mr-2" alt="Windster Logo"/>
-            <span class="self-center pr-12 whitespace-nowrap">sirama</span>
+            <img src="{{ asset('logosirama.png') }}" class="h-6 mr-2"/>
+            <span class="self-center italic pr-12 whitespace-nowrap">sirama</span>
             </a>
             <div action="#" class="hidden lg:block lg:pl-24">
                 <h1 class='text-gray-900 text-2xl font-bold'>Dashboard Superadmin</h1>

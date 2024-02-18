@@ -6,23 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Sirama | Dashboard</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
 
-    @if (session()->has('api_token'))
-        <script>
-            const apiToken = '{{ session('api_token') }}';
-            localStorage.setItem('api_token', apiToken);
-            console.log(apiToken);
-        </script>
-    @endif
+    
 </head>
 
 <body>
-    <form action="{{ Route('logout') }}" method="POST">
-        @csrf
-        <button type="submit">logout</button>
-    </form>
-    <a href="{{ url('/admin/podcast') }}">Podcast</a>
-    <h1>test ini halaman dashboard</h1>
+    <div>
+        @include('templates.navbar')
+        <div>
+            @include('templates.sidebar')
+        </div>
+        <div>
+            
+        </div>
+    </div>
 </body>
 
 </html>
