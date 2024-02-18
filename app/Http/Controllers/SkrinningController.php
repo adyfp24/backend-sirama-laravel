@@ -138,17 +138,44 @@ class SkrinningController extends Controller
                 'user_id' => $user->id_user
             ]);
 
-            $detail= [];
+            // $coba = [];
+            // $coba['kata'] = 'ok';
+            // $coba['kata 1'] = 'yaa';
+            // $detail = array($coba);
+            
             $bagian = BagianSkrinning::where('skrinning_id', $id)->orderBy('urutan_bagian', 'ASC')->get();
             for ($a=0; $a < count($bagian); $a++) {   
-                $detail['bagian_'.$bagian[$a]->urutan_bagian][0] = ['id_bagian_skrining' => $bagian[$a]->id_bagian_skrinning, 'nama_bagian' => $bagian[$a]->nama_bagian];
+                // $detail[$a]['bagian_'.$bagian[$a]->urutan_bagian]['id_bagian_skrinning'] = $bagian[$a]->id_bagian_skrinning;
+                // $detail[$a]['bagian_'.$bagian[$a]->urutan_bagian]['nama_bagian'] = $bagian[$a]->nama_bagian;
+                // $detail[$a] = ['bagian_'.$bagian[$a]->urutan_bagian => [['id_bagian_skrining'] = $bagian[$a]->id_bagian_skrinning, ['nama_bagian'] = $bagian[$a]->nama_bagian]];
+                // $detail['bagian_'.$bagian[$a]->urutan_bagian][0] = ['id_bagian_skrining' => $bagian[$a]->id_bagian_skrinning, 'nama_bagian' => $bagian[$a]->nama_bagian];
+                // $soal = SoalSkrinning::where('bagian_skrinning_id', $bagian[$a]->id_bagian_skrinning)->orderBy('no_soal', 'ASC')->get();
+                // for ($b=0; $b < count($soal) ; $b++) { 
+                //     $detail['bagian_'.$bagian[$a]->urutan_bagian][1]['soal_jawab_no_'.$soal[$b]->no_soal]['soal'] = ['id_soal' => $soal[$b]->id_soal_skrinning, 'soal' => $soal[$b]->soal];
+                //     $jawaban = JawabanSkrinning::where('soal_skrinning_id', $soal[$b]->id_soal_skrinning)->orderBy('poin_jawaban', 'ASC')->get();
+                //     for ($c=0; $c < count($jawaban); $c++) { 
+                //         $detail['bagian_'.$bagian[$a]->urutan_bagian][1]['soal_jawab_no_'.$soal[$b]->no_soal]['jawaban'][$c] = ['id_jawaban_skrinning' =>  $jawaban[$c]->id_jawaban_skrinning, 'jawaban' => $jawaban[$c]->jawaban, 'poin_jawaban' => $jawaban[$c]->poin_jawaban];
+                //     } 
+                // }
+                // $detail[$a] = ['id_bagian_skrining' => $bagian[$a]->id_bagian_skrinning, 'nama_bagian' => $bagian[$a]->nama_bagian];
+                // $soal = SoalSkrinning::where('bagian_skrinning_id', $bagian[$a]->id_bagian_skrinning)->orderBy('no_soal', 'ASC')->get();
+                // for ($b=0; $b < count($soal) ; $b++) { 
+                //     $detail[$a]['soal_jawab'][0] = array(['id_soal' => $soal[$b]->id_soal_skrinning, 'soal' => $soal[$b]->soal]);
+                //     $jawaban = JawabanSkrinning::where('soal_skrinning_id', $soal[$b]->id_soal_skrinning)->orderBy('poin_jawaban', 'ASC')->get();
+                //     for ($c=0; $c < count($jawaban); $c++) { 
+                //         $detail[$a]['soal_jawab'][1][$c] = ['id_jawaban_skrinning' =>  $jawaban[$c]->id_jawaban_skrinning, 'jawaban' => $jawaban[$c]->jawaban, 'poin_jawaban' => $jawaban[$c]->poin_jawaban];
+                //     }
+                // }
+
+                $detail[$a] = ['id_bagian_skrining' => $bagian[$a]->id_bagian_skrinning, 'nama_bagian' => $bagian[$a]->nama_bagian];
                 $soal = SoalSkrinning::where('bagian_skrinning_id', $bagian[$a]->id_bagian_skrinning)->orderBy('no_soal', 'ASC')->get();
                 for ($b=0; $b < count($soal) ; $b++) { 
-                    $detail['bagian_'.$bagian[$a]->urutan_bagian][1]['soal_jawab_no_'.$soal[$b]->no_soal]['soal'] = ['id_soal' => $soal[$b]->id_soal_skrinning, 'soal' => $soal[$b]->soal];
+                    
                     $jawaban = JawabanSkrinning::where('soal_skrinning_id', $soal[$b]->id_soal_skrinning)->orderBy('poin_jawaban', 'ASC')->get();
                     for ($c=0; $c < count($jawaban); $c++) { 
-                        $detail['bagian_'.$bagian[$a]->urutan_bagian][1]['soal_jawab_no_'.$soal[$b]->no_soal]['jawaban'][$c] = ['id_jawaban_skrinning' =>  $jawaban[$c]->id_jawaban_skrinning, 'jawaban' => $jawaban[$c]->jawaban, 'poin_jawaban' => $jawaban[$c]->poin_jawaban];
+                        $jawaban[$c] = ['id_jawaban_skrinning' =>  $jawaban[$c]->id_jawaban_skrinning, 'jawaban' => $jawaban[$c]->jawaban, 'poin_jawaban' => $jawaban[$c]->poin_jawaban];
                     }
+                    $detail[$a]['soal_jawab'][$b] = ['id_soal' => $soal[$b]->id_soal_skrinning, 'soal' => $soal[$b]->soal , 'jawaban' => $jawaban];
                 }
             }
             if (count($detail) > 0) {
@@ -171,7 +198,7 @@ class SkrinningController extends Controller
                 'status' => $status,
                 'message' => $message,
                 'data' => $data, 
-                'skrin_user' => $newSkrinningUser->id_skrin_user 
+                'skrin_user' => $newSkrinningUser
             ], $status_code);
         }
     }
@@ -185,12 +212,12 @@ class SkrinningController extends Controller
         try {
             $user = auth()->user();
             $newBagianSkrinningUser = BagianSkrinningUser::create([
-                'skrin_user_id' => $request->id_skrin_user,
+                'skrin_user_id' => $request->skrin_user,
                 'bagian_skrinning_id' => $request->id_bagian_user,
             ]);
             $positif = False;
             $soal = SoalSkrinning::where('bagian_skrinning_id', $request->id_bagian_user)->orderBy('no_soal', 'ASC')->get();
-            $id_jawaban = $request->id_jawaban;
+            $id_jawaban = $request->id_jawaban_skrinning;
             for ($i=0; $i < count($soal) ; $i++) { 
                 $jawaban = JawabanSkrinning::where('id_jawaban_skrinning', $id_jawaban[$i])->first();
                 $newRIwayatSkrinning = RiwayatSkrinning::create([
