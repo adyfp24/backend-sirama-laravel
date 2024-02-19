@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Podcast</title>
+    <title>Dashboard | Video</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -302,7 +302,7 @@
         function refreshVideoList() {
             // Menggunakan jQuery AJAX untuk mengambil data dari API
             $.ajax({
-                url: 'http://127.0.0.1:8000/api/videoedukasi',
+                url: 'https://dev-sirama.propertiideal.id/api/videoedukasi',
                 method: 'GET',
                 dataType: 'json',
                 success: function(data) {
@@ -332,7 +332,7 @@
                     $('.deleteButton').on('click', function() {
                         const videoId = $(this).data('id');
                         $.ajax({
-                            url: 'http://127.0.0.1:8000/api/video-edukasi/' + videoId,
+                            url: 'http://127.0.0.1:8000/api/videoedukasi/' + videoId,
                             method: 'DELETE',
                             headers: {
                                 'Authorization': 'Bearer ' + apiToken,

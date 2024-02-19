@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Podcast</title>
+    <title>Dashboard | Quote</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -102,12 +102,13 @@
         </div>
     </div>
     <script>
+        var apiEndpoint = 'https://dev-sirama.propertiideal.id/api/quote/'
         var apiToken = localStorage.getItem('api_token');
 
         function refreshQuoteList() {
             // Menggunakan jQuery AJAX untuk mengambil data dari API
             $.ajax({
-                url: 'http://127.0.0.1:8000/api/quote',
+                url: apiEndpoint,
                 method: 'GET',
                 dataType: 'json',
                 success: function(data) {
@@ -117,7 +118,7 @@
                         row.append('<td class="px-2 py-4">' + (index + 1) + '</td>');
                         row.append('<td class="px-6 py-4">' + quote.nama_quote + '</td>');
                         row.append(
-                            '<td class="px-6 py-4"><div class="text-sm"><div class="font-medium text-gray-700"><a href="http://127.0.0.1:8000/storage/quote/' +
+                            '<td class="px-6 py-4"><div class="text-sm"><div class="font-medium text-gray-700"><a href="https://dev-sirama.propertiideal.id/storage/quote/' +
                             quote.gambar_quote + '">' +
                             quote.gambar_quote + '</a></div></div></td>');
                         row.append(
@@ -138,7 +139,7 @@
                     $('.deleteButton').on('click', function() {
                         const quoteId = $(this).data('id');
                         $.ajax({
-                            url: 'http://127.0.0.1:8000/api/quote/' + quoteId,
+                            url: apiEndpoint + quoteId,
                             method: 'DELETE',
                             headers: {
                                 'Authorization': 'Bearer ' + apiToken,
@@ -178,13 +179,14 @@
                 var formData = new FormData(form[0]); // Membuat objek FormData dari formulir
 
                 $.ajax({
-                    url: 'http://127.0.0.1:8000/api/quote',
+                    url: apiEndpoint,
                     method: 'POST',
                     data: formData,
                     processData: false, // Jangan memproses data secara otomatis
                     contentType: false, // Jangan mengatur tipe konten
                     headers: {
-                        'Authorization': 'Bearer ' + apiToken
+                        'Authorization': 'Bearer ' + apiToken,
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(data) {
                         alert('Data quote edukasi berhasil ditambah');

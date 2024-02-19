@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Podcast</title>
+    <title>Dashboard | Film</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -294,12 +294,13 @@
     </div>
    
     <script>
+        var apiEndpoint = 'https://dev-sirama.propertiideal.id/api/film/';
         var apiToken = localStorage.getItem('api_token');
 
         function refreshFilmList() {
             // Menggunakan jQuery AJAX untuk mengambil data dari API
             $.ajax({
-                url: 'http://127.0.0.1:8000/api/film',
+                url: apiEndpoint,
                 method: 'GET',
                 dataType: 'json',
                 success: function(data) {
@@ -329,7 +330,7 @@
                     $('.deleteButton').on('click', function() {
                         const filmId = $(this).data('id');
                         $.ajax({
-                            url: 'http://127.0.0.1:8000/api/film/' + filmId,
+                            url: apiEndpoint + filmId,
                             method: 'DELETE',
                             headers: {
                                 'Authorization': 'Bearer ' + apiToken,
@@ -368,7 +369,7 @@
                 var form = $(this);
                 var filmList = $('#film-list');
                 $.ajax({
-                    url: 'http://127.0.0.1:8000/api/film',
+                    url: apiEndpoint,
                     method: 'POST',
                     data: form.serialize(),
                     header: {
