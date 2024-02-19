@@ -110,11 +110,11 @@ class InfografisController extends Controller
         } catch (\Exception $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
-            $status_code = $e->getCode();
+            $status_code = 500;
         } catch (\Illuminate\Database\QueryException $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
-            $status_code = $e->getCode();
+            $status_code = 500;
         } finally {
             return response()->json([
                 'status' => $status,
@@ -143,7 +143,7 @@ class InfografisController extends Controller
                     $updatedInfografis = $infografis->update([
                         'judul_infografis' => $request->judul_infografis,
                         'deskripsi_infografis' => $request->deskripsi_infografis,
-                        'tgl_upload' => $request->tgl_upload,
+                        'tgl_upload' => Carbon::now()->format('Y-m-d'),
                         'gambar_infografis' => $gambar_infografis,
                         'upload_user_id' => $user->id_user
                     ]);

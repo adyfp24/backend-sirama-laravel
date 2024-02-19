@@ -302,7 +302,7 @@
         function refreshVideoList() {
             // Menggunakan jQuery AJAX untuk mengambil data dari API
             $.ajax({
-                url: 'http://127.0.0.1:8000/api/videoedukasi',
+                url: 'https://dev-sirama.propertiideal.id/api/videoedukasi',
                 method: 'GET',
                 dataType: 'json',
                 success: function(data) {
@@ -332,7 +332,7 @@
                     $('.deleteButton').on('click', function() {
                         const videoId = $(this).data('id');
                         $.ajax({
-                            url: 'http://127.0.0.1:8000/api/video-edukasi/' + videoId,
+                            url: 'http://127.0.0.1:8000/api/videoedukasi/' + videoId,
                             method: 'DELETE',
                             headers: {
                                 'Authorization': 'Bearer ' + apiToken,

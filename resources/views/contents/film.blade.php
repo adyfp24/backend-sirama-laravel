@@ -294,12 +294,13 @@
     </div>
    
     <script>
+        var apiEndpoint = 'https://dev-sirama.propertiideal.id/api/film/';
         var apiToken = localStorage.getItem('api_token');
 
         function refreshFilmList() {
             // Menggunakan jQuery AJAX untuk mengambil data dari API
             $.ajax({
-                url: 'http://127.0.0.1:8000/api/film',
+                url: apiEndpoint,
                 method: 'GET',
                 dataType: 'json',
                 success: function(data) {
@@ -329,7 +330,7 @@
                     $('.deleteButton').on('click', function() {
                         const filmId = $(this).data('id');
                         $.ajax({
-                            url: 'http://127.0.0.1:8000/api/film/' + filmId,
+                            url: apiEndpoint + filmId,
                             method: 'DELETE',
                             headers: {
                                 'Authorization': 'Bearer ' + apiToken,
@@ -368,7 +369,7 @@
                 var form = $(this);
                 var filmList = $('#film-list');
                 $.ajax({
-                    url: 'http://127.0.0.1:8000/api/film',
+                    url: apiEndpoint,
                     method: 'POST',
                     data: form.serialize(),
                     header: {

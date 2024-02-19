@@ -302,12 +302,13 @@
     </div>
 
     <script>
+        var apiEndpoint = 'https://dev-sirama.propertiideal.id/api/podcast/';
         var apiToken = localStorage.getItem('api_token');
 
         function refreshPodcastList() {
             // Menggunakan jQuery AJAX untuk mengambil data dari API
             $.ajax({
-                url: 'http://127.0.0.1:8000/api/podcast',
+                url: apiEndpoint,
                 method: 'GET',
                 dataType: 'json',
                 success: function(data) {
@@ -337,7 +338,7 @@
                     $('.deleteButton').on('click', function() {
                         const podcastId = $(this).data('id');
                         $.ajax({
-                            url: 'http://127.0.0.1:8000/api/podcast/' + podcastId,
+                            url: apiEndpoint + podcastId,
                             method: 'DELETE',
                             headers: {
                                 'Authorization': 'Bearer ' + apiToken,
@@ -376,7 +377,7 @@
                 var form = $(this);
                 var podcastList = $('#podcast-list');
                 $.ajax({
-                    url: 'http://127.0.0.1:8000/api/podcast',
+                    url: apiEndpoint,
                     method: 'POST',
                     data: form.serialize(),
                     header: {
