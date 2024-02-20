@@ -78,7 +78,7 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::put('film/{id}', [FilmController::class, 'updateFilm']);
     Route::delete('film/{id}', [FilmController::class, 'deleteFilm']);
 
-    Route::post('favfilm', [FilmController::class, 'addFavFilm']);
+    Route::post('favfilm/{id}', [FilmController::class, 'addFavFilm']);
     Route::get('favfilm', [FilmController::class, 'getAllFavFilm']);
     Route::delete('favfilm/{id}', [FilmController::class, 'removeFavFilm']);
     
