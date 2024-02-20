@@ -303,6 +303,7 @@ class QuoteController extends Controller
             if ($removedFavQuote) {
                 $status = 'success';
                 $message = 'Data Quote berhasil dihapus dari favorite.';
+                $data = $removedFavQuote;
             } else {
                 $status_code = 400;
                 $status = 'Failed';

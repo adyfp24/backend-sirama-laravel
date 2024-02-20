@@ -257,6 +257,7 @@ class FilmController extends Controller
             if ($favFilm) {
                 $status = 'success';
                 $message = 'Data film berhasil ditambah ke favorite.';
+                $data = $favFilm;
             } else {
                 $status_code = 400;
                 $status = 'failed';
@@ -291,6 +292,7 @@ class FilmController extends Controller
             if ($removedFavFilm) {
                 $status = 'success';
                 $message = 'Data film berhasil dihapus dari favorite.';
+                $data = $removedFavFilm;
             } else {
                 $status_code = 400;
                 $status = 'Failed';

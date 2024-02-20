@@ -282,6 +282,7 @@ class InfografisController extends Controller
             if ($favInfografis) {
                 $status = 'success';
                 $message = 'Data infografis berhasil ditambah ke favorite.';
+                $data = $favInfografis;
             } else {
                 $status_code = 400;
                 $status = 'failed';
@@ -315,6 +316,7 @@ class InfografisController extends Controller
             if ($removedFavInfografis) {
                 $status = 'success';
                 $message = 'Data infografis berhasil dihapus dari favorite.';
+                $data = $removedFavInfografis;
             } else {
                 $status_code = 400;
                 $status = 'Failed';
