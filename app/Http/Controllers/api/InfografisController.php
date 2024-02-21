@@ -243,6 +243,7 @@ class InfografisController extends Controller
                 ->select('fav_infografis.*', 'infografis.*')
                 ->get();
             if ($allInfografis) {
+                
                 $message = 'Data infografis favorit tersedia';
                 $status = 'success';
                 $data = $allInfografis;

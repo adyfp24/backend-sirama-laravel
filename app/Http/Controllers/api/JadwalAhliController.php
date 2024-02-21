@@ -68,7 +68,7 @@ class JadwalAhliController extends Controller
             ], $status_code);
         }
     }
-    public function addJadwal(Request $request){
+    public function addJadwal(Request $request, $id){
         $status = '';
         $message = '';
         $data = '';
@@ -76,10 +76,10 @@ class JadwalAhliController extends Controller
         try {
             $user = auth()->user();
             $newJadwal = JadwalAhli::create([
-                'ahli_user_id' => $user->id_user,
+                'ahli_user_id' => $id,
                 'hari' => $request->hari,
-                'jam_mulai' => $request->jam_mulai,
-                'jam_berakhir' => $request->jam_berakhir
+                'jam_konsultasi' => $request->jam_mulai,
+
             ]);
             if ($newJadwal) {
                 $message = 'jadwal berhasil ditambah';
