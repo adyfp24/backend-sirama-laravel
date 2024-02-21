@@ -357,26 +357,6 @@ class SkrinningController extends Controller
                 ];
             }
             
-            
-            // $alldata = [];                  
-            // for ($a=0; $a < count($allSkrinning); $a++) { 
-            //     $hasil = DB::table('riwayat_hasil_skrinnings')->select('bag_skrin_user_id', 'jenis_hasil', 'hasil')->where('bag_skrin_user_id', $allSkrinning[$a]->id_bag_skrin_user)->first();
-            //     $sumpoin = DB::table('riwayat_skrinnings')->select('poin_jawaban')->where('bag_skrin_user_id', $allSkrinning[$a]->id_bag_skrin_user)->sum('poin_jawaban');
-            //     $alldata[$a] = [
-            //         "id_skrin_user" => $allSkrinning[$a]->id_skrin_user ,
-            //         "id_user" => $allSkrinning[$a]->id_user ,
-            //         "id_skrinning" => $allSkrinning[$a]->id_skrinning ,
-            //         "id_bag_skrin_user" => $allSkrinning[$a]->id_bag_skrin_user ,
-            //         "tgl_pengisian" => $allSkrinning[$a]->tgl_pengisian ,
-            //         "jenis_skrinning" => $allSkrinning[$a]->jenis_skrinning ,
-            //         "nama_bagian" => $allSkrinning[$a]->nama_bagian ,
-            //         "deskripsi_skrinning" => $allSkrinning[$a]->deskripsi_skrinning ,
-            //         "jenis_hasil" => $hasil->jenis_hasil,
-            //         "hasil" => $hasil->hasil,
-            //         "poin_jawaban" => $sumpoin
-            //     ];
-            // }
-            
             if (count($allSkrinning) > 0) {
                 $message = 'data jenis skrinning tersedia';
             } else {
