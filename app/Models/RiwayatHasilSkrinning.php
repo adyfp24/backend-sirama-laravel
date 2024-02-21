@@ -9,5 +9,5 @@ class RiwayatHasilSkrinning extends Model
 {
     use HasFactory;
     protected $primaryKey = 'id_hasil_skrinning';
-    protected $fillable = ['hasil', 'tgl_pengisian', 'bag_skrin_user_id', 'user_id'];
+    protected $fillable = ['jenis_hasil', 'hasil', 'tgl_pengisian', 'bag_skrin_user_id', 'user_id'];
 }

@@ -28,22 +28,22 @@ class TestingSkrinning extends Seeder
         ]);
 
         DB::table('hasil_skrinnings')->insert([
-            'hasil' => 'Sobat RAMA "Nama User" cenderung sebagai korban bullying. Belajar Yuk di Fitur Video Edukasi dan Infografis serta layanan Tanya Ahli. Semoga Membantu',
+            'hasil' => 'cenderung sebagai korban bullying. Belajar Yuk di Fitur Video Edukasi dan Infografis serta layanan Tanya Ahli. Semoga Membantu',
             'jenis_hasil' => 'positif',
             'bagian_skrinning_id' => 1
         ]);
         DB::table('hasil_skrinnings')->insert([
-            'hasil' => 'Selamat! Sobat RAMA "Nama User" tidak terlibat dengan bullying pada remaja. Jaga Hati, Lisan, Laku dan Hargai Perbedaan untuk cegah Bullying ',
+            'hasil' => 'tidak terlibat dengan bullying pada remaja. Jaga Hati, Lisan, Laku dan Hargai Perbedaan untuk cegah Bullying ',
             'jenis_hasil' => 'negatif',
             'bagian_skrinning_id' => 1
         ]);
         DB::table('hasil_skrinnings')->insert([
-            'hasil' => 'Sobat RAMA "nama user/siswa" cenderung sebagai korban bullying. Belajar Yuk di Fitur Video Edukasi dan Infografis serta layanan Tanya Ahli. Semoga Membantu ',
+            'hasil' => 'cenderung sebagai korban bullying. Belajar Yuk di Fitur Video Edukasi dan Infografis serta layanan Tanya Ahli. Semoga Membantu ',
             'jenis_hasil' => 'positif',
             'bagian_skrinning_id' => 2
         ]);
         DB::table('hasil_skrinnings')->insert([
-            'hasil' => 'Selamat! Sobat RAMA "Nama User" tidak terlibat dengan bullying pada remaja. Jaga Hati, Lisan, Laku dan Hargai Perbedaan untuk cegah Bullying',
+            'hasil' => 'tidak terlibat dengan bullying pada remaja. Jaga Hati, Lisan, Laku dan Hargai Perbedaan untuk cegah Bullying',
             'jenis_hasil' => 'negatif',
             'bagian_skrinning_id' => 2
         ]);

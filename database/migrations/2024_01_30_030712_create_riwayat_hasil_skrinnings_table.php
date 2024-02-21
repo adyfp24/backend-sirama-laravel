@@ -15,6 +15,7 @@ class CreateRiwayatHasilSkrinningsTable extends Migration
     {
         Schema::create('riwayat_hasil_skrinnings', function (Blueprint $table) {
             $table->id('id_hasil_skrinning');
+            $table->string('jenis_hasil',10);
             $table->text('hasil');
             $table->date('tgl_pengisian');
             $table->bigInteger('bag_skrin_user_id')->unsigned();

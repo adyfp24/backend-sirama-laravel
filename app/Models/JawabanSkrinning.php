@@ -9,5 +9,5 @@ class JawabanSkrinning extends Model
 {
     use HasFactory;
     protected $primaryKey = 'id_jawaban_skrinning';
-    protected $fillable = ['jawaban', 'poin_jawaban', 'soal_skrinning_id'];
+    protected $fillable = ['jawaban', 'poin_jawaban', 'jenis_jawaban', 'soal_skrinning_id'];
 }
