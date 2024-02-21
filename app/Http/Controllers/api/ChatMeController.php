@@ -106,11 +106,11 @@ class ChatMeController extends Controller
         } catch (\Exception $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
-            $status_code = $e->getCode();
+            $status_code = 500;
         } catch (\Illuminate\Database\QueryException $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
-            $status_code = $e->getCode();
+            $status_code = 500;
         } finally {
             return response()->json([
                 'status' => $status,
@@ -193,23 +193,23 @@ class ChatMeController extends Controller
         $data = '';
         $status_code = 200;
         try {
-            $roomChat = RoomChatMe::where('id_room_chat_me', $id);
+            $roomChat = RoomChatMe::find($id);
             if ($roomChat) {
-                $riwayatChat = RiwayatChat::where('room_chat_me_id', $roomChat->id_room_chat_me);
+                $riwayatChat = RiwayatChat::where('room_chat_id', $roomChat->id_room_chat_me)->get();
                 $message = 'riwayat chat tersedia';
             } else {
                 $message = 'riwayat chat tidak tersedia';
             }
             $status = 'success';
             $data = $riwayatChat;
-        } catch (\Exception $e) {
+        } catch (\Exception $e) { 
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
-            $status_code = $e->getCode();
+            $status_code = 500;
         } catch (\Illuminate\Database\QueryException $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
-            $status_code = $e->getCode();
+            $status_code = 500;
         } finally {
             return response()->json([
                 'status' => $status,

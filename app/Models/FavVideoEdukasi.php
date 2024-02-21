@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class FavVideoEdukasi extends Model
 {
     use HasFactory;
+    protected $primaryKey = 'id_fav_video_edukasi';
     protected $table = 'fav_video_edukasi';
     protected $fillable = ['user_id', 'video_edukasi_id'];
     public function user(){

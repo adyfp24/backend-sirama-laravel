@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class FavFilm extends Model
 {
     use HasFactory;
+    protected $primaryKey = 'id_fav_film';
     protected $fillable = ['user_id', 'film_id'];
     public function user(){
         return $this->belongsTo(User::class);

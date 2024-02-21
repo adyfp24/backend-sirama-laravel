@@ -257,6 +257,7 @@ class FilmController extends Controller
             if ($favFilm) {
                 $status = 'success';
                 $message = 'Data film berhasil ditambah ke favorite.';
+                $data = $favFilm;
             } else {
                 $status_code = 400;
                 $status = 'failed';
@@ -291,6 +292,7 @@ class FilmController extends Controller
             if ($removedFavFilm) {
                 $status = 'success';
                 $message = 'Data film berhasil dihapus dari favorite.';
+                $data = $removedFavFilm;
             } else {
                 $status_code = 400;
                 $status = 'Failed';
@@ -299,11 +301,11 @@ class FilmController extends Controller
         } catch (\Exception $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
-            $status_code = $e->getCode();
+            $status_code = 500;
         } catch (\Illuminate\Database\QueryException $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
-            $status_code = $e->getCode();
+            $status_code = 500;
         } finally {
             return response()->json([
                 'status' => $status,

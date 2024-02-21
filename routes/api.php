@@ -62,7 +62,7 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::put('/video-edukasi/{id}', [VideoEdukasiController::class, 'updateVideoEdukasi']);
     Route::delete('/video-edukasi/{id}', [VideoEdukasiController::class, 'deleteVideoEdukasi']);
 
-    Route::post('/fav-video-edukasi', [VideoEdukasiController::class, 'addFavVideoEdukasi']);
+    Route::post('/fav-video-edukasi/{id}', [VideoEdukasiController::class, 'addFavVideoEdukasi']);
     Route::get('/fav-video-edukasi', [VideoEdukasiController::class, 'getAllFavVideoEdukasi']);
     Route::delete('/fav-video-edukasi/{id}', [VideoEdukasiController::class, 'removeFavVideoEdukasi']);
 
@@ -78,7 +78,7 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::put('film/{id}', [FilmController::class, 'updateFilm']);
     Route::delete('film/{id}', [FilmController::class, 'deleteFilm']);
 
-    Route::post('favfilm', [FilmController::class, 'addFavFilm']);
+    Route::post('favfilm/{id}', [FilmController::class, 'addFavFilm']);
     Route::get('favfilm', [FilmController::class, 'getAllFavFilm']);
     Route::delete('favfilm/{id}', [FilmController::class, 'removeFavFilm']);
     

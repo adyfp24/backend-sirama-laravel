@@ -84,37 +84,31 @@ class InfografisController extends Controller
         $status_code = 201;
         try {
             $user = auth()->user();
-            $file = $request->file('gambar_infografis');
-            if ($file) {
-                $gambar_infografis = Str::random() . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path('storage/infografis/'), $gambar_infografis);
-                $infografis = Infografis::create([
-                    'judul_infografis' => $request->judul_infografis,
-                    'deskripsi_infografis' => $request->deskripsi_infografis,
-                    'tgl_upload' => Carbon::now()->format('Y-m-d'),
-                    'gambar_infografis' => $gambar_infografis,
-                    'upload_user_id' => $user->id_user
-                ]);
-            } else {
-                $infografis = Infografis::create([
-                    'judul_infografis' => $request->judul_infografis,
-                    'deskripsi_infografis' => $request->deskripsi_infografis,
-                    'tgl_upload' => $request->tgl_upload,
-                    'upload_user_id' => $user->id_user
-                ]);
-            }
-
+            $fileInfografis = $request->file('gambar_infografis');
+            $fileSampul = $request->file('sampul_infografis');
+            $gambar_infografis = Str::random() . '.' . $fileInfografis->getClientOriginalExtension();
+            $sampul_infografis = Str::random() . '.' . $fileInfografis->getClientOriginalExtension();
+            $fileInfografis->move(public_path('storage/infografis/'), $gambar_infografis);
+            $fileSampul->move(public_path('storage/infografis/'), $sampul_infografis);
+            $infografis = Infografis::create([
+                'judul_infografis' => $request->judul_infografis,
+                'deskripsi_infografis' => $request->deskripsi_infografis,
+                'tgl_upload' => Carbon::now()->format('Y-m-d'),
+                'gambar_infografis' => $gambar_infografis,
+                'sampul_infografis' => $sampul_infografis,
+                'upload_user_id' => $user->id_user
+            ]);
             $status = 'success';
             $message = 'Data infografis berhasil ditambah.';
             $data = $infografis;
         } catch (\Exception $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
-            $status_code = $e->getCode();
+            $status_code = 500;
         } catch (\Illuminate\Database\QueryException $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
-            $status_code = $e->getCode();
+            $status_code = 500;
         } finally {
             return response()->json([
                 'status' => $status,
@@ -143,7 +137,7 @@ class InfografisController extends Controller
                     $updatedInfografis = $infografis->update([
                         'judul_infografis' => $request->judul_infografis,
                         'deskripsi_infografis' => $request->deskripsi_infografis,
-                        'tgl_upload' => $request->tgl_upload,
+                        'tgl_upload' => Carbon::now()->format('Y-m-d'),
                         'gambar_infografis' => $gambar_infografis,
                         'upload_user_id' => $user->id_user
                     ]);
@@ -204,10 +198,8 @@ class InfografisController extends Controller
             $user = auth()->user();
             $infografis = Infografis::find($id);
             if ($infografis) {
-                $file = $infografis->gambar_infografis;
-                if ($file) {
-                    unlink(public_path('storage/infografis/' . $infografis->gambar_infografis));
-                }
+                unlink(public_path('storage/infografis/' . $infografis->gambar_infografis));
+                unlink(public_path('storage/infografis/' . $infografis->sampul_infografis));
                 $deletedInfografis = $infografis->delete();
                 if ($deletedInfografis) {
                     $status = 'success';
@@ -247,10 +239,11 @@ class InfografisController extends Controller
         try {
             $user = auth()->user();
             $allInfografis = FavInfografis::join('infografis', 'fav_infografis.infografis_id', '=', 'infografis.id_infografis')
-            ->where('user_id', '=', $user->id_user)
-            ->select('fav_infografis.*', 'infografis.*')
-            ->get();
+                ->where('user_id', '=', $user->id_user)
+                ->select('fav_infografis.*', 'infografis.*')
+                ->get();
             if ($allInfografis) {
+                
                 $message = 'Data infografis favorit tersedia';
                 $status = 'success';
                 $data = $allInfografis;
@@ -290,6 +283,7 @@ class InfografisController extends Controller
             if ($favInfografis) {
                 $status = 'success';
                 $message = 'Data infografis berhasil ditambah ke favorite.';
+                $data = $favInfografis;
             } else {
                 $status_code = 400;
                 $status = 'failed';
@@ -323,6 +317,7 @@ class InfografisController extends Controller
             if ($removedFavInfografis) {
                 $status = 'success';
                 $message = 'Data infografis berhasil dihapus dari favorite.';
+                $data = $removedFavInfografis;
             } else {
                 $status_code = 400;
                 $status = 'Failed';
@@ -344,15 +339,16 @@ class InfografisController extends Controller
             ], $status_code);
         }
     }
-    public function getTotalLikes($id){
-        try{
+    public function getTotalLikes($id)
+    {
+        try {
             $data = "";
             $infografis = FavInfografis::where('infografis_id', $id);
             $totalLike = $infografis->count();
             if ($totalLike) {
                 $data = $totalLike;
             }
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
             $status_code = $e->getCode();
