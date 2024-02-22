@@ -219,7 +219,7 @@ class SkrinningController extends Controller
             $soal = SoalSkrinning::where('bagian_skrinning_id', $request->id_bagian_user)->orderBy('no_soal', 'ASC')->get();
             $id_jawaban = $request->id_jawaban_skrinning;
             // dd($id_jawaban);
-            for ($i=0; $i < count($soal) ; $i++) { 
+            for ($i=0; $i < count($id_jawaban) ; $i++) { 
                 $jawaban = JawabanSkrinning::where('id_jawaban_skrinning', $id_jawaban[$i])->first();
                 $newRIwayatSkrinning = RiwayatSkrinning::create([
                     'soal' => $soal[$i]->soal,
