@@ -41,7 +41,7 @@ Route::post('login', [LoginController::class, 'login'])->name('login-api');
 Route::post('logout', [LogoutController::class, 'logout'])->middleware('auth:sanctum');
 
 
-Route::middleware(['auth:sanctum'])->group(function(){
+Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/podcast', [PodcastController::class, 'createPodcast']);
     Route::put('/podcast/{id}', [PodcastController::class, 'updatePodcast']);
     Route::delete('/podcast/{id}', [PodcastController::class, 'deletePodcast']);
@@ -67,12 +67,12 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::delete('/fav-video-edukasi/{id}', [VideoEdukasiController::class, 'removeFavVideoEdukasi']);
 
     Route::post('quote', [QuoteController::class, 'createQuote']);
-    Route::put('quote/{id}',[QuoteController::class, 'updateQuote']);
-    Route::delete('quote/{id}',[QuoteController::class, 'deleteQuote']);
+    Route::put('quote/{id}', [QuoteController::class, 'updateQuote']);
+    Route::delete('quote/{id}', [QuoteController::class, 'deleteQuote']);
 
     Route::post('favquote/{id}', [QuoteController::class, 'addFavQuote']);
-    Route::get('favquote',[QuoteController::class, 'getAllFavQuote']);
-    Route::delete('favquote/{id}',[QuoteController::class, 'removeFavQuote']); 
+    Route::get('favquote', [QuoteController::class, 'getAllFavQuote']);
+    Route::delete('favquote/{id}', [QuoteController::class, 'removeFavQuote']);
 
     Route::post('film', [FilmController::class, 'createFilm']);
     Route::put('film/{id}', [FilmController::class, 'updateFilm']);
@@ -81,19 +81,19 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::post('favfilm/{id}', [FilmController::class, 'addFavFilm']);
     Route::get('favfilm', [FilmController::class, 'getAllFavFilm']);
     Route::delete('favfilm/{id}', [FilmController::class, 'removeFavFilm']);
-    
-    Route::post('jadwalahli',[JadwalAhliController::class, 'addJadwal']);
-    Route::put('jadwalahli/{id}',[JadwalAhliController::class, 'updateJadwal']);
-    Route::delete('jadwalahli/{id}',[JadwalAhliController::class, 'deleteJadwal']);
 
-    Route::post('tanyaahli',[TanyaAhliController::class, 'addPertanyaan']);
-    Route::delete('tanyaahli/{id}',[TanyaAhliController::class, 'deletePertanyaan']);
+    Route::post('jadwalahli', [JadwalAhliController::class, 'addJadwal']);
+    Route::put('jadwalahli/{id}', [JadwalAhliController::class, 'updateJadwal']);
+    Route::delete('jadwalahli/{id}', [JadwalAhliController::class, 'deleteJadwal']);
 
-    Route::post('topikpertanyaan',[TopikPertanyaanController::class, 'addTopik']);
-    Route::delete('topikpertanyaan/{id}',[TopikPertanyaanController::class, 'deleteTopik']);
+    Route::post('tanyaahli', [TanyaAhliController::class, 'addPertanyaan']);
+    Route::delete('tanyaahli/{id}', [TanyaAhliController::class, 'deletePertanyaan']);
 
-    Route::post('jawabanahli/{id}',[JawabanAhliController::class, 'addJawaban']);
-    Route::delete('jawabanahli/{id}',[JawabanAhliController::class, 'deleteJawaban']);
+    Route::post('topikpertanyaan', [TopikPertanyaanController::class, 'addTopik']);
+    Route::delete('topikpertanyaan/{id}', [TopikPertanyaanController::class, 'deleteTopik']);
+
+    Route::post('jawabanahli/{id}', [JawabanAhliController::class, 'addJawaban']);
+    Route::delete('jawabanahli/{id}', [JawabanAhliController::class, 'deleteJawaban']);
 
     Route::post('chatme/{id}', [ChatMeController::class, 'createChat']);
     Route::get('me', [MeController::class, 'getMe']);
@@ -104,6 +104,9 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::post('/submitskrinning', [SkrinningController::class, 'submitBagianSkrinningUser']);
     Route::get('/riwayatskrinning', [SkrinningController::class, 'getRiwayatSkrinning']);
     Route::get('/detailriwayatskrinning/{id}', [SkrinningController::class, 'getDetailRiwayatSkrinning']);
+
+    Route::get('/chatme', [ChatMeController::class, 'getAllChat']);
+    Route::get('/chatme/{id}', [ChatMeController::class, 'getChatById']);
 });
 
 Route::get('/podcast', [PodcastController::class, 'getAllPodcast']);
@@ -122,19 +125,16 @@ Route::get('/quote/{id}', [QuoteController::class, 'getQuoteById']);
 Route::get('/film', [FilmController::class, 'getAllFilm']);
 Route::get('/film/{id}', [FilmController::class, 'getFilmById']);
 
-Route::get('/jadwalahli',[JadwalAhliController::class, 'getAllJadwal']);
-Route::get('/jadwalahli/{id}',[JadwalAhliController::class, 'getJadwalById']);
+Route::get('/jadwalahli', [JadwalAhliController::class, 'getAllJadwal']);
+Route::get('/jadwalahli/{id}', [JadwalAhliController::class, 'getJadwalById']);
 
-Route::get('/tanyaahli',[TanyaAhliController::class, 'getAllPertanyaan']);
-Route::get('/tanyaahli/{id}',[TanyaAhliController::class, 'getPertanyaanById']);
+Route::get('/tanyaahli', [TanyaAhliController::class, 'getAllPertanyaan']);
+Route::get('/tanyaahli/{id}', [TanyaAhliController::class, 'getPertanyaanById']);
 
-Route::get('/topikpertanyaan',[TopikPertanyaanController::class, 'getAllTopik']);
-Route::get('/topikpertanyaan/{id}',[TopikPertanyaanController::class, 'getTopikById']);
+Route::get('/topikpertanyaan', [TopikPertanyaanController::class, 'getAllTopik']);
+Route::get('/topikpertanyaan/{id}', [TopikPertanyaanController::class, 'getTopikById']);
 
-Route::get('/jawabanahli',[JawabanAhliController::class, 'getAllJawaban']);
-Route::get('/jawabanahli/{id}',[JawabanAhliController::class, 'getJawabanById']);
-
-Route::get('/chatme',[ChatMeController::class, 'getAllChat']);
-Route::get('/chatme/{id}',[ChatMeController::class, 'getChatById']);
+Route::get('/jawabanahli', [JawabanAhliController::class, 'getAllJawaban']);
+Route::get('/jawabanahli/{id}', [JawabanAhliController::class, 'getJawabanById']);
 
 Route::get('/kontenterbaru', [NewKontenController::class, 'getAllNewKonten']);
