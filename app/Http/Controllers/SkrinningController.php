@@ -213,10 +213,10 @@ class SkrinningController extends Controller
             $user = auth()->user();
             $newBagianSkrinningUser = BagianSkrinningUser::create([
                 'skrin_user_id' => $request->skrin_user,
-                'bagian_skrinning_id' => $request->id_bagian_user,
+                'bagian_skrinning_id' => $request->id_bagian_skrining,
             ]);
             $positif = False;
-            $soal = SoalSkrinning::where('bagian_skrinning_id', $request->id_bagian_user)->orderBy('no_soal', 'ASC')->get();
+            $soal = SoalSkrinning::where('bagian_skrinning_id', $request->id_bagian_skrining)->orderBy('no_soal', 'ASC')->get();
             $id_jawaban = $request->id_jawaban_skrinning;
             // dd($id_jawaban);
             for ($i=0; $i < count($id_jawaban) ; $i++) { 
@@ -233,7 +233,7 @@ class SkrinningController extends Controller
                 }
             }
             if ($positif == True) {
-                $gethasil = HasilSkrinning::where('bagian_skrinning_id', $request->id_bagian_user)
+                $gethasil = HasilSkrinning::where('bagian_skrinning_id', $request->id_bagian_skrining)
                                             ->where('jenis_hasil', 'positif')
                                             ->first();
                 $newRiwayatHasilSkrinning = RiwayatHasilSkrinning::create([
@@ -244,7 +244,7 @@ class SkrinningController extends Controller
                     'user_id' => $user->id_user
                 ]);
             } elseif ($positif == False) {
-                $gethasil = HasilSkrinning::where('bagian_skrinning_id', $request->id_bagian_user)
+                $gethasil = HasilSkrinning::where('bagian_skrinning_id', $request->id_bagian_skrining)
                                             ->where('jenis_hasil', 'negatif')
                                             ->first();
                 

@@ -18,7 +18,8 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             // SkrinningSeeder::class,
             // TestingSkrinning::class
-            BullyingSeeder::class
+            BullyingSeeder::class,
+            CyberBullyingSeeder::class
         ]);
     }
 }
