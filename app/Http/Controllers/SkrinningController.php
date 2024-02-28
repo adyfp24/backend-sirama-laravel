@@ -215,48 +215,83 @@ class SkrinningController extends Controller
                 'skrin_user_id' => $request->skrin_user,
                 'bagian_skrinning_id' => $request->id_bagian_skrining,
             ]);
-            $positif = False;
-            $soal = SoalSkrinning::where('bagian_skrinning_id', $request->id_bagian_skrining)->orderBy('no_soal', 'ASC')->get();
-            $id_jawaban = $request->id_jawaban_skrinning;
-            // dd($id_jawaban);
-            for ($i=0; $i < count($id_jawaban) ; $i++) { 
-                $jawaban = JawabanSkrinning::where('id_jawaban_skrinning', $id_jawaban[$i])->first();
-                $newRIwayatSkrinning = RiwayatSkrinning::create([
-                    'soal' => $soal[$i]->soal,
-                    'jawaban' => $jawaban->jawaban,
-                    'poin_jawaban' => $jawaban->poin_jawaban,
-                    'tgl_pengisian' => date('Y-m-d'),
-                    'bag_skrin_user_id' => $newBagianSkrinningUser->id_bag_skrin_user
-                ]);
-                if (strtolower($jawaban->jenis_jawaban) == 'positif') {
-                    $positif = True;
+
+            $jangkauan = DB::table('jangkauan_hasil_skrinnings')->where('bagian_skrinning_id', $request->id_bagian_skrining)->get();
+            
+            if (count($jangkauan) > 0) {
+                $soal = SoalSkrinning::where('bagian_skrinning_id', $request->id_bagian_skrining)->orderBy('no_soal', 'ASC')->get();
+                $id_jawaban = $request->id_jawaban_skrinning;
+                for ($i=0; $i < count($id_jawaban) ; $i++) { 
+                    $jawaban = JawabanSkrinning::where('id_jawaban_skrinning', $id_jawaban[$i])->first();
+                    $newRIwayatSkrinning = RiwayatSkrinning::create([
+                        'soal' => $soal[$i]->soal,
+                        'jawaban' => $jawaban->jawaban,
+                        'poin_jawaban' => $jawaban->poin_jawaban,
+                        'tgl_pengisian' => date('Y-m-d'),
+                        'bag_skrin_user_id' => $newBagianSkrinningUser->id_bag_skrin_user
+                    ]);
                 }
+                $poin = DB::table('riwayat_skrinnings')->where('bag_skrin_user_id', $newBagianSkrinningUser->id_bag_skrin_user)->select('poin_jawaban')->sum('poin_jawaban');
+                for ($j=0; $j < count($jangkauan); $j++) { 
+                    if ($poin >= $jangkauan[$j]->jangkauan_awal && $poin <= $jangkauan[$j]->jangkauan_akhir){
+                        $newRiwayatHasilSkrinning = RiwayatHasilSkrinning::create([
+                            'jenis_hasil' => $jangkauan[$j]->jenis_hasil,
+                            'hasil' => $jangkauan[$j]->hasil,
+                            'tgl_pengisian' => date('Y-m-d'),
+                            'bag_skrin_user_id' => $newBagianSkrinningUser->id_bag_skrin_user,
+                            'user_id' => $user->id_user
+                        ]);
+                        break;
+                    }
+                }
+
+    
+            } 
+            else {
+                $positif = False;
+                $soal = SoalSkrinning::where('bagian_skrinning_id', $request->id_bagian_skrining)->orderBy('no_soal', 'ASC')->get();
+                $id_jawaban = $request->id_jawaban_skrinning;
+                // dd($id_jawaban);
+                for ($i=0; $i < count($id_jawaban) ; $i++) { 
+                    $jawaban = JawabanSkrinning::where('id_jawaban_skrinning', $id_jawaban[$i])->first();
+                    $newRIwayatSkrinning = RiwayatSkrinning::create([
+                        'soal' => $soal[$i]->soal,
+                        'jawaban' => $jawaban->jawaban,
+                        'poin_jawaban' => $jawaban->poin_jawaban,
+                        'tgl_pengisian' => date('Y-m-d'),
+                        'bag_skrin_user_id' => $newBagianSkrinningUser->id_bag_skrin_user
+                    ]);
+                    if (strtolower($jawaban->jenis_jawaban) == 'positif') {
+                        $positif = True;
+                    }
+                }
+                if ($positif == True) {
+                    $gethasil = HasilSkrinning::where('bagian_skrinning_id', $request->id_bagian_skrining)
+                                                ->where('jenis_hasil', 'positif')
+                                                ->first();
+                    $newRiwayatHasilSkrinning = RiwayatHasilSkrinning::create([
+                        'jenis_hasil' => 'positif',
+                        'hasil' => $gethasil->hasil,
+                        'tgl_pengisian' => date('Y-m-d'),
+                        'bag_skrin_user_id' => $newBagianSkrinningUser->id_bag_skrin_user,
+                        'user_id' => $user->id_user
+                    ]);
+                } elseif ($positif == False) {
+                    $gethasil = HasilSkrinning::where('bagian_skrinning_id', $request->id_bagian_skrining)
+                                                ->where('jenis_hasil', 'negatif')
+                                                ->first();
+                    
+                    $newRiwayatHasilSkrinning = RiwayatHasilSkrinning::create([
+                        'jenis_hasil' => 'negatif',
+                        'hasil' => $gethasil->hasil,
+                        'tgl_pengisian' => date('Y-m-d'),
+                        'bag_skrin_user_id' => $newBagianSkrinningUser->id_bag_skrin_user,
+                        'user_id' => $user->id_user
+                    ]);
+                }
+                $poin = DB::table('riwayat_skrinnings')->where('bag_skrin_user_id', $newBagianSkrinningUser->id_bag_skrin_user)->select('poin_jawaban')->sum('poin_jawaban');
             }
-            if ($positif == True) {
-                $gethasil = HasilSkrinning::where('bagian_skrinning_id', $request->id_bagian_skrining)
-                                            ->where('jenis_hasil', 'positif')
-                                            ->first();
-                $newRiwayatHasilSkrinning = RiwayatHasilSkrinning::create([
-                    'jenis_hasil' => 'positif',
-                    'hasil' => $gethasil->hasil,
-                    'tgl_pengisian' => date('Y-m-d'),
-                    'bag_skrin_user_id' => $newBagianSkrinningUser->id_bag_skrin_user,
-                    'user_id' => $user->id_user
-                ]);
-            } elseif ($positif == False) {
-                $gethasil = HasilSkrinning::where('bagian_skrinning_id', $request->id_bagian_skrining)
-                                            ->where('jenis_hasil', 'negatif')
-                                            ->first();
-                
-                $newRiwayatHasilSkrinning = RiwayatHasilSkrinning::create([
-                    'jenis_hasil' => 'negatif',
-                    'hasil' => $gethasil->hasil,
-                    'tgl_pengisian' => date('Y-m-d'),
-                    'bag_skrin_user_id' => $newBagianSkrinningUser->id_bag_skrin_user,
-                    'user_id' => $user->id_user
-                ]);
-            }
-            $poin = DB::table('riwayat_skrinnings')->where('bag_skrin_user_id', $newBagianSkrinningUser->id_bag_skrin_user)->select('poin_jawaban')->sum('poin_jawaban');
+            
             $message = 'Submit skrinning berhasil';
             $status = 'success';  
             $data = ['jenis_hasil' => $newRiwayatHasilSkrinning->jenis_hasil, 'deskripsi' => $newRiwayatHasilSkrinning->hasil, 'poin' => $poin];          
@@ -323,7 +358,7 @@ class SkrinningController extends Controller
             //                     ->join('skrinnings', 'skrinning_users.skrinning_id', '=', 'skrinnings.id_skrinning')
             //                     ->rightJoin('bagian_skrinning_users', 'bagian_skrinning_users.skrin_user_id', '=', 'skrinning_users.id_skrin_user')
             //                     // ->join('riwayat_hasil_skrinnings', 'riwayat_hasil_skrinnings.bag_skrin_user_id', '=', 'bagian_skrinning_users.id_bag_skrin_user' )
-            //                     ->join('bagian_skrinnings', 'bagian_skrinning_users.bagian_skrinning_id', '=', 'bagian_skrinnings.id_bagian_skrinning')
+            //                     ->join('bagian_skrinnings', 'bagian_skrinning_users.bagian_skrinning_id', '=', 'bagian_skrinnings.')
             //                     ->select('skrinning_users.id_skrin_user', 'users.id_user', 'skrinnings.id_skrinning', 'bagian_skrinning_users.id_bag_skrin_user', 'tgl_pengisian', 'jenis_skrinning', 'nama_bagian', 'deskripsi_skrinning' )
             //                     // ->groupBy('skrinning_users.id_skrin_user')
             //                     ->orderBy('tgl_pengisian', 'ASC')
