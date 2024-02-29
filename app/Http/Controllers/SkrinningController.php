@@ -132,11 +132,21 @@ class SkrinningController extends Controller
         $status_code = 200;
         try {
             $user = auth()->user();
-            $newSkrinningUser = SkrinningUser::create([
+            $SkrinningUser = SkrinningUser::create([
                 'tgl_pengisian' => date('Y-m-d'),
                 'skrinning_id' => $id,
                 'user_id' => $user->id_user
             ]);
+            // dd($SkrinningUser);
+            // $newSkrinningUser = [
+            //     "tgl_pengisian" => $SkrinningUser->tgl_pengisian,
+            //     "skrinning_id" => $id,
+            //     "user_id" => $user->id_user,
+            //     "updated_at" => $SkrinningUser->updated_at,
+            //     "created_at" => $SkrinningUser->created_at,
+            //     "id_skrin_user" => $SkrinningUser->id_skrin_user
+            // ];
+            // dd();
 
             // $coba = [];
             // $coba['kata'] = 'ok';
@@ -198,7 +208,7 @@ class SkrinningController extends Controller
                 'status' => $status,
                 'message' => $message,
                 'data' => $data, 
-                'skrin_user' => $newSkrinningUser
+                'skrin_user' => array($SkrinningUser)
             ], $status_code);
         }
     }
@@ -475,7 +485,7 @@ class SkrinningController extends Controller
                     $message = 'data terkait skrining tidak tersedia';
                 }
                 $status = 'success';
-                $data = $detail;
+                $data = array($detail);
             } catch (\Exception $e) {
                 $status = 'failed';
                 $message = 'Gagal menjalankan request. ' . $e->getMessage();
