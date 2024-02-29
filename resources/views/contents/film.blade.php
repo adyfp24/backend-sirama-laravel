@@ -27,7 +27,8 @@
                         @csrf
                         <div class='px-2 mb-5'>
                             <p class='text-lg font-medium'>Judul Film</p>
-                            <input name="judul_film" placeholder="Masukkan judul film..." onChange='' required type="text"
+                            <input name="judul_film" placeholder="Masukkan judul film..." onChange='' required
+                                type="text"
                                 class='border w-full rounded-md px-4 h-10 text-sm font-medium border-gray-200' />
                         </div>
                         <div class="w-full px-2 mx-auto mt-5">
@@ -261,7 +262,7 @@
                                         class="block px-0 w-full text-sm text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
                                         placeholder="Masukkan deksipsi film..." required></textarea>
                                 </div>
-                            </div>
+                            </div>                                                                                                      
                             <script src="https://unpkg.com/flowbite@1.4.0/dist/flowbite.js"></script>
                         </div>
                         <div class='flex justify-center px-2'>
@@ -285,14 +286,14 @@
                             </tr>
                         </thead>
                         <tbody id="film-list" class="divide-y divide-gray-100 border-t border-gray-100">
-                            
+
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
-   
+
     <script>
         var apiEndpoint = 'https://dev-sirama.propertiideal.id/api/film/';
         var apiToken = localStorage.getItem('api_token');

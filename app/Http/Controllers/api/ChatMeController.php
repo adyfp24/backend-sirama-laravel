@@ -62,8 +62,6 @@ class ChatMeController extends Controller
             } elseif ($user->role === 'guru') {
                 $remaja = Remaja::where('id_remaja', $id)->first();
                 $guru = Guru::where('user_id', $user->id_user)->first();
-                $remaja = Remaja::where('user_id', $user->id_user)->first();
-                $guru = Guru::where('id_guru', $id)->first();
                 $roomChat = RoomChatMe::where('remaja_user_id', $remaja->id_remaja)
                     ->where('guru_user_id', $guru->id_guru)
                     ->first();
@@ -120,41 +118,7 @@ class ChatMeController extends Controller
         }
     }
 
-    // public function createChat(Request $request, $id)
-    // {
-    //     try {
-    //         $user = auth()->user();
-    //         if ($user->role === 'remaja') {
-    //             $remaja = Remaja::where('user_id', $user->id_user)->first();
-    //             $guru = Guru::where('id_guru', $id)->first();
-    //             $roomChat = RoomChatMe::where('remaja_user_id', $remaja->id_remaja)
-    //                 ->where('guru_user_id', $guru->id_guru)
-    //                 ->first();
-    //             if ($roomChat) {
-    //                 $chat = RiwayatChat::create([
-    //                     'pesan' => $request->pesan,
-    //                     'user_id' => $user->id_user,
-    //                     'tgl_chat' => Carbon::now()->format('Y-m-d H:i:s'),
-    //                     'waktu_chat' => Carbon::now()->format('H:i:s'),
-    //                     'room_chat_id' => $roomChat->id_room_chat_me
-    //                 ]);
-    //                 if ($chat) {
-    //                     $message = 'pesan berhasil dikirim';
-    //                 } else {
-    //                     $message = 'pesan gagal dikirim';
-    //                 }
-    //                 $message = 'room chat ada';
-    //             } else {
-    //                 $message = 'room chat tidak ada';
-    //             }
-    //             return response()->json(["message" => "testing", "data" => $message, "room" => $roomChat], 200);
-    //         } else {
-    //             return response()->json(["message" => "testing", "data" => ""], 200);
-    //         }
-    //     } catch (\Exception $e) {
 
-    //     }
-    // }
     public function getAllChat()
     {
         $status = '';
@@ -162,22 +126,38 @@ class ChatMeController extends Controller
         $data = '';
         $status_code = 200;
         try {
-            $roomChat = RoomChatMe::all();
-            if ($roomChat) {
-                $message = 'riwayat chat tersedia';
-            } else {
-                $message = 'riwayat chat tidak tersedia';
+            $user = auth()->user();
+            if($user->role == 'remaja'){
+                $roomChat = RoomChatMe::join('gurus', 'room_chat_mes.guru_user_id', '=', 'gurus.id_guru')
+                ->select('room_chat_mes.*', 'gurus.nama', 'gurus.foto_profile')
+                ->get();
+                if ($roomChat) {
+                    $message = 'riwayat chat tersedia';
+                    $status = 'success';
+                    $data = $roomChat;
+                } else {
+                    $message = 'riwayat chat tidak tersedia';
+                }
+            }else{
+                $roomChat = RoomChatMe::join('remajas', 'room_chat_mes.remaja_user_id', '=', 'remajas.id_remaja')
+                ->select('room_chat_mes.*', 'remajas.nama', 'remajas.foto_profile')
+                ->get();
+                if ($roomChat) {
+                    $message = 'riwayat chat tersedia';
+                    $status = 'success';
+                    $data = $roomChat;
+                } else {
+                    $message = 'riwayat chat tidak tersedia';
+                }
             }
-            $status = 'success';
-            $data = $roomChat;
         } catch (\Exception $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
-            $status_code = $e->getCode();
+            $status_code = 500;
         } catch (\Illuminate\Database\QueryException $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
-            $status_code = $e->getCode();
+            $status_code = 500;
         } finally {
             return response()->json([
                 'status' => $status,
@@ -196,13 +176,13 @@ class ChatMeController extends Controller
             $roomChat = RoomChatMe::find($id);
             if ($roomChat) {
                 $riwayatChat = RiwayatChat::where('room_chat_id', $roomChat->id_room_chat_me)->get();
-                $message = 'riwayat chat tersedia';
+                $message = 'room dan riwayat chat tersedia';
+                $status = 'success';
+                $data = $riwayatChat;
             } else {
-                $message = 'riwayat chat tidak tersedia';
+                $message = 'room chat tidak tersedia';
             }
-            $status = 'success';
-            $data = $riwayatChat;
-        } catch (\Exception $e) { 
+        } catch (\Exception $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
             $status_code = 500;
