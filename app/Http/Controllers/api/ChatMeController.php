@@ -128,7 +128,9 @@ class ChatMeController extends Controller
         try {
             $user = auth()->user();
             if($user->role == 'remaja'){
+                $remaja = Remaja::where('user_id', $user->id_user)->first();
                 $roomChat = RoomChatMe::join('gurus', 'room_chat_mes.guru_user_id', '=', 'gurus.id_guru')
+                ->where('remaja_user_id', $remaja->id_remaja)
                 ->select('room_chat_mes.*', 'gurus.nama', 'gurus.foto_profile')
                 ->get();
                 if ($roomChat) {
@@ -139,7 +141,9 @@ class ChatMeController extends Controller
                     $message = 'riwayat chat tidak tersedia';
                 }
             }else{
+                $guru = Guru::where('user_id', $user->id_user)->first();
                 $roomChat = RoomChatMe::join('remajas', 'room_chat_mes.remaja_user_id', '=', 'remajas.id_remaja')
+                ->where('guru_user_id', $guru->id_guru)
                 ->select('room_chat_mes.*', 'remajas.nama', 'remajas.foto_profile')
                 ->get();
                 if ($roomChat) {
