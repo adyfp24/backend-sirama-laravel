@@ -19,7 +19,10 @@ class DatabaseSeeder extends Seeder
             // SkrinningSeeder::class,
             // TestingSkrinning::class
             BullyingSeeder::class,
-            CyberBullyingSeeder::class
+            CyberBullyingSeeder::class,
+            EmpatiSeeder::class,
+            EfikasiDiriSeeder::class,
+            PrososialSeeder::class
         ]);
     }
 }
