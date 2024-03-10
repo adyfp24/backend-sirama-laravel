@@ -11,6 +11,7 @@ use App\Http\Controllers\api\JawabanAhliController;
 use App\Http\Controllers\api\MeController;
 use App\Http\Controllers\api\NewKontenController;
 use App\Http\Controllers\api\PodcastController;
+use App\Http\Controllers\api\profile\RemajaController;
 use App\Http\Controllers\api\QuoteController;
 use App\Http\Controllers\api\TanyaAhliController;
 use App\Http\Controllers\api\TopikPertanyaanController;
@@ -107,6 +108,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('/chatme', [ChatMeController::class, 'getAllChat']);
     Route::get('/chatme/{id}', [ChatMeController::class, 'getChatById']);
+
+    Route::put('/update-remaja', [RemajaController::class, 'updateProfile']);
 });
 
 Route::get('/podcast', [PodcastController::class, 'getAllPodcast']);
