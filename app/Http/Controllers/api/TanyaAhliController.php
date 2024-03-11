@@ -21,7 +21,7 @@ class TanyaAhliController extends Controller
                 'penanya_user_id' => $user->id_user,
                 'pertanyaan' => $request->pertanyaan,
                 'status_pertanyaan' => false,
-                'waktu_tanya' => Carbon::now()->format('Y-m-d H:i:s')
+                'waktu_tanya' => Carbon::now('Asia/Jakarta')->format('Y-m-d H:i:s')
             ]);
             if ($newQuestion) {
                 $message = 'pertanyaan berhasil ditambah';
