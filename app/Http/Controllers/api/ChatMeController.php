@@ -30,8 +30,8 @@ class ChatMeController extends Controller
                     $chat = RiwayatChat::create([
                         'pesan' => $request->pesan,
                         'user_id' => $user->id_user,
-                        'tgl_chat' => Carbon::now()->format('Y-m-d H:i:s'),
-                        'waktu_chat' => Carbon::now()->format('H:i:s'),
+                        'tgl_chat' => Carbon::now('Asia/Jakarta')->format('Y-m-d H:i:s'),
+                        'waktu_chat' => Carbon::now('Asia/Jakarta')->format('H:i:s'),
                         'room_chat_id' => $roomChat->id_room_chat_me
                     ]);
                     if ($chat) {
@@ -69,8 +69,8 @@ class ChatMeController extends Controller
                     $chat = RiwayatChat::create([
                         'pesan' => $request->pesan,
                         'user_id' => $user->id_user,
-                        'tgl_chat' => Carbon::now()->format('Y-m-d H:i:s'),
-                        'waktu_chat' => Carbon::now()->format('H:i:s'),
+                        'tgl_chat' => Carbon::now('Asia/Jakarta')->format('Y-m-d H:i:s'),
+                        'waktu_chat' => Carbon::now('Asia/Jakarta')->format('H:i:s'),
                         'room_chat_id' => $roomChat->id_room_chat_me
                     ]);
                     if ($chat) {
@@ -87,8 +87,8 @@ class ChatMeController extends Controller
                         $chat = RiwayatChat::create([
                             'pesan' => $request->pesan,
                             'user_id' => $user->id_user,
-                            'tgl_chat' => Carbon::now()->format('Y-m-d H:i:s'),
-                            'waktu_chat' => Carbon::now()->format('H:i:s'),
+                            'tgl_chat' => Carbon::now('Asia/Jakarta')->format('Y-m-d H:i:s'),
+                            'waktu_chat' => Carbon::now('Asia/Jakarta')->format('H:i:s'),
                             'room_chat_id' => $roomChat->id_room_chat_me
                         ]);
                         if ($chat) {
