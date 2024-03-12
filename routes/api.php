@@ -11,6 +11,10 @@ use App\Http\Controllers\api\JawabanAhliController;
 use App\Http\Controllers\api\MeController;
 use App\Http\Controllers\api\NewKontenController;
 use App\Http\Controllers\api\PodcastController;
+use App\Http\Controllers\api\profile\AhliController;
+use App\Http\Controllers\api\profile\GuruController;
+use App\Http\Controllers\api\profile\KaderController;
+use App\Http\Controllers\api\profile\OrtuController;
 use App\Http\Controllers\api\profile\RemajaController;
 use App\Http\Controllers\api\QuoteController;
 use App\Http\Controllers\api\TanyaAhliController;
@@ -110,6 +114,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/chatme/{id}', [ChatMeController::class, 'getChatById']);
 
     Route::put('/update-remaja', [RemajaController::class, 'updateProfile']);
+    Route::put('/update-guru', [GuruController::class, 'updateProfile']);
+    Route::put('/update-kader', [KaderController::class, 'updateProfile']);
+    Route::put('/update-ahli', [AhliController::class, 'updateProfile']);
+    Route::put('/update-orangtua', [OrtuController::class, 'updateProfile']);
+
+    Route::put('update-password', [MeController::class, 'changePassword']);
 });
 
 Route::get('/podcast', [PodcastController::class, 'getAllPodcast']);

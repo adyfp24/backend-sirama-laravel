@@ -9,9 +9,46 @@ use App\Models\Kader;
 use App\Models\Orangtua;
 use App\Models\Remaja;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class MeController extends Controller
 {
+    public function changePassword(Request $request){
+        $status = '';
+        $message = '';
+        $data = '';
+        $status_code = 200;
+        try{
+            $user = auth()->user();
+            $passwordLama = $request->password_lama;
+            $passwordBaru = $request->password_baru; 
+            if(Hash::check($passwordLama, $user->password)){
+                $user->update([
+                    'password' => Hash::make($passwordBaru)
+                ]);
+                $status = 'success';
+                $message = 'password behasil diperbarui';
+            }else{
+                $status = 'failed';
+                $message = 'password tidak sesuai, gagal diperbarui';
+                $status_code = 400;
+            }        
+        }catch (\Exception $e) {
+            $status = 'failed';
+            $message = 'Gagal menjalankan request. ' . $e->getMessage();
+            $status_code = $e->getCode();
+        } catch (\Illuminate\Database\QueryException $e) {
+            $status = 'failed';
+            $message = 'Gagal menjalankan request. ' . $e->getMessage();
+            $status_code = $e->getCode();
+        } finally {
+            return response()->json([
+                'status' => $status,
+                'message' => $message,
+                'data' => $data
+            ], $status_code);
+        }
+    }
     public function getMe()
     {
         try {
