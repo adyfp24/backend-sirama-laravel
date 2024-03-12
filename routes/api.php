@@ -11,6 +11,7 @@ use App\Http\Controllers\api\JawabanAhliController;
 use App\Http\Controllers\api\MeController;
 use App\Http\Controllers\api\NewKontenController;
 use App\Http\Controllers\api\PodcastController;
+use App\Http\Controllers\api\profile\AhliController;
 use App\Http\Controllers\api\profile\RemajaController;
 use App\Http\Controllers\api\QuoteController;
 use App\Http\Controllers\api\TanyaAhliController;
@@ -130,6 +131,7 @@ Route::get('/film/{id}', [FilmController::class, 'getFilmById']);
 
 Route::get('/jadwalahli', [JadwalAhliController::class, 'getAllJadwal']);
 Route::get('/jadwalahli/{id}', [JadwalAhliController::class, 'getJadwalById']);
+Route::get('/profileahli/{id}', [AhliController::class, 'getProfile']);
 
 Route::get('/tanyaahli', [TanyaAhliController::class, 'getAllPertanyaan']);
 Route::get('/tanyaahli/{id}', [TanyaAhliController::class, 'getPertanyaanById']);
