@@ -3,64 +3,65 @@
 namespace App\Http\Controllers\api\profile;
 
 use App\Http\Controllers\Controller;
-use App\Models\Ahli;
+use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AhliController extends Controller
 {
-    public function updateProfile(Request $request)
+    public function getProfile($id)
     {
         $status = '';
         $message = '';
         $data = '';
         $status_code = 200;
         try {
-            $user = auth()->user();
-            $ahli = Ahli::where('user_id', $user->id_user)->first();
-    
-            if ($ahli) {
-                $ahli->update([
-                    'nama' => $request->nama,
-                    'no_hp' => $request->no_hp,
-                    'jenis_ahli' => $request->jenis_ahli,
-                    'deskripsi_ahli' => $request->deskripsi_ahli,
-                ]);
-    
-                // Cek apakah ada foto baru yang diunggah
-                if ($request->hasFile('foto_profile')) {
-                    $file = $request->file('foto_profile');
-                    $foto_profile = Str::random() . '.' . $file->getClientOriginalExtension();
-                    $file->move(public_path('storage/profile/'), $foto_profile);
-    
-                    // Hapus foto lama jika ada
-                    if ($ahli->foto_profile) {
-                        unlink(public_path('storage/profile/' . $ahli->foto_profile));
-                    }
-    
-                    $ahli->foto_profile = $foto_profile;
-                }
-                $status = 'success';
-                $message = 'Profil berhasil diperbarui';
-                $data = $ahli;
+            $detailProfile = DB::table('users')
+                                ->join('ahlis', 'ahlis.user_id', '=', 'users.id_user')
+                                ->where('id_user', $id)
+                                ->first();
+            $riwayatpend = DB::table('riwayatpend_ahlis')
+                                ->join('users', 'riwayatpend_ahlis.ahli_user_id', '=', 'users.id_user')
+                                ->join('ahlis', 'ahlis.user_id', '=', 'users.id_user')
+                                ->select('id_riwayatpend_ahli', 'id_user', 'id_ahli', 'riwayat_pendidikan', 'nama')
+                                ->where('ahli_user_id', $id)
+                                ->get();
+
+            $data = [
+                "id_user" => $detailProfile->id_user,
+                "username" => $detailProfile->username,
+                "email" => $detailProfile->email,
+                "role" => $detailProfile->role,
+                "id_ahli" => $detailProfile->id_ahli,
+                "nama" => $detailProfile->nama,
+                "no_hp" => $detailProfile->no_hp,
+                "jenis_ahli" => $detailProfile->jenis_ahli,
+                "deskripsi_ahli" => $detailProfile->deskripsi_ahli,
+                "foto_profile" => $detailProfile->foto_profile,
+                "user_id" => $detailProfile->user_id,
+                "detail_pendidikan_ahli" => $riwayatpend,
+            ];
+                                
+            if (count($detailProfile) > 0 || count($riwayatpend) > 0){
+                $message = 'data profile ahli tersedia';
             } else {
-                $status = 'failed';
-                $message = 'profil remaja tidak ditemukan';
-                $status_code = 404;
+                $message = 'data profile ahli tidak tersedia';
             }
+            $status = 'success';
         } catch (\Exception $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
-            $status_code = 500;
+            $status_code = $e->getCode();
         } catch (\Illuminate\Database\QueryException $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
-            $status_code = 500;
+            $status_code = $e->getCode();
         } finally {
             return response()->json([
                 'status' => $status,
                 'message' => $message,
-                'data' => $data
+                'data' => [$data]
             ], $status_code);
         }
     }

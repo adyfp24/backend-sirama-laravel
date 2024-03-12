@@ -140,6 +140,7 @@ Route::get('/film/{id}', [FilmController::class, 'getFilmById']);
 
 Route::get('/jadwalahli', [JadwalAhliController::class, 'getAllJadwal']);
 Route::get('/jadwalahli/{id}', [JadwalAhliController::class, 'getJadwalById']);
+Route::get('/profileahli/{id}', [AhliController::class, 'getProfile']);
 
 Route::get('/tanyaahli', [TanyaAhliController::class, 'getAllPertanyaan']);
 Route::get('/tanyaahli/{id}', [TanyaAhliController::class, 'getPertanyaanById']);
