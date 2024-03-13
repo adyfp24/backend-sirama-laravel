@@ -58,7 +58,7 @@ class TanyaAhliController extends Controller
             if ($allQuestion) {
                 $allData = TanyaAhli::join('users', 'tanya_ahlis.penanya_user_id', '=', 'users.id_user')
                     ->join('remajas', 'users.id_user', '=', 'remajas.user_id') 
-                    ->select('users.*', 'tanya_ahlis.*', 'remajas.*')
+                    ->select('users.username', 'tanya_ahlis.*', 'remajas.nama')
                     ->get();
                 $message = 'data pertanyaan tersedia';
             } else {
