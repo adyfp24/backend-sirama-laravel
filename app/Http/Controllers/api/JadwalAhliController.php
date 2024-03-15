@@ -5,20 +5,38 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Models\JadwalAhli;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class JadwalAhliController extends Controller
 {
-    public function getAllJadwal(){
+    public function getAllJadwal()
+    {
         $status = '';
         $message = '';
         $data = '';
         $status_code = 200;
         try {
-            $allJadwal = JadwalAhli::all();
-            if ($allJadwal) {
-                $message = 'Data jadwal ahli tersedia.';
-            } else {
+            $allJadwal = JadwalAhli::join('ahlis', 'jadwal_ahlis.ahli_user_id', '=', 'ahlis.user_id')
+                ->select('jadwal_ahlis.id_jadwal_ahli','jadwal_ahlis.ahli_user_id', 'jadwal_ahlis.hari','jadwal_ahlis.jam_mulai','jadwal_ahlis.jam_berakhir', 'ahlis.*')
+                ->get();
+
+            foreach ($allJadwal as $jadwal) {
+                // Ambil riwayat pendidikan untuk setiap ahli
+                $riwayatpend = DB::table('riwayatpend_ahlis')
+                    ->join('users', 'riwayatpend_ahlis.ahli_user_id', '=', 'users.id_user')
+                    ->join('ahlis', 'ahlis.user_id', '=', 'users.id_user')
+                    ->select('id_riwayatpend_ahli', 'riwayat_pendidikan')
+                    ->where('riwayatpend_ahlis.ahli_user_id', '=', $jadwal->ahli_user_id)
+                    ->get();
+
+                // Tambahkan data riwayat pendidikan ke objek jadwal saat ini
+                $jadwal->detail_pendidikan_ahli = $riwayatpend;
+            }
+
+            if ($allJadwal->isEmpty()) {
                 $message = 'Data jadwal ahli kosong.';
+            } else {
+                $message = 'Data jadwal ahli tersedia.';
             }
             $status = 'success';
             $data = $allJadwal;
@@ -38,7 +56,8 @@ class JadwalAhliController extends Controller
             ], $status_code);
         }
     }
-    public function getJadwalById($id){
+    public function getJadwalById($id)
+    {
         $status = '';
         $message = '';
         $data = '';
@@ -68,7 +87,8 @@ class JadwalAhliController extends Controller
             ], $status_code);
         }
     }
-    public function addJadwal(Request $request, $id){
+    public function addJadwal(Request $request, $id)
+    {
         $status = '';
         $message = '';
         $data = '';
@@ -78,12 +98,12 @@ class JadwalAhliController extends Controller
             $newJadwal = JadwalAhli::create([
                 'ahli_user_id' => $id,
                 'hari' => $request->hari,
-                'jam_konsultasi' => $request->jam_mulai,
-
+                'jam_mulai' => $request->jam_mulai,
+                'jam_berakhir' => $request->jam_berakhir,
             ]);
             if ($newJadwal) {
                 $message = 'jadwal berhasil ditambah';
-            }else{
+            } else {
                 $message = 'jadwal gagal ditambah';
             }
             $status = 'success';
@@ -104,12 +124,13 @@ class JadwalAhliController extends Controller
             ], $status_code);
         }
     }
-    public function updateJadwal(Request $request, $id){
+    public function updateJadwal(Request $request, $id)
+    {
         $status = '';
         $message = '';
         $data = '';
         $status_code = 200;
-        try{
+        try {
             $user = auth()->user();
             $jadwal = JadwalAhli::find($id);
             $updatedJadwal = $jadwal->update([
@@ -120,12 +141,12 @@ class JadwalAhliController extends Controller
             ]);
             if ($updatedJadwal) {
                 $message = 'jadwal berhasil di update';
-            }else{
+            } else {
                 $message = 'jadwal gagal diupdate';
             }
             $status = 'success';
             $data = $updatedJadwal;
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
             $status_code = $e->getCode();
@@ -141,12 +162,13 @@ class JadwalAhliController extends Controller
             ], $status_code);
         }
     }
-    public function deleteJadwal($id){
+    public function deleteJadwal($id)
+    {
         $status = '';
         $message = '';
         $data = '';
         $status_code = 200;
-        try{
+        try {
             $jadwal = JadwalAhli::find($id);
             $deletedJadwal = $jadwal->delete();
             if ($deletedJadwal) {
@@ -156,7 +178,7 @@ class JadwalAhliController extends Controller
             }
             $status = 'succes';
             $data = $deletedJadwal;
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             $status = 'failed';
             $message = 'Gagal menjalankan request. ' . $e->getMessage();
             $status_code = $e->getCode();

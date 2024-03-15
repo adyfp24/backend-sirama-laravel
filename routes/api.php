@@ -120,6 +120,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::put('/update-orangtua', [OrtuController::class, 'updateProfile']);
 
     Route::put('update-password', [MeController::class, 'changePassword']);
+    Route::post('/jadwalahli/{id}', [JadwalAhliController::class, 'addJadwal']);
 });
 
 Route::get('/podcast', [PodcastController::class, 'getAllPodcast']);
