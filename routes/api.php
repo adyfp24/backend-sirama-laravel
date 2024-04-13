@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\api\auth\AccountController;
 use App\Http\Controllers\api\auth\LoginController;
 use App\Http\Controllers\api\auth\LogoutController;
 use App\Http\Controllers\api\auth\RegisterController;
@@ -121,6 +122,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::put('update-password', [MeController::class, 'changePassword']);
     Route::post('/jadwalahli/{id}', [JadwalAhliController::class, 'addJadwal']);
+
+    Route::post('/hapus-akun', [AccountController::class, 'deleteAkun']);
 });
 
 Route::get('/podcast', [PodcastController::class, 'getAllPodcast']);
@@ -153,3 +156,5 @@ Route::get('/jawabanahli', [JawabanAhliController::class, 'getAllJawaban']);
 Route::get('/jawabanahli/{id}', [JawabanAhliController::class, 'getJawabanById']);
 
 Route::get('/kontenterbaru', [NewKontenController::class, 'getAllNewKonten']);
+
+
