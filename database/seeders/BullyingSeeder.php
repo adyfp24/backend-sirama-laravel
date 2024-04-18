@@ -1525,14 +1525,14 @@ class BullyingSeeder extends Seeder
             'jangkauan_awal' => 43,
             'jangkauan_akhir' => 70,
             'hasil' => 'memahami bahwa mencegah bullying adalah bagian tanggung jawab siswa. Jaga Hati, Lisan, Laku dan Hargai Perbedaan untuk cegah Bullying', 
-            'jenis_hasil' => 'positif',
+            'jenis_hasil' => 'negatif',
             'bagian_skrinning_id' => $bs_E->id_bagian_skrinning
         ]);
         DB::table('jangkauan_hasil_skrinnings')->insert([
             'jangkauan_awal' => 14,
             'jangkauan_akhir' => 42,
             'hasil' => 'Yuk tingkatkan pengetahuan tentang bullying dan pencegahannya melalui Fitur Video Edukasi dan Infografis serta layanan Tanya Ahli. Semoga Membantu',
-            'jenis_hasil' => 'negatif',
+            'jenis_hasil' => 'positif',
             'bagian_skrinning_id' => $bs_E->id_bagian_skrinning
         ]);
 
