@@ -124,6 +124,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/jadwalahli/{id}', [JadwalAhliController::class, 'addJadwal']);
 
     Route::post('/hapus-akun', [AccountController::class, 'deleteAkun']);
+    Route::get('/list-guru', [ChatMeController::class, 'listGuru']);
+    Route::get('/list-murid', [ChatMeController::class, 'listMurid']);
 });
 
 Route::get('/podcast', [PodcastController::class, 'getAllPodcast']);
@@ -156,7 +158,6 @@ Route::get('/jawabanahli', [JawabanAhliController::class, 'getAllJawaban']);
 Route::get('/jawabanahli/{id}', [JawabanAhliController::class, 'getJawabanById']);
 
 Route::get('/kontenterbaru', [NewKontenController::class, 'getAllNewKonten']);
-Route::get('/list-guru', [ChatMeController::class, 'listGuru']);
-Route::get('/list-murid', [ChatMeController::class, 'listMurid']);
+
 
 
