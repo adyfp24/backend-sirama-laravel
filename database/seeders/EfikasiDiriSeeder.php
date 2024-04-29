@@ -36,14 +36,14 @@ class EfikasiDiriSeeder extends Seeder
             'jangkauan_awal' => 73,
             'jangkauan_akhir' => 120,
             'hasil' => 'memiliki kemampuan kelola emosi, belajar, dan bersosialisasi dengan baik. Hargai Perbedaan, Jaga Hati, Lisan, dan Laku kepada orang lain sebagai langkah cegah bullying di sekitar kita', 
-            'jenis_hasil' => 'positif',
+            'jenis_hasil' => 'negatif',
             'bagian_skrinning_id' => $bs_A->id_bagian_skrinning
         ]);
         DB::table('jangkauan_hasil_skrinnings')->insert([
             'jangkauan_awal' => 24,
             'jangkauan_akhir' => 72,
             'hasil' => 'tingkatkan kemampuan kelola emosi, belajar, dan bersosialisasi. Belajar Yuk di Fitur Video Edukasi dan Infografis serta layanan Tanya Ahli. Semoga Membantu',
-            'jenis_hasil' => 'negatif',
+            'jenis_hasil' => 'positif',
             'bagian_skrinning_id' => $bs_A->id_bagian_skrinning
         ]);
 
