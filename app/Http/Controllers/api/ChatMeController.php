@@ -50,7 +50,7 @@ class ChatMeController extends Controller
                             'user_id' => $user->id_user,
                             'tgl_chat' => Carbon::now()->format('Y-m-d H:i:s'),
                             'waktu_chat' => Carbon::now()->format('H:i:s'),
-                            'room_chat_id' => $roomChat->id_room_chat_me
+                            'room_chat_id' => $newRoom->id_room_chat_me
                         ]);
                         if ($chat) {
                             $message = 'pesan berhasil dikirim';
