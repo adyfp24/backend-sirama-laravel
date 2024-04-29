@@ -202,4 +202,66 @@ class ChatMeController extends Controller
             ], $status_code);
         }
     }
+
+    public function listGuru(){
+        $status = '';
+        $message = '';
+        $data = '';
+        $status_code = 200;
+        try {
+            $allGuru = Guru::all();
+            if ($allGuru) {
+                $message = 'daftar guru tersedia';
+                $status = 'success';
+                $data = $allGuru;
+            } else {
+                $message = 'daftar guru tidak tersedia';
+            }
+        } catch (\Exception $e) {
+            $status = 'failed';
+            $message = 'Gagal menjalankan request. ' . $e->getMessage();
+            $status_code = 500;
+        } catch (\Illuminate\Database\QueryException $e) {
+            $status = 'failed';
+            $message = 'Gagal menjalankan request. ' . $e->getMessage();
+            $status_code = 500;
+        } finally {
+            return response()->json([
+                'status' => $status,
+                'message' => $message,
+                'data' => $data
+            ], $status_code);
+        }
+    }
+
+    public function listMurid(){
+        $status = '';
+        $message = '';
+        $data = '';
+        $status_code = 200;
+        try {
+            $allRemaja = Remaja::all();
+            if ($allRemaja) {
+                $message = 'daftar remaja tersedia';
+                $status = 'success';
+                $data = $allRemaja;
+            } else {
+                $message = 'daftar remaja tidak tersedia';
+            }
+        } catch (\Exception $e) {
+            $status = 'failed';
+            $message = 'Gagal menjalankan request. ' . $e->getMessage();
+            $status_code = 500;
+        } catch (\Illuminate\Database\QueryException $e) {
+            $status = 'failed';
+            $message = 'Gagal menjalankan request. ' . $e->getMessage();
+            $status_code = 500;
+        } finally {
+            return response()->json([
+                'status' => $status,
+                'message' => $message,
+                'data' => $data
+            ], $status_code);
+        }
+    }
 }

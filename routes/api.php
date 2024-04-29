@@ -156,5 +156,7 @@ Route::get('/jawabanahli', [JawabanAhliController::class, 'getAllJawaban']);
 Route::get('/jawabanahli/{id}', [JawabanAhliController::class, 'getJawabanById']);
 
 Route::get('/kontenterbaru', [NewKontenController::class, 'getAllNewKonten']);
+Route::get('/list-guru', [ChatMeController::class, 'listGuru']);
+Route::get('/list-murid', [ChatMeController::class, 'listMurid']);
 
 
