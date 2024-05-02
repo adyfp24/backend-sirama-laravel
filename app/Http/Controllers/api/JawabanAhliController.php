@@ -58,7 +58,8 @@ class JawabanAhliController extends Controller
         $status_code = 200;
         try {
             $allJawaban = JawabanAhli::join('tanya_ahlis', 'jawaban_ahlis.tanya_ahli_id', '=', 'tanya_ahlis.id_tanya_ahli')
-                ->select('jawaban_ahlis.*', 'tanya_ahlis.pertanyaan', 'tanya_ahlis.penanya_user_id', 'tanya_ahlis.status_pertanyaan')
+                ->join('ahlis', 'jawaban_ahlis.penjawab_user_id', '=', 'ahlis.user_id')
+                ->select('jawaban_ahlis.*', 'ahlis.nama', 'tanya_ahlis.pertanyaan', 'tanya_ahlis.penanya_user_id', 'tanya_ahlis.status_pertanyaan')
                 ->get();
             if ($allJawaban) {
                 $message = 'jawaban pertanyaan tersedia';

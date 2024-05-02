@@ -114,7 +114,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/chatme', [ChatMeController::class, 'getAllChat']);
     Route::get('/chatme/{id}', [ChatMeController::class, 'getChatById']);
 
-    Route::put('/update-remaja', [RemajaController::class, 'updateProfile']);
+    Route::post('/update-remaja', [RemajaController::class, 'updateProfile']);
     Route::put('/update-guru', [GuruController::class, 'updateProfile']);
     Route::put('/update-kader', [KaderController::class, 'updateProfile']);
     Route::put('/update-ahli', [AhliController::class, 'updateProfile']);
