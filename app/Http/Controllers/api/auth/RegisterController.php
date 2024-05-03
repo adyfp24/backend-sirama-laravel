@@ -26,7 +26,7 @@ class RegisterController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'username' => 'required|string',
-                'email' => 'required|email',
+                // 'email' => 'required|email',
                 'password' => 'required|string',
                 'role' => 'required|in:orangtua,remaja,guru,ahli,kader,superadmin'
             ]);
@@ -82,8 +82,8 @@ class RegisterController extends Controller
             Remaja::create([
                 'nama' => $request->nama,
                 'no_hp' => $request->no_hp,
-                'tgl_lahir' => $request->tgl_lahir,
-                'jenis_kelamin' => $request->jenis_kelamin,
+                // 'tgl_lahir' => $request->tgl_lahir,
+                // 'jenis_kelamin' => $request->jenis_kelamin,
                 'sekolah' => $request->sekolah,
                 'foto_profile' => $foto_profile,
                 'user_id' => $user_id,
@@ -92,8 +92,8 @@ class RegisterController extends Controller
             Remaja::create([
                 'nama' => $request->nama,
                 'no_hp' => $request->no_hp,
-                'tgl_lahir' => $request->tgl_lahir,
-                'jenis_kelamin' => $request->jenis_kelamin,
+                // 'tgl_lahir' => $request->tgl_lahir,
+                // 'jenis_kelamin' => $request->jenis_kelamin,
                 'sekolah' => $request->sekolah,
                 'user_id' => $user_id,
             ]);
