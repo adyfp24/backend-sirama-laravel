@@ -109,8 +109,8 @@ class RegisterController extends Controller
             Guru::create([
                 'nama' => $request->nama,
                 'no_hp' => $request->no_hp,
-                'jenis_guru' => $request->jenis_guru,
-                'sekolah' => $request->sekolah,
+                // 'jenis_guru' => $request->jenis_guru,
+                // 'sekolah' => $request->sekolah,
                 'foto_profile' => $foto_profile,
                 'user_id' => $user_id
             ]);
@@ -118,8 +118,8 @@ class RegisterController extends Controller
             Guru::create([
                 'nama' => $request->nama,
                 'no_hp' => $request->no_hp,
-                'jenis_guru' => $request->jenis_guru,
-                'sekolah' => $request->sekolah,
+                // 'jenis_guru' => $request->jenis_guru,
+                // 'sekolah' => $request->sekolah,
                 'user_id' => $user_id
             ]);
         }
