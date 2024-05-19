@@ -22,7 +22,8 @@ class DatabaseSeeder extends Seeder
             CyberBullyingSeeder::class,
             EmpatiSeeder::class,
             EfikasiDiriSeeder::class,
-            PrososialSeeder::class
+            PrososialSeeder::class,
+            KebaikanTableSeeder::class
         ]);
     }
 }
