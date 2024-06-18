@@ -503,4 +503,60 @@ class SkrinningController extends Controller
             }
         }
     }
+
+    public function getAllReport(){
+        $status = '';
+        $message = '';
+        $data = '';
+        $status_code = 200;
+        try {
+            $allSkrinning = DB::table('skrinning_users')
+                                ->join('users', 'skrinning_users.user_id', '=', 'users.id_user')
+                                ->join('skrinnings', 'skrinning_users.skrinning_id', '=', 'skrinnings.id_skrinning')
+                                ->rightJoin('bagian_skrinning_users', 'bagian_skrinning_users.skrin_user_id', '=', 'skrinning_users.id_skrin_user')
+                                ->join('bagian_skrinnings', 'bagian_skrinning_users.bagian_skrinning_id', '=', 'bagian_skrinnings.id_bagian_skrinning')
+                                ->select('skrinning_users.id_skrin_user', 'users.id_user', 'skrinnings.id_skrinning', 'bagian_skrinning_users.id_bag_skrin_user', 'tgl_pengisian', 'jenis_skrinning', 'nama_bagian', 'deskripsi_skrinning' )
+                                ->orderBy('tgl_pengisian', 'ASC')
+                                ->get();
+            for ($a=0; $a < count($allSkrinning); $a++) { 
+                $hasil = DB::table('riwayat_hasil_skrinnings')->select('bag_skrin_user_id', 'jenis_hasil', 'hasil')->where('bag_skrin_user_id', $allSkrinning[$a]->id_bag_skrin_user)->first();
+                $sumpoin = DB::table('riwayat_skrinnings')->select('poin_jawaban')->where('bag_skrin_user_id', $allSkrinning[$a]->id_bag_skrin_user)->sum('poin_jawaban');
+                $allSkrinning[$a] = [
+                    'id_skrin_user' => $allSkrinning[$a]->id_skrin_user ,
+                    'id_user' => $allSkrinning[$a]->id_user ,
+                    'id_skrinning' => $allSkrinning[$a]->id_skrinning ,
+                    'id_bag_skrin_user' => $allSkrinning[$a]->id_bag_skrin_user ,
+                    'tgl_pengisian' => $allSkrinning[$a]->tgl_pengisian ,
+                    'jenis_skrinning' => $allSkrinning[$a]->jenis_skrinning ,
+                    'nama_bagian' => $allSkrinning[$a]->nama_bagian ,
+                    'deskripsi_skrinning' => $allSkrinning[$a]->deskripsi_skrinning ,
+                    'jenis_hasil' => $hasil->jenis_hasil, 
+                    'hasil' => $hasil->hasil, 
+                    'poin_jawaban' => (int)$sumpoin
+                ];
+            }
+            
+            if (count($allSkrinning) > 0) {
+                $message = 'data laporan skrinning tersedia';
+            } else {
+                $message = 'data laporan skrinning tidak tersedia';
+            }
+            $status = 'success';
+            $data = $allSkrinning;
+        } catch (\Exception $e) {
+            $status = 'failed';
+            $message = 'Gagal menjalankan request. ' . $e->getMessage();
+            $status_code = 400;
+        } catch (\Illuminate\Database\QueryException $e) {
+            $status = 'failed';
+            $message = 'Gagal menjalankan request. ' . $e->getMessage();
+            $status_code = 500;
+        } finally {
+            return response()->json([
+                'status' => $status,
+                'message' => $message,
+                'data' => $data
+            ], $status_code);
+        }
+    }
 }
