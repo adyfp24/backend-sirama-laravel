@@ -127,7 +127,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/hapus-akun', [AccountController::class, 'deleteAkun']);
     Route::get('/list-guru', [ChatMeController::class, 'listGuru']);
     Route::get('/list-murid', [ChatMeController::class, 'listMurid']);
-    Route::get('/data-pengguna', [UserController::class, 'getAllUser']);
 });
 
 Route::get('/podcast', [PodcastController::class, 'getAllPodcast']);
@@ -163,6 +162,8 @@ Route::get('/kontenterbaru', [NewKontenController::class, 'getAllNewKonten']);
 Route::get('/laporan-skrinning', [SkrinningController::class, 'getAllReport']);
 Route::get('/export-skrinning', [SkrinningController::class, 'exportExcel']);
 
+Route::get('/data-pengguna', [UserController::class, 'getAllUser']);
+Route::get('/export-pengguna', [UserController::class, 'exportData']);
 
 
 
