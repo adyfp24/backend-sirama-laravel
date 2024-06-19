@@ -85,44 +85,7 @@ class SkrinningController extends Controller
         }
     }
 
-    // public function addSkrinningUser($id)
-    // {
-    //     $status = '';
-    //     $message = '';
-    //     $data = '';
-    //     $status_code = 200;
-    //     try {
-    //         $user = auth()->user();
-    //         $newSkrinningUser = SkrinningUser::create([
-    //             'tgl_pengisian' => date('Y-m-d'),
-    //             'skrinning_id' => $id,
-    //             'user_id' => $user->id_user
-    //         ]);
-    //         if ($newSkrinningUser) {
-    //             $message = 'Skrining user berhasil ditambah';
-    //             $status = 'success';
-    //             $data = $newSkrinningUser;
-    //         }else{
-    //             $message = 'Skrining user gagal ditambah';
-    //             $status = 'failed';
-    //             $status_code = 400;            
-    //         } 
-    //     } catch (\Exception $e) {
-    //         $status = 'failed';
-    //         $message = 'Gagal menjalankan request. ' . $e->getMessage();
-    //         $status_code = 500;
-    //     } catch (\Illuminate\Database\QueryException $e) {
-    //         $status = 'failed';
-    //         $message = 'Gagal menjalankan request. ' . $e->getMessage();
-    //         $status_code = 500;
-    //     } finally {
-    //         return response()->json([
-    //             'status' => $status,
-    //             'message' => $message,
-    //             'data' => $data
-    //         ], $status_code);
-    //     }
-    // } 
+
 
     public function getDetailSkrinning($id)
     {
@@ -137,45 +100,11 @@ class SkrinningController extends Controller
                 'skrinning_id' => $id,
                 'user_id' => $user->id_user
             ]);
-            // dd($SkrinningUser);
-            // $newSkrinningUser = [
-            //     "tgl_pengisian" => $SkrinningUser->tgl_pengisian,
-            //     "skrinning_id" => $id,
-            //     "user_id" => $user->id_user,
-            //     "updated_at" => $SkrinningUser->updated_at,
-            //     "created_at" => $SkrinningUser->created_at,
-            //     "id_skrin_user" => $SkrinningUser->id_skrin_user
-            // ];
-            // dd();
-
-            // $coba = [];
-            // $coba['kata'] = 'ok';
-            // $coba['kata 1'] = 'yaa';
-            // $detail = array($coba);
+            
 
             $bagian = BagianSkrinning::where('skrinning_id', $id)->orderBy('urutan_bagian', 'ASC')->get();
             for ($a = 0; $a < count($bagian); $a++) {
-                // $detail[$a]['bagian_'.$bagian[$a]->urutan_bagian]['id_bagian_skrinning'] = $bagian[$a]->id_bagian_skrinning;
-                // $detail[$a]['bagian_'.$bagian[$a]->urutan_bagian]['nama_bagian'] = $bagian[$a]->nama_bagian;
-                // $detail[$a] = ['bagian_'.$bagian[$a]->urutan_bagian => [['id_bagian_skrining'] = $bagian[$a]->id_bagian_skrinning, ['nama_bagian'] = $bagian[$a]->nama_bagian]];
-                // $detail['bagian_'.$bagian[$a]->urutan_bagian][0] = ['id_bagian_skrining' => $bagian[$a]->id_bagian_skrinning, 'nama_bagian' => $bagian[$a]->nama_bagian];
-                // $soal = SoalSkrinning::where('bagian_skrinning_id', $bagian[$a]->id_bagian_skrinning)->orderBy('no_soal', 'ASC')->get();
-                // for ($b=0; $b < count($soal) ; $b++) { 
-                //     $detail['bagian_'.$bagian[$a]->urutan_bagian][1]['soal_jawab_no_'.$soal[$b]->no_soal]['soal'] = ['id_soal' => $soal[$b]->id_soal_skrinning, 'soal' => $soal[$b]->soal];
-                //     $jawaban = JawabanSkrinning::where('soal_skrinning_id', $soal[$b]->id_soal_skrinning)->orderBy('poin_jawaban', 'ASC')->get();
-                //     for ($c=0; $c < count($jawaban); $c++) { 
-                //         $detail['bagian_'.$bagian[$a]->urutan_bagian][1]['soal_jawab_no_'.$soal[$b]->no_soal]['jawaban'][$c] = ['id_jawaban_skrinning' =>  $jawaban[$c]->id_jawaban_skrinning, 'jawaban' => $jawaban[$c]->jawaban, 'poin_jawaban' => $jawaban[$c]->poin_jawaban];
-                //     } 
-                // }
-                // $detail[$a] = ['id_bagian_skrining' => $bagian[$a]->id_bagian_skrinning, 'nama_bagian' => $bagian[$a]->nama_bagian];
-                // $soal = SoalSkrinning::where('bagian_skrinning_id', $bagian[$a]->id_bagian_skrinning)->orderBy('no_soal', 'ASC')->get();
-                // for ($b=0; $b < count($soal) ; $b++) { 
-                //     $detail[$a]['soal_jawab'][0] = array(['id_soal' => $soal[$b]->id_soal_skrinning, 'soal' => $soal[$b]->soal]);
-                //     $jawaban = JawabanSkrinning::where('soal_skrinning_id', $soal[$b]->id_soal_skrinning)->orderBy('poin_jawaban', 'ASC')->get();
-                //     for ($c=0; $c < count($jawaban); $c++) { 
-                //         $detail[$a]['soal_jawab'][1][$c] = ['id_jawaban_skrinning' =>  $jawaban[$c]->id_jawaban_skrinning, 'jawaban' => $jawaban[$c]->jawaban, 'poin_jawaban' => $jawaban[$c]->poin_jawaban];
-                //     }
-                // }
+               
 
                 $detail[$a] = ['id_bagian_skrining' => $bagian[$a]->id_bagian_skrinning, 'nama_bagian' => $bagian[$a]->nama_bagian];
                 $soal = SoalSkrinning::where('bagian_skrinning_id', $bagian[$a]->id_bagian_skrinning)->orderBy('no_soal', 'ASC')->get();
@@ -321,37 +250,7 @@ class SkrinningController extends Controller
         }
     }
 
-    // public function getHasilSkrinning($id)
-    // {
-    //     $status = '';
-    //     $message = '';
-    //     $data = '';
-    //     $status_code = 200;
-    //     try {
-    //         $hasilSkrinning = HasilSkrinning::all();
-    //         if (count($hasilSkrinning) > 0) {
-    //             $message = 'data jenis skrinning tersedia';
-    //         } else {
-    //             $message = 'data jenis skrinning tidak tersedia';
-    //         }
-    //         $status = 'success';
-    //         $data = $hasilSkrinning; 
-    //     } catch (\Exception $e) {
-    //         $status = 'failed';
-    //         $message = 'Gagal menjalankan request. ' . $e->getMessage();
-    //         $status_code = 500;
-    //     } catch (\Illuminate\Database\QueryException $e) {
-    //         $status = 'failed';
-    //         $message = 'Gagal menjalankan request. ' . $e->getMessage();
-    //         $status_code = 500;
-    //     } finally {
-    //         return response()->json([
-    //             'status' => $status,
-    //             'message' => $message,
-    //             'data' => $data
-    //         ], $status_code);
-    //     }
-    // }
+    
 
     public function getAllReport()
     {
@@ -360,7 +259,7 @@ class SkrinningController extends Controller
         $data = [];
         $status_code = 200;
         try {
-            // Mengambil semua data skrining dari semua pengguna
+            
             $allSkrinning = DB::select(DB::raw("
             SELECT 
                 skrinning_users.id_skrin_user,
@@ -386,27 +285,19 @@ class SkrinningController extends Controller
                 skrinning_users.tgl_pengisian DESC;
         "));
         
-        // Debug statement
-        
-
-            // Mengonversi hasil query ke array untuk manipulasi lebih lanjut
             $allSkrinning = json_decode(json_encode($allSkrinning), true);
 
-            // Mengumpulkan data hasil skrining berdasarkan id_user
             $groupedData = [];
             foreach ($allSkrinning as $skrinning) {
                 $hasil = DB::table('riwayat_hasil_skrinnings')->select('bag_skrin_user_id', 'jenis_hasil', 'hasil')->where('bag_skrin_user_id', $skrinning['id_bag_skrin_user'])->first();
                 $sumpoin = DB::table('riwayat_skrinnings')->select('poin_jawaban')->where('bag_skrin_user_id', $skrinning['id_bag_skrin_user'])->sum('poin_jawaban');
 
-                // Mengonversi hasil query ke array
                 $hasil = json_decode(json_encode($hasil), true);
 
-                // Menambahkan data hasil dan poin ke dalam array skrining
                 $skrinning['jenis_hasil'] = $hasil['jenis_hasil'];
                 $skrinning['hasil'] = $hasil['hasil'];
                 $skrinning['poin_jawaban'] = (int) $sumpoin;
 
-                // Mengelompokkan data berdasarkan id_user
                 $username = $skrinning['username'];
                 if (!isset($groupedData[$username])) {
                     $groupedData[$username] = [];
@@ -437,8 +328,6 @@ class SkrinningController extends Controller
             ], $status_code);
         }
     }
-
-
 
 
     public function getRiwayatSkrinning()
@@ -562,6 +451,54 @@ class SkrinningController extends Controller
             }
         }
     }
+
+    public function exportExcel(Request $request)
+    {
+        $status = '';
+        $message = '';
+        $data = [];
+        $status_code = 200;
+        
+        try {
+            $response = $this->getAllReport();
+            
+            if ($response['status'] === 'success') {
+                $data = $response['data'];
+            } else {
+                throw new \Exception($response['message']);
+            }
+            
+        } catch (\Exception $e) {
+            $status = 'failed';
+            $message = 'Gagal mendapatkan data untuk eksport. ' . $e->getMessage();
+            $status_code = 400;
+            return response()->json([
+                'status' => $status,
+                'message' => $message,
+                'data' => $data
+            ], $status_code);
+        }
+        
+        try {
+            if (empty($data)) {
+                throw new \Exception('Tidak ada data untuk dieksport.');
+            }
+
+            return Excel::download(new SkrinningExport($data), 'skrinning-1.xlsx');
+            
+        } catch (\Exception $e) {
+            $status = 'failed';
+            $message = 'Gagal melakukan eksport. ' . $e->getMessage();
+            $status_code = 500;
+        } finally {
+            return response()->json([
+                'status' => $status,
+                'message' => $message,
+                'data' => $data
+            ], $status_code);
+        }
+    }
+
 
     
 }
