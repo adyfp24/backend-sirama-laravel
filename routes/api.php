@@ -22,6 +22,7 @@ use App\Http\Controllers\api\TanyaAhliController;
 use App\Http\Controllers\api\TopikPertanyaanController;
 use App\Http\Controllers\api\VideoEdukasiController;
 use App\Http\Controllers\SkrinningController;
+use App\Http\Controllers\api\UserController;
 use App\Models\JawabanAhli;
 use App\Models\Skrinning;
 use Illuminate\Http\Request;
@@ -122,10 +123,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::put('update-password', [MeController::class, 'changePassword']);
     Route::post('/jadwalahli/{id}', [JadwalAhliController::class, 'addJadwal']);
-
+    
     Route::post('/hapus-akun', [AccountController::class, 'deleteAkun']);
     Route::get('/list-guru', [ChatMeController::class, 'listGuru']);
     Route::get('/list-murid', [ChatMeController::class, 'listMurid']);
+    Route::get('/data-pengguna', [UserController::class, 'getAllUser']);
 });
 
 Route::get('/podcast', [PodcastController::class, 'getAllPodcast']);
