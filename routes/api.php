@@ -159,6 +159,7 @@ Route::get('/jawabanahli/{id}', [JawabanAhliController::class, 'getJawabanById']
 
 Route::get('/kontenterbaru', [NewKontenController::class, 'getAllNewKonten']);
 Route::get('/laporan-skrinning', [SkrinningController::class, 'getAllReport']);
+Route::get('/export-skrinning', [SkrinningController::class, 'exportExcel']);
 
 
 

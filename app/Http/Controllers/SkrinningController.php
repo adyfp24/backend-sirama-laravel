@@ -13,6 +13,8 @@ use App\Models\SkrinningUser;
 use App\Models\SoalSkrinning;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Exports\SkrinningExport;
+use Maatwebsite\Excel\Facades\Excel; 
 
 class SkrinningController extends Controller
 {
@@ -254,50 +256,57 @@ class SkrinningController extends Controller
 
     public function getAllReport()
     {
-        $status = '';
-        $message = '';
-        $data = [];
-        $status_code = 200;
         try {
             
             $allSkrinning = DB::select(DB::raw("
-            SELECT 
-                skrinning_users.id_skrin_user,
-                users.id_user,
-                users.username,
-                skrinnings.id_skrinning,
-                bagian_skrinning_users.id_bag_skrin_user,
-                skrinning_users.tgl_pengisian,
-                skrinnings.jenis_skrinning,
-                bagian_skrinnings.nama_bagian,
-                bagian_skrinnings.deskripsi_bagian
-            FROM 
-                skrinning_users
-            JOIN 
-                users ON skrinning_users.user_id = users.id_user
-            JOIN 
-                skrinnings ON skrinning_users.skrinning_id = skrinnings.id_skrinning
-            RIGHT JOIN 
-                bagian_skrinning_users ON bagian_skrinning_users.skrin_user_id = skrinning_users.id_skrin_user
-            JOIN 
-                bagian_skrinnings ON bagian_skrinning_users.bagian_skrinning_id = bagian_skrinnings.id_bagian_skrinning
-            ORDER BY 
-                skrinning_users.tgl_pengisian DESC;
-        "));
-        
+                SELECT 
+                    skrinning_users.id_skrin_user,
+                    users.id_user,
+                    users.username,
+                    skrinnings.id_skrinning,
+                    bagian_skrinning_users.id_bag_skrin_user,
+                    skrinning_users.tgl_pengisian,
+                    skrinnings.jenis_skrinning,
+                    bagian_skrinnings.nama_bagian,
+                    bagian_skrinnings.deskripsi_bagian
+                FROM 
+                    skrinning_users
+                JOIN 
+                    users ON skrinning_users.user_id = users.id_user
+                JOIN 
+                    skrinnings ON skrinning_users.skrinning_id = skrinnings.id_skrinning
+                RIGHT JOIN 
+                    bagian_skrinning_users ON bagian_skrinning_users.skrin_user_id = skrinning_users.id_skrin_user
+                JOIN 
+                    bagian_skrinnings ON bagian_skrinning_users.bagian_skrinning_id = bagian_skrinnings.id_bagian_skrinning
+                ORDER BY 
+                    skrinning_users.tgl_pengisian DESC;
+            "));
+
+            // Proses hasil query
             $allSkrinning = json_decode(json_encode($allSkrinning), true);
 
             $groupedData = [];
             foreach ($allSkrinning as $skrinning) {
-                $hasil = DB::table('riwayat_hasil_skrinnings')->select('bag_skrin_user_id', 'jenis_hasil', 'hasil')->where('bag_skrin_user_id', $skrinning['id_bag_skrin_user'])->first();
-                $sumpoin = DB::table('riwayat_skrinnings')->select('poin_jawaban')->where('bag_skrin_user_id', $skrinning['id_bag_skrin_user'])->sum('poin_jawaban');
+                // Query tambahan untuk mendapatkan hasil skrinning dan poin jawaban
+                $hasil = DB::table('riwayat_hasil_skrinnings')
+                            ->select('bag_skrin_user_id', 'jenis_hasil', 'hasil')
+                            ->where('bag_skrin_user_id', $skrinning['id_bag_skrin_user'])
+                            ->first();
+                $sumpoin = DB::table('riwayat_skrinnings')
+                             ->select(DB::raw('SUM(poin_jawaban) as total_poin'))
+                             ->where('bag_skrin_user_id', $skrinning['id_bag_skrin_user'])
+                             ->first();
 
+                // Format hasil query menjadi array asosiatif
                 $hasil = json_decode(json_encode($hasil), true);
 
-                $skrinning['jenis_hasil'] = $hasil['jenis_hasil'];
-                $skrinning['hasil'] = $hasil['hasil'];
-                $skrinning['poin_jawaban'] = (int) $sumpoin;
+                // Menambahkan data hasil skrinning dan poin jawaban ke dalam array $skrinning
+                $skrinning['jenis_hasil'] = isset($hasil['jenis_hasil']) ? $hasil['jenis_hasil'] : null;
+                $skrinning['hasil'] = isset($hasil['hasil']) ? $hasil['hasil'] : null;
+                $skrinning['poin_jawaban'] = isset($sumpoin->total_poin) ? (int) $sumpoin->total_poin : 0;
 
+                // Mengelompokkan data berdasarkan username
                 $username = $skrinning['username'];
                 if (!isset($groupedData[$username])) {
                     $groupedData[$username] = [];
@@ -305,27 +314,37 @@ class SkrinningController extends Controller
                 $groupedData[$username][] = $skrinning;
             }
 
+            // Menyiapkan pesan dan status untuk respons JSON
             if (count($groupedData) > 0) {
-                $message = 'data jenis skrinning tersedia';
+                $message = 'Data jenis skrinning tersedia';
+                $status = 'success';
             } else {
-                $message = 'data jenis skrinning tidak tersedia';
+                $message = 'Data jenis skrinning tidak tersedia';
+                $status = 'failed';
             }
-            $status = 'success';
-            $data = $groupedData;
-        } catch (\Exception $e) {
-            $status = 'failed';
-            $message = 'Gagal menjalankan request. ' . $e->getMessage();
-            $status_code = 400;
-        } catch (\Illuminate\Database\QueryException $e) {
-            $status = 'failed';
-            $message = 'Gagal menjalankan request. ' . $e->getMessage();
-            $status_code = 500;
-        } finally {
+
             return response()->json([
                 'status' => $status,
                 'message' => $message,
-                'data' => $data
-            ], $status_code);
+                'data' => $groupedData
+            ], 200);
+
+        } catch (\Exception $e) {
+            
+            $message = 'Gagal menjalankan request. ' . $e->getMessage();
+            return response()->json([
+                'status' => 'failed',
+                'message' => $message,
+                'data' => []
+            ], 400);
+        } catch (\Illuminate\Database\QueryException $e) {
+            
+            $message = 'Gagal menjalankan request. ' . $e->getMessage();
+            return response()->json([
+                'status' => 'failed',
+                'message' => $message,
+                'data' => []
+            ], 500);
         }
     }
 
@@ -458,47 +477,53 @@ class SkrinningController extends Controller
         $message = '';
         $data = [];
         $status_code = 200;
-        
+
         try {
+            
             $response = $this->getAllReport();
+
             
-            if ($response['status'] === 'success') {
-                $data = $response['data'];
+            if ($response->getStatusCode() === 200) {
+                
+                $responseData = $response->getData(true);
+
+    
+                if ($responseData['status'] === 'success') {
+                    
+                    $data = $responseData['data'];
+                } else {
+            
+                    throw new \Exception($responseData['message']);
+                }
             } else {
-                throw new \Exception($response['message']);
+                
+                throw new \Exception('Request tidak berhasil. Status code: ' . $response->getStatusCode());
             }
-            
         } catch (\Exception $e) {
+            
             $status = 'failed';
             $message = 'Gagal mendapatkan data untuk eksport. ' . $e->getMessage();
             $status_code = 400;
+            
             return response()->json([
                 'status' => $status,
                 'message' => $message,
                 'data' => $data
             ], $status_code);
         }
-        
-        try {
-            if (empty($data)) {
-                throw new \Exception('Tidak ada data untuk dieksport.');
-            }
 
-            return Excel::download(new SkrinningExport($data), 'skrinning-1.xlsx');
-            
+        try {
+            return Excel::download(new SkrinningExport($data), 'skrinning.xlsx');
         } catch (\Exception $e) {
             $status = 'failed';
-            $message = 'Gagal melakukan eksport. ' . $e->getMessage();
-            $status_code = 500;
-        } finally {
+            $message = 'Gagal mengekspor data ke Excel. ' . $e->getMessage();
+            $status_code = 400;
+            
             return response()->json([
                 'status' => $status,
                 'message' => $message,
                 'data' => $data
             ], $status_code);
         }
-    }
-
-
-    
+    }  
 }
