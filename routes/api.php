@@ -158,7 +158,8 @@ Route::get('/jawabanahli', [JawabanAhliController::class, 'getAllJawaban']);
 Route::get('/jawabanahli/{id}', [JawabanAhliController::class, 'getJawabanById']);
 
 Route::get('/kontenterbaru', [NewKontenController::class, 'getAllNewKonten']);
-Route::get('/laporan-skrining', [SkrinningController::class, 'getAllReport']);
+Route::get('/laporan-skrinning', [SkrinningController::class, 'getAllReport']);
+
 
 
 
