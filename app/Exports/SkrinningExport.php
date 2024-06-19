@@ -21,11 +21,7 @@ class SkrinningExport implements FromCollection, WithHeadings
         foreach ($this->data as $username => $records) {
             foreach ($records as $record) {
                 $formattedData[] = [
-                    $record['id_skrin_user'],
-                    $record['id_user'],
                     $record['username'],
-                    $record['id_skrinning'],
-                    $record['id_bag_skrin_user'],
                     $record['tgl_pengisian'],
                     $record['jenis_skrinning'],
                     $record['nama_bagian'],
@@ -43,11 +39,7 @@ class SkrinningExport implements FromCollection, WithHeadings
     public function headings(): array
     {
         return [
-            'ID Skrin User',
-            'ID User',
             'Username',
-            'ID Skrinning',
-            'ID Bag Skrin User',
             'Tanggal Pengisian',
             'Jenis Skrinning',
             'Nama Bagian',
